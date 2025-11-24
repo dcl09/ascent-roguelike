@@ -1,12 +1,14 @@
 package model.entities;
 
+import model.game.Position;
+
 public class Entity {
-    /* todo: Add position attribute to generic entity */
+    protected Position position;
     private char Symbol;
     private String color;
 
-    public Entity() {
-        /* Position is the only attribute of the generic class */
+    public Entity(Position position) {
+        this.position = position;
     }
 
     public char getSymbol() {
@@ -15,5 +17,13 @@ public class Entity {
 
     public String getColor() {
         return color;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 }
