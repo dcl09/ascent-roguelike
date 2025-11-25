@@ -4,15 +4,17 @@ import model.game.Position;
 
 public class Entity {
     protected Position position;
-    private char Symbol;
+    private char symbol;
     private String color;
 
-    public Entity(Position position) {
+    public Entity(Position position, char symbol, String color) {
         this.position = position;
+        this.symbol = symbol;
+        this.color = color;
     }
 
     public char getSymbol() {
-        return Symbol;
+        return symbol;
     }
 
     public String getColor() {
