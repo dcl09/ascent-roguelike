@@ -5,8 +5,12 @@ import model.game.Position;
 public class Player extends Entity {
     /* todo: add player attributes */
 
-    public Player(Position position, char symbol, String color) {
-        super(position, symbol, color);
-    }
+    protected char symbol;
+    protected String color;
 
+    public Player (Position position, char symbol, String color) {
+        super(position);
+        super.symbol = symbol;
+        super.color = color;
+    }
 }
