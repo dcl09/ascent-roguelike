@@ -1,12 +1,18 @@
 package controller;
 
 import model.GameModel;
+import view.GameView;
 
 public class GameController {
-    private GameController instance;
+    // todo: add new private variables and initialize in constructor.
     private GameModel model;
+    private GameView view;
 
-    GameController(){
-
+    public GameController(GameView view, GameModel model){
+        this.view = view;
+        this.model = model;
     }
+    public void run(){
+        }
 }
+
