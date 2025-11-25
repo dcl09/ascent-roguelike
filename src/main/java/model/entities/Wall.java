@@ -3,11 +3,9 @@ package model.entities;
 import model.game.Position;
 
 public class Wall extends Entity{
-
-    private char Symbol;
-
-    public Wall(Position position, char symbol) {
+    private static final char WALL_SYMBOL = '#';
+    public Wall(Position position) {
         super(position);
-        Symbol = symbol;
+        this.symbol = 'W';
     }
 }
