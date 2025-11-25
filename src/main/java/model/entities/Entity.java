@@ -4,8 +4,8 @@ import model.game.Position;
 
 public class Entity {
     protected Position position;
-    private char symbol;
-    private String color;
+    protected char symbol;
+    protected String color;
 
     public Entity(Position position, char symbol, String color) {
         this.position = position;
