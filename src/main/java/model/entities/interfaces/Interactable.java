@@ -1,6 +1,7 @@
 package model.entities.interfaces;
 
 public interface Interactable {
-    void interactWith(Interactable target);
+    void interact(Interactor interactor);
     boolean canInteract();
+    String getInteractionMessage();
 }
