@@ -5,7 +5,7 @@ import model.entities.interfaces.Combatant;
 import model.game.Position;
 
 public class Player extends Entity implements Combatant {
-    Stats stats;
+    private final Stats stats;
 
     protected char symbol;
     protected String color;
@@ -19,5 +19,4 @@ public class Player extends Entity implements Combatant {
     public Stats getStats() {
         return stats;
     }
-
 }
