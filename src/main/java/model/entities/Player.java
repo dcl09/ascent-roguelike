@@ -9,8 +9,7 @@ public class Player extends Entity {
     protected String color;
 
     public Player (Position position, char symbol, String color) {
-        super(position);
-        super.symbol = symbol;
-        super.color = color;
+        super(position, symbol, color);
     }
+
 }
