@@ -18,5 +18,5 @@ public interface Combatant extends HasStats {
         }
     }
 
-    
+
 }
