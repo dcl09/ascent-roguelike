@@ -24,26 +24,12 @@ public class GameView {
     // todo: add new private variables and initialize in constructor.
     private GameModel model;
 
-    GameView(GameModel model){
+    public GameView(GameModel model){
         this.model = model;
     }
 
-    public void draw() throws IOException, FontFormatException, URISyntaxException {
-        URL resource = getClass().getClassLoader().getResource("square.ttf");
-        File fontFile = new File(resource.toURI());
-        Font font =  Font.createFont(Font.TRUETYPE_FONT, fontFile);
-
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        ge.registerFont(font);
-
+    public void draw() throws IOException {
         DefaultTerminalFactory factory = new DefaultTerminalFactory();
-
-        Font loadedFont = font.deriveFont(Font.PLAIN, 25);
-        AWTTerminalFontConfiguration fontConfig = AWTTerminalFontConfiguration.newInstance(loadedFont);
-        factory.setTerminalEmulatorFontConfiguration(fontConfig);
-        factory.setForceAWTOverSwing(true);
-        factory.setInitialTerminalSize(new TerminalSize(40, 20));
-
         Terminal terminal = factory.createTerminal();
         ((AWTTerminalFrame)terminal).addWindowListener(new WindowAdapter() {
             @Override
