@@ -46,7 +46,7 @@ public class GameView {
         screen.startScreen();             // screens must be started
         screen.doResizeIfNecessary();     // resize screen if necessary
 
-        screen.setCharacter(10, 10, TextCharacter.fromCharacter('C')[0]);
+        screen.setCharacter(model.getPlayer().getPosition().getX(), model.getPlayer().getPosition().getY(), TextCharacter.fromCharacter(model.getPlayer().getSymbol())[0]);
         screen.refresh();
     }
 
