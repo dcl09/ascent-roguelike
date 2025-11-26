@@ -31,12 +31,15 @@ public class GameView {
     public void draw() throws IOException {
         DefaultTerminalFactory factory = new DefaultTerminalFactory();
         Terminal terminal = factory.createTerminal();
+        /* this MIGHT be causing errors
         ((AWTTerminalFrame)terminal).addWindowListener(new WindowAdapter() {
+
             @Override
             public void windowClosing(WindowEvent e) {
                 e.getWindow().dispose();
             }
         });
+        */
 
         Screen screen = new TerminalScreen(terminal);
         screen.setCursorPosition(null);   // we don't need a cursor
