@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Inventory {
     protected ArrayList<Item> items;
-    /* protected int size; -> this might be useless so im leaving it commented */
+    protected int maxSize;
 
     public Inventory(ArrayList<Item> items) {
         this.items = items;
@@ -14,15 +14,21 @@ public class Inventory {
     public Inventory() {
         /* Player starts with an empty inventory? */
     }
-    
+
     /* todo: check what else to add here  */
 
     public Item getItemAtSlot(int index) {
-        return items.get(index);
+        return this.items.get(index);
     }
 
     public void changeItemAtSlot(Item item, int index) {
-        items.set(index, item);
+        this.items.set(index, item);
     }
 
+    public boolean addItem(Item item) {
+        if (this.items.size() < maxSize) {
+            this.items.add(item);
+            return true;
+        } else return false;
+    }
 }
