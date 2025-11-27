@@ -2,13 +2,15 @@ package model.entities;
 
 import model.entities.components.Stats;
 import model.entities.interfaces.Combatant;
+import model.entities.interfaces.Interactable;
+import model.entities.interfaces.Interactor;
 import model.entities.interfaces.Movable;
 import model.game.Position;
 
-public class Player extends Entity implements Combatant, Movable {
+public class Player extends Entity implements Combatant, Movable, Interactor {
     private final Stats stats;
 
-    public Player (Position position, char symbol, String color) {
+    public Player(Position position, char symbol, String color) {
         super(position, symbol, color);
         this.stats = new Stats(100, 1, 1);
     }
@@ -35,4 +37,17 @@ public class Player extends Entity implements Combatant, Movable {
     public int getMovementSpeed() {
         return stats.getSpeed();
     }
+
+    @Override
+    public boolean canInteract() {
+        return !stats.isDead();
+    }
+
+    @Override
+    public void interactWith(Interactable target) {
+        if (target.canInteract() && target.canInteract()){
+            target.interact(this);
+        }
+    }
+
 }
