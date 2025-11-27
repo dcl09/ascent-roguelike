@@ -49,5 +49,6 @@ public class Player extends Entity implements Combatant, Movable, Interactor {
             target.interact(this);
         }
     }
+    //todo: Add method to apply or store in the inventory items
 
 }
