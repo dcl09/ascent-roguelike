@@ -4,6 +4,7 @@ package view;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -23,6 +24,7 @@ import java.net.URL;
 public class GameView {
     // todo: add new private variables and initialize in constructor.
     private GameModel model;
+    private Screen screen;
 
     public GameView(GameModel model){
         this.model = model;
@@ -41,7 +43,7 @@ public class GameView {
         });
         */
 
-        Screen screen = new TerminalScreen(terminal);
+        screen = new TerminalScreen(terminal);
         screen.setCursorPosition(null);   // we don't need a cursor
         screen.startScreen();             // screens must be started
         screen.doResizeIfNecessary();     // resize screen if necessary
@@ -50,5 +52,16 @@ public class GameView {
         screen.refresh();
     }
 
-}
+    public KeyStroke getKeyStroke() throws IOException {
+        return screen.readInput();
+    }
 
+    public void closeScreen() throws IOException {
+        screen.close();
+    }
+
+    public void refresh() throws IOException {
+        screen.refresh();
+    }
+
+}
