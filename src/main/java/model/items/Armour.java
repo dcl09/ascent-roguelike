@@ -1,4 +1,4 @@
-package model.entities.items;
+package model.items;
 
 public class Armour extends Item{
     protected int bonusHealth;
