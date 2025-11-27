@@ -1,10 +1,10 @@
 package model.entities.items;
 
-public class Armour extends Items{
+public class Armour extends Item{
     protected int bonusHealth;
 
-    Armour(int level, int bonusHealth) {
-        super(level);
+    public Armour(Integer id, String name, int bonusHealth) {
+        super(id, name);
         this.bonusHealth = bonusHealth;
     }
 
@@ -12,7 +12,4 @@ public class Armour extends Items{
         return bonusHealth;
     }
 
-    public void setBonusHealth(int bonusHealth) {
-        this.bonusHealth = bonusHealth;
-    }
 }

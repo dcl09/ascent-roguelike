@@ -1,18 +1,14 @@
 package model.entities.items;
 
-public class HealthRestore extends Items{
+public class HealthRestore extends Item{
     protected int restoredHealth;
 
-    HealthRestore(int level, int restoredHealth) {
-        super(level);
+    public HealthRestore(Integer id, String name, int restoredHealth) {
+        super(id, name);
         this.restoredHealth = restoredHealth;
     }
 
     public int getRestoredHealth() {
         return restoredHealth;
-    }
-
-    public void setRestoredHealth(int restoredHealth) {
-        this.restoredHealth = restoredHealth;
     }
 }
