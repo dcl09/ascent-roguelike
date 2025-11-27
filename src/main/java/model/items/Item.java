@@ -1,4 +1,4 @@
-package model.entities.items;
+package model.items;
 
 public class Item {
     //protected int level = 1; // Just an idea for now, no scaling implemented yet
