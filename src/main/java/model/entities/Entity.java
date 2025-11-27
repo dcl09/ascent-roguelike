@@ -7,8 +7,11 @@ public class Entity {
     protected char symbol;
     protected String color;
 
-    public Entity(Position position) {
+    /* Entity should initialize all parameters that are common to all entities */
+    public Entity(Position position, char symbol, String color) {
         this.position = position;
+        this.symbol = symbol;
+        this.color = color;
     }
 
     public char getSymbol() {
