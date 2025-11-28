@@ -96,4 +96,7 @@ public class Player extends Entity implements Combatant, Movable, Interactor {
         }
     }
 
+    public boolean hasInventorySpace() {
+        return inventory.hasSpaceForConsumable();
+    }
 }
