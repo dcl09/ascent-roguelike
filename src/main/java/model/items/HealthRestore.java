@@ -1,5 +1,7 @@
 package model.items;
 
+import model.entities.Player;
+
 public class HealthRestore extends Item{
     protected int restoredHealth;
 
@@ -10,5 +12,9 @@ public class HealthRestore extends Item{
 
     public int getRestoredHealth() {
         return restoredHealth;
+    }
+
+    public void consume(Player player) {
+        player.getStats().heal(restoredHealth);
     }
 }
