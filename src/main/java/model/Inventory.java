@@ -11,8 +11,9 @@ public class Inventory {
         this.items = items;
     }
 
-    public Inventory() {
+    public Inventory(int maxSize) {
         /* Player starts with an empty inventory? */
+        this.maxSize = maxSize;
     }
 
     /* todo: check what else to add here  */
