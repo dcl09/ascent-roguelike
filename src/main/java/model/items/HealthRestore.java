@@ -1,4 +1,4 @@
-package model.entities.items;
+package model.items;
 
 public class HealthRestore extends Item{
     protected int restoredHealth;
