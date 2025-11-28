@@ -1,4 +1,4 @@
-package model.entities.items;
+package model.items;
 
 public class Weapon extends Item {
     //Podemos colocar atackRange
