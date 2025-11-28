@@ -1,5 +1,7 @@
 package model.items;
 
+import model.entities.Player;
+
 public class Weapon extends Item {
     //Podemos colocar atackRange
     protected int bonusDamage;
@@ -11,5 +13,13 @@ public class Weapon extends Item {
 
     public int getBonusDamage() {
         return bonusDamage;
+    }
+
+    public void onEquip(Player player) {
+        player.getStats().addDamage(bonusDamage);
+    }
+
+    public void onUnequip(Player player) {
+        player.getStats().loseDamage(bonusDamage);
     }
 }
