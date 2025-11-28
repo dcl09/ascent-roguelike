@@ -1,7 +1,7 @@
-package model.entities.items.Armour;
+package model.items.Armour;
 
-import model.entities.items.Item;
 import model.entities.Player;
+import model.items.Item;
 
 public class Armour extends Item {
     protected int bonusResistenceToDamage;
