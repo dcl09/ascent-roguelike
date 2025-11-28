@@ -17,14 +17,14 @@ public class Player extends Entity implements Combatant, Movable {
     public Stats getStats() {
         return stats;
     }
-
+    /*
     @Override
     public boolean moveTo(Position newPosition) {
         if (!canMoveTo(newPosition)) return false;
         setPosition(newPosition);
         return true;
     }
-
+    */
     @Override
     public boolean canMoveTo(Position position) {
         //todo: Falta adicionar outras restrições para movimento
