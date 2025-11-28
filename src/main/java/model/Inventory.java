@@ -55,6 +55,10 @@ public class Inventory {
         return consumables.remove(index);
     }
 
+    public boolean hasSpaceForConsumable() {
+        return consumables.size() < maxConsumables;
+    }
+
     // A copy of consumables is created so that, if it is changed, it will not affect the Inventary
     public List<HealthRestore> getConsumables() {
         return new ArrayList<>(consumables);
