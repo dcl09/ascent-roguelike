@@ -1,11 +1,13 @@
 package model;
 
-import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
 import model.entities.Player;
 
+<<<<<<< Updated upstream
 import java.io.IOException;
 
+=======
+import java.util.List;
+>>>>>>> Stashed changes
 
 public class GameModel {
     // todo: add new private variables and initialize in constructor.
