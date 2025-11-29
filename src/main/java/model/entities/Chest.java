@@ -7,19 +7,22 @@ import model.items.Armour.Armour;
 import model.items.HealthRestore;
 import model.items.Item;
 import model.items.Weapon;
+import model.items.ItemFactory;
 
 public class Chest extends Entity implements Interactable {
     private static final char CLOSED_SYMBOL = 'C';
     private static final char OPEN_SYMBOL = 'O';
 
-    //todo: Colocar item proveniente da Object Pool
-    //todo: Falta adicionar geração de items
     private boolean opened;
+
+    ItemFactory itemFactory;
     private Item containedItem;
 
     public Chest(Position position, String color) {
         super(position, CLOSED_SYMBOL, color);
         this.opened = false;
+        this.itemFactory = ItemFactory.getInstance();
+        this.containedItem = itemFactory.createRandomItem();
     }
 
     @Override
