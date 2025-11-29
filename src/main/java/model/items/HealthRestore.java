@@ -3,7 +3,7 @@ package model.items;
 import model.entities.Player;
 
 public class HealthRestore extends Item{
-    protected int restoredHealth;
+    protected final int restoredHealth;
 
     public HealthRestore(Integer id, String name, int restoredHealth) {
         super(id, name);

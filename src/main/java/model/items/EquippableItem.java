@@ -4,7 +4,7 @@ import model.entities.Player;
 
 public abstract class EquippableItem extends Item{
 
-    protected int changeInSpeed;
+    protected final int changeInSpeed;
 
     public EquippableItem(Integer id, String name, int changeInSpeed) {
         super(id, name);

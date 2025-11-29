@@ -1,12 +1,11 @@
-package model.items.Armour;
+package model.items.armour;
 
 import model.entities.Player;
 import model.items.EquippableItem;
-import model.items.Item;
 
 public class Armour extends EquippableItem {
-    protected int bonusResistanceToDamage;
-    protected ArmourSlot slot;
+    protected final int bonusResistanceToDamage;
+    protected final ArmourSlot slot;
 
     public Armour(Integer id, String name, int changeInSpeed, int bonusResistanceToDamage, ArmourSlot slot) {
         super(id, name, changeInSpeed);

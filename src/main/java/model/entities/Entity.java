@@ -5,7 +5,7 @@ import model.game.Position;
 public class Entity {
     protected Position position;
     protected char symbol;
-    protected String color;
+    protected final String color;
 
     /* Entity should initialize all parameters that are common to all entities */
     public Entity(Position position, char symbol, String color) {

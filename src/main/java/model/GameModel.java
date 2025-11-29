@@ -2,7 +2,6 @@ package model;
 
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
-import model.entities.Entity;
 import model.entities.Player;
 
 import java.io.IOException;
@@ -10,7 +9,7 @@ import java.io.IOException;
 
 public class GameModel {
     // todo: add new private variables and initialize in constructor.
-    private Player player;
+    private final Player player;
 
     public GameModel(Player player){
         this.player = player;
