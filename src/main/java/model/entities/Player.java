@@ -1,13 +1,13 @@
 package model.entities;
 
-import model.Inventory;
+import model.entities.components.Inventory;
 import model.entities.components.Stats;
 import model.entities.interfaces.Combatant;
 import model.entities.interfaces.Interactable;
 import model.entities.interfaces.Interactor;
 import model.entities.interfaces.Movable;
 import model.game.Position;
-import model.items.Armour.Armour;
+import model.items.armour.Armour;
 import model.items.HealthRestore;
 import model.items.Weapon;
 
