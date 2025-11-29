@@ -54,22 +54,22 @@ public class ItemFactory {
                 return new HealthRestore(id, "Large Health Potion", 60);
 
             case SWORD:
-                return new Weapon(id, "Sword", 10);
+                return new Weapon(id, "Sword", -6,10);
             case AXE:
-                return new Weapon(id, "Axe", 12);
+                return new Weapon(id, "Axe", -3, 12);
             case KNIFE:
-                return new Weapon(id, "Knife", 6);
+                return new Weapon(id, "Knife", 0,6);
 
             case HEAD_ARMOUR_BASIC:
-                return new Armour(id, "Basic Helmet", 3, ArmourSlot.HEAD);
+                return new Armour(id, "Basic Helmet", 0,3, ArmourSlot.HEAD);
             case CHEST_ARMOUR_BASIC:
-                return new Armour(id, "Basic Chestplate", 8, ArmourSlot.CHEST);
+                return new Armour(id, "Basic Chestplate", -4, 8, ArmourSlot.CHEST);
             case LEGS_ARMOUR_BASIC:
-                return new Armour(id, "Basic Leggings", 5, ArmourSlot.LEGS);
+                return new Armour(id, "Basic Leggings", -3, 5, ArmourSlot.LEGS);
             case FEET_ARMOUR_BASIC:
-                return new Armour(id, "Basic Boots", 2, ArmourSlot.FEET);
+                return new Armour(id, "Basic Boots", 0, 2, ArmourSlot.FEET);
             case ARMS_ARMOUR_BASIC:
-                return new Armour(id, "Basic Bracers", 4, ArmourSlot.ARMS);
+                return new Armour(id, "Basic Bracers", -1, 4, ArmourSlot.ARMS);
 
             default:
                 return null;
