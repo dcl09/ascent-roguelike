@@ -15,6 +15,7 @@ public class GameModel {
     private final List<Monster> monsters;
     private final List<Wall> walls;
     private final List<Chest> chests;
+    /* todo: add list of items, inventory and other stuff here */
 
     public GameModel(Player player, List<Monster> monsters, List<Wall> walls, List<Chest> chests) {
         this.player = player;
