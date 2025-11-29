@@ -1,7 +1,10 @@
-package model.items;
+package model.items.factories;
 
-import model.items.Armour.Armour;
-import model.items.Armour.ArmourSlot;
+import model.items.HealthRestore;
+import model.items.Item;
+import model.items.Weapon;
+import model.items.armour.Armour;
+import model.items.armour.ArmourSlot;
 
 import java.util.Random;
 
@@ -23,7 +26,7 @@ public class ItemFactory {
     private static final int WEAPON_MAX = 13;
     private static final int HEAD_ARMOUR_BASIC = 21;
 
-    // Armour between 21 and 30
+    // armour between 21 and 30
     private static final int CHEST_ARMOUR_BASIC = 22;
     private static final int LEGS_ARMOUR_BASIC = 23;
     private static final int FEET_ARMOUR_BASIC = 24;

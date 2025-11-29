@@ -2,7 +2,7 @@ package model.entities.components;
 
 public class Stats {
     private int health;
-    private int maxHealth;
+    private final int maxHealth;
     private int damage;
     private int speed;
     private int resistanceToDamage;

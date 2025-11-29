@@ -3,7 +3,7 @@ package model.items;
 import model.entities.Player;
 
 public class Weapon extends EquippableItem {
-    protected int bonusDamage;
+    protected final int bonusDamage;
 
     public Weapon(Integer id, String name, int changeInSpeed, int bonusDamage) {
         super(id, name, changeInSpeed);
