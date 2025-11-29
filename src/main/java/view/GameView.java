@@ -1,58 +1,44 @@
 package view;
 
-
-
-import com.googlecode.lanterna.TextCharacter;
-import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
+import gui.GUI;
 import model.GameModel;
+import view.game.*;
 
 import java.io.IOException;
 
 public class GameView {
-    // todo: add new private variables and initialize in constructor.
     private final GameModel model;
-    private Screen screen;
 
-    public GameView(GameModel model){
+    private final PlayerViewer playerViewer = new PlayerViewer();
+    private final MonsterViewer monsterViewer = new MonsterViewer();
+    private final WallViewer wallViewer = new WallViewer();
+    private final ChestViewer chestViewer = new ChestViewer();
+
+    public GameView(GameModel model) {
         this.model = model;
     }
 
-    public void draw() throws IOException {
-        DefaultTerminalFactory factory = new DefaultTerminalFactory();
-        Terminal terminal = factory.createTerminal();
-        /* this MIGHT be causing errors
-        ((AWTTerminalFrame)terminal).addWindowListener(new WindowAdapter() {
+    public void draw(GUI gui) throws IOException {
+        gui.clear();
 
-            @Override
-            public void windowClosing(WindowEvent e) {
-                e.getWindow().dispose();
-            }
-        });
-        */
+        // Draw walls
+        for (var wall : model.getWalls()) {
+            wallViewer.draw(wall, gui);
+        }
 
-        screen = new TerminalScreen(terminal);
-        screen.setCursorPosition(null);   // we don't need a cursor
-        screen.startScreen();             // screens must be started
-        screen.doResizeIfNecessary();     // resize screen if necessary
+        // Draw monsters
+        for (var monster : model.getMonsters()) {
+            monsterViewer.draw(monster, gui);
+        }
 
-        screen.setCharacter(model.getPlayer().getPosition().getX(), model.getPlayer().getPosition().getY(), TextCharacter.fromCharacter(model.getPlayer().getSymbol())[0]);
-        screen.refresh();
+        // Draw chests
+        for (var chest : model.getChests()) {
+            chestViewer.draw(chest, gui);
+        }
+
+        // Draw player (last so it appears on top)
+        playerViewer.draw(model.getPlayer(), gui);
+
+        gui.refresh();
     }
-
-    public KeyStroke getKeyStroke() throws IOException {
-        return screen.readInput();
-    }
-
-    public void closeScreen() throws IOException {
-        screen.close();
-    }
-
-    public void refresh() throws IOException {
-        screen.refresh();
-    }
-
 }
