@@ -9,8 +9,8 @@ import java.io.IOException;
 
 public class GameController {
     // todo: add new private variables and initialize in constructor.
-    private GameModel model;
-    private GameView view;
+    private final GameModel model;
+    private final GameView view;
 
     public GameController(GameView view, GameModel model){
         this.view = view;
