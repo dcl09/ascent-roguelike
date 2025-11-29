@@ -29,4 +29,12 @@ public class Entity {
     public void setPosition(Position position) {
         this.position = position;
     }
+
+    public void setSymbol(char symbol) {
+        this.symbol = symbol;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 }

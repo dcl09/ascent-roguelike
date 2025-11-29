@@ -1,15 +1,27 @@
 package model.items;
 
-public class Weapon extends Item {
-    //Podemos colocar atackRange
-    protected int bonusDamage;
+import model.entities.Player;
 
-    public Weapon(Integer id, String name, int bonusDamage) {
-        super(id, name);
+public class Weapon extends EquippableItem {
+    protected final int bonusDamage;
+
+    public Weapon(Integer id, String name, int changeInSpeed, int bonusDamage) {
+        super(id, name, changeInSpeed);
         this.bonusDamage = bonusDamage;
     }
 
     public int getBonusDamage() {
         return bonusDamage;
+    }
+
+
+    @Override
+    protected void onEquipStats(Player player) {
+        player.getStats().addDamage(bonusDamage);
+    }
+
+    @Override
+    protected void onUnequipStats(Player player) {
+        player.getStats().loseDamage(bonusDamage);
     }
 }
