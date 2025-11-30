@@ -16,7 +16,7 @@ public class Chest extends Entity implements Interactable {
     private boolean opened;
 
     final ItemFactory itemFactory;
-    private Item containedItem;
+    private final Item containedItem;
 
     public Chest(Position position, String color) {
         super(position, CLOSED_SYMBOL, color);

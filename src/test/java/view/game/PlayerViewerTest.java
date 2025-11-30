@@ -10,7 +10,6 @@ import org.mockito.Mockito;
 class PlayerViewerTest {
     private PlayerViewer playerViewer;
     private GUI gui;
-    private Player player;
 
     @BeforeEach
     void setup() {
