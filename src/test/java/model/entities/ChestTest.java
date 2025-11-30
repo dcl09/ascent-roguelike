@@ -82,4 +82,15 @@ class ChestTest {
         assertFalse(chest.isOpened());
     }
 
+    @Test
+    void chestWithValidItemIdContainsCorrectItem() {
+        Chest chestWithSword = new Chest(new Position(5, 5), "YELLOW", 11);
+        assertEquals("Sword", chestWithSword.getContainedItem().getName());
+    }
+
+    @Test
+    void chestWithInvalidItemIdFallsBackToRandomItem() {
+        Chest chestWithInvalidId = new Chest(new Position(5, 5), "YELLOW", 999);
+        assertNotNull(chestWithInvalidId.getContainedItem());
+    }
 }

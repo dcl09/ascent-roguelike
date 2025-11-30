@@ -99,12 +99,19 @@ class ItemFactoryTest {
             assertEquals("Basic Helmet", item.getName());
         }
 
-        // createItem with invalid ID returns null
+        // createItem with invalid ID throws InvalidItemIdException
         @Test
-        void createItemWithInvalidIdReturnsNull() {
-            Item item = factory.createItem(999);
+        void createItemWithInvalidIdThrowsException() {
+            assertThrows(InvalidItemIdException.class, () -> factory.createItem(999));
+        }
 
-            assertNull(item);
+        @Test
+        void invalidItemIdExceptionContainsCorrectId() {
+            InvalidItemIdException exception = assertThrows(
+                    InvalidItemIdException.class,
+                    () -> factory.createItem(999)
+            );
+            assertEquals(999, exception.getInvalidId());
         }
     }
 
