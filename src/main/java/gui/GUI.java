@@ -38,6 +38,7 @@ public class GUI {
 
     /* placeholder implementation */
     public ACTION processKey() throws IOException {
+        /* change to pollInput after clock implementation */
         KeyStroke key = screen.readInput();
         if (key == null) return null;
 
