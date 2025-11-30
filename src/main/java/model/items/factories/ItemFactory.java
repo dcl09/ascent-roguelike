@@ -47,7 +47,7 @@ public class ItemFactory {
         return instance;
     }
 
-    public Item createItem(int id) {
+    public Item createItem(int id) throws InvalidItemIdException{
         switch (id) {
             case HEALTH_POTION_SMALL:
                 return new HealthRestore(id, "Small Health Potion", 15);
@@ -75,7 +75,7 @@ public class ItemFactory {
                 return new Armour(id, "Basic Bracers", -1, 4, ArmourSlot.ARMS);
 
             default:
-                return null;
+                throw new InvalidItemIdException(id);
         }
     }
 
@@ -109,10 +109,8 @@ public class ItemFactory {
                 return createRandomWeapon();
             case 1:
                 return createRandomArmour();
-            case 2:
-                return createRandomPotion();
             default:
-                return null;
+                return createRandomPotion();
         }
     }
 }

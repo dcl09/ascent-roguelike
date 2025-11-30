@@ -7,6 +7,7 @@ import model.items.armour.Armour;
 import model.items.HealthRestore;
 import model.items.Item;
 import model.items.Weapon;
+import model.items.factories.InvalidItemIdException;
 import model.items.factories.ItemFactory;
 
 public class Chest extends Entity implements Interactable {
@@ -23,6 +24,21 @@ public class Chest extends Entity implements Interactable {
         this.opened = false;
         this.itemFactory = ItemFactory.getInstance();
         this.containedItem = itemFactory.createRandomItem();
+    }
+
+    public Chest(Position position, String color, int itemId) {
+        super(position, CLOSED_SYMBOL, color);
+        this.opened = false;
+        this.itemFactory = ItemFactory.getInstance();
+
+        Item item;
+        try {
+            item = itemFactory.createItem(itemId);
+        } catch (InvalidItemIdException e) {
+            System.err.println("Aviso: " + e.getMessage() + ". Criando item aleatório.");
+            item = itemFactory.createRandomItem();
+        }
+        this.containedItem = item;
     }
 
     @Override
