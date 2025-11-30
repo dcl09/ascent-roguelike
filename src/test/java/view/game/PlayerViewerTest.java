@@ -17,12 +17,29 @@ class PlayerViewerTest {
     void setup() {
         playerViewer = new PlayerViewer();
         gui = Mockito.mock(GUI.class);
-        player = new Player(new Position(5,8));
     }
 
     @Test
-    void drawPlayer() {
+    void drawPlayerAtValidPosition() {
+        Player player = new Player(new Position(5, 8));
+
         playerViewer.draw(player, gui);
-        Mockito.verify(gui, Mockito.times(1)).drawChar(5, 8, '@', "BLUE");
+        Mockito.verify(gui).drawChar(5, 8, '@', "BLUE");
+    }
+
+    @Test
+    void drawPlayerAtOrigin() {
+        Player player = new Player(new Position(0, 0));
+
+        playerViewer.draw(player, gui);
+        Mockito.verify(gui).drawChar(0, 0, '@', "BLUE");
+    }
+
+    @Test
+    void drawPlayerAtNegativePosition() {
+        Player player = new Player(new Position(-1, -1));
+
+        playerViewer.draw(player, gui);
+        Mockito.verify(gui).drawChar(-1, -1, '@', "BLUE");
     }
 }
