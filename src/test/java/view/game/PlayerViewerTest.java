@@ -5,7 +5,6 @@ import model.entities.Player;
 import model.game.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 import org.mockito.Mockito;
 
 class PlayerViewerTest {
@@ -41,5 +40,30 @@ class PlayerViewerTest {
 
         playerViewer.draw(player, gui);
         Mockito.verify(gui).drawChar(-1, -1, '@', "BLUE");
+    }
+
+    @Test
+    void drawPlayerAfterMovingOnce() {
+        Player player = new Player(new Position(5, 5));
+
+        player.moveUp();
+        player.moveLeft();
+        playerViewer.draw(player, gui);
+
+        Mockito.verify(gui).drawChar(4, 4, '@', "BLUE");
+    }
+
+    @Test
+    void drawPlayerAfterMultipleMoves() {
+        Player player = new Player(new Position(10, 10));
+
+        player.moveUp();
+        player.moveUp();
+        player.moveRight();
+        player.moveDown();
+        playerViewer.draw(player, gui);
+
+        // 10,10 -> 10,9 -> 10,8 -> 11,8 -> 11,9
+        Mockito.verify(gui).drawChar(11, 9, '@', "BLUE");
     }
 }
