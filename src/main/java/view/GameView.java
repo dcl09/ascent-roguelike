@@ -2,6 +2,7 @@ package view;
 
 import gui.GUI;
 import model.GameModel;
+import model.game.level.Level;
 import view.game.*;
 
 import java.io.IOException;
@@ -21,13 +22,15 @@ public class GameView {
     public void draw(GUI gui) throws IOException {
         gui.clear();
 
+        Level currlevel = model.getLevel();
+
         // Draw walls
-        for (var wall : model.getLevel().getWalls()) {
+        for (var wall : currlevel.getWalls()) {
             wallViewer.draw(wall, gui);
         }
 
         // Draw monsters
-        for (var monster : model.getLevel().getMonsters()) {
+        for (var monster : currlevel.getMonsters()) {
             monsterViewer.draw(monster, gui);
         }
 
