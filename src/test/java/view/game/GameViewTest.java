@@ -35,5 +35,12 @@ public class GameViewTest {
         Mockito.when(model.getPlayer()).thenReturn(new Player(new Position(0, 0)));
     }
 
-    
+    @Test
+    void screenClearAndRefreshSequence() throws IOException {
+        gameView.draw(gui);
+
+        InOrder inOrder = Mockito.inOrder(gui);
+        inOrder.verify(gui).clear();
+        inOrder.verify(gui).refresh();
+    }
 }
