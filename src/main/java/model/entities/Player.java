@@ -29,26 +29,6 @@ public class Player extends Entity implements Combatant, Movable, Interactor {
     public Inventory getInventory() { return inventory; }
 
     @Override
-    public void moveUp(){
-        position = position.getUp();
-    }
-
-    @Override
-    public void moveDown(){
-        position = position.getDown();
-    }
-
-    @Override
-    public void moveLeft(){
-        position = position.getLeft();
-    }
-
-    @Override
-    public void moveRight(){
-        position = position.getRight();
-    }
-
-    @Override
     public int getMovementSpeed() {
         return stats.getSpeed();
     }
