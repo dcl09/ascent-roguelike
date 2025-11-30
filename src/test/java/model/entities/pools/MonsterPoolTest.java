@@ -14,6 +14,10 @@ class MonsterPoolTest {
     @BeforeEach
     void setUp() {
         pool = MonsterPool.getInstance();
+
+        while (pool.available() < 30) {
+            pool.release(new Monster());
+        }
     }
 
     @Test
@@ -26,39 +30,31 @@ class MonsterPoolTest {
     @Test
     void acquireReturnsActiveMonster() {
         Monster monster = pool.acquire();
-        if (monster != null) {
-            assertTrue(monster.isActive());
-            pool.release(monster); // Reset pool state
-        }
+        assertTrue(monster.isActive());
+        pool.release(monster);
     }
 
     @Test
     void acquireReducesAvailable() {
         int before = pool.available();
         Monster monster = pool.acquire();
-        if (monster != null) {
-            assertEquals(before - 1, pool.available());
-            pool.release(monster);
-        }
+        assertEquals(before - 1, pool.available());
+        pool.release(monster);
     }
 
     @Test
     void releaseIncreasesAvailable() {
         Monster monster = pool.acquire();
-        if (monster != null) {
-            int before = pool.available();
-            pool.release(monster);
-            assertEquals(before + 1, pool.available());
-        }
+        int before = pool.available();
+        pool.release(monster);
+        assertEquals(before + 1, pool.available());
     }
 
     @Test
     void releaseDeactivatesMonster() {
         Monster monster = pool.acquire();
-        if (monster != null) {
-            pool.release(monster);
-            assertFalse(monster.isActive());
-        }
+        pool.release(monster);
+        assertFalse(monster.isActive());
     }
 
     @Test
@@ -69,5 +65,38 @@ class MonsterPoolTest {
     @Test
     void availableReturnsNonNegative() {
         assertTrue(pool.available() >= 0);
+    }
+
+    @Test
+    void hasAvailableReturnsTrueWhenPoolNotEmpty() {
+        assertTrue(pool.hasAvailable());
+    }
+
+    @Test
+    void hasAvailableReturnsFalseWhenPoolEmpty() {
+        java.util.List<Monster> acquired = new java.util.ArrayList<>();
+        while (pool.hasAvailable()) {
+            acquired.add(pool.acquire());
+        }
+
+        assertFalse(pool.hasAvailable());
+
+        for (Monster m : acquired) {
+            pool.release(m);
+        }
+    }
+
+    @Test
+    void acquireThrowsExceptionWhenPoolEmpty() {
+        java.util.List<Monster> acquired = new java.util.ArrayList<>();
+        while (pool.hasAvailable()) {
+            acquired.add(pool.acquire());
+        }
+
+        assertThrows(MonsterPoolEmptyException.class, () -> pool.acquire());
+
+        for (Monster m : acquired) {
+            pool.release(m);
+        }
     }
 }
