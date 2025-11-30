@@ -37,28 +37,7 @@ public class Chest extends Entity implements Interactable {
         }
         opened = true;
         symbol = OPEN_SYMBOL;
-        if (containedItem instanceof Weapon) {
-            handleWeaponPickup(player, (Weapon) containedItem);
-        } else if (containedItem instanceof Armour) {
-            handleArmourPickup(player, (Armour) containedItem);
-        } else if (containedItem instanceof HealthRestore) {
-            handleConsumablePickup(player, (HealthRestore) containedItem);
-        }
-    }
-
-    private void handleWeaponPickup(Player player, Weapon weapon) {
-        containedItem = player.equipWeapon(weapon);
-    }
-
-    private void handleArmourPickup(Player player, Armour armour) {
-        containedItem = player.equipArmour(armour);
-    }
-
-    private void handleConsumablePickup(Player player, HealthRestore item) {
-        boolean added = player.addConsumable(item);
-        if (added) {
-            containedItem = null;
-        }
+        containedItem.use(player);
     }
 
     public Item getContainedItem() {

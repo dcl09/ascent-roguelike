@@ -24,4 +24,9 @@ public class Weapon extends EquippableItem {
     protected void onUnequipStats(Player player) {
         player.getStats().loseDamage(bonusDamage);
     }
+
+    @Override
+    public Item use(Player player) {
+        return player.equipWeapon(this);
+    }
 }
