@@ -6,12 +6,15 @@ build/
 .kotlin
 
 ### IntelliJ IDEA ###
+.idea/
 .idea/modules.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
-*.iws
+.idea/gradle.xml
+.idea/.name
 *.iml
+*.iws
 *.ipr
 out/
 !**/src/main/**/out/
@@ -42,4 +45,3 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-.idea/gradle.xml
