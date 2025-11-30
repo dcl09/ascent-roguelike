@@ -3,18 +3,19 @@ import model.entities.*;
 import model.entities.pools.MonsterPool;
 import model.game.Position;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /* Temporary level builder for first submission */
 
 public class BaseplateBuilder extends LevelBuilder{
-    private MonsterPool pool;
+    private final MonsterPool pool;
     private List<Monster> monsters;
 
-    private int numberOfMonsters;
-    private int width;
-    private int height;
+    private final int numberOfMonsters;
+    private final int width;
+    private final int height;
 
     public BaseplateBuilder(int width, int height, int numberOfMonsters){
         this.width = width;
@@ -51,30 +52,30 @@ public class BaseplateBuilder extends LevelBuilder{
     }
 
     @Override
-    protected Player createPlayer() {
-        return new Player(new Position(width, height));
-    }
-
-    @Override
     protected List<Monster> createMonsters(){
         List<Monster> monsters = new ArrayList<>();
         for (int iter = 0; iter < numberOfMonsters; iter++) {
             Position SpawnLocation;
             switch ( iter % 4){
                 case 0:
-                    SpawnLocation = new Position(0, 0);
+                    SpawnLocation = new Position(1, 1);
                     break;
                 case 1:
-                    SpawnLocation = new Position(width, height);
+                    SpawnLocation = new Position(width - 2, height - 2);
                     break;
                 case 2:
-                    SpawnLocation = new Position(width, 0);
+                    SpawnLocation = new Position(width - 2, 1);
                     break;
                 case 3:
-                    SpawnLocation = new Position(0, height);
+                    SpawnLocation = new Position(1, height - 2);
                     break;
+                default:
+                    SpawnLocation = new Position(1, 1);
             }
-            monsters.add(pool.acquire().reset(SpawnLocation));
+
+            Monster monster = pool.acquire();
+            monster.reset(SpawnLocation);
+            monsters.add(monster);
         }
         return monsters;
     }

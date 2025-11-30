@@ -3,10 +3,10 @@ import model.entities.*;
 import java.util.List;
 
 public abstract class LevelBuilder {
-    public Level createLevel() {
+    public Level createLevel(Player player) {
         Level level = new Level(getWidth(), getHeight());
 
-        level.setPlayer(createPlayer());
+        level.setPlayer(player);
         level.setMonsters(createMonsters());
         /*
         NOT IMPLEMENTED
@@ -28,5 +28,4 @@ public abstract class LevelBuilder {
     */
     protected abstract List<Monster> createMonsters();
 
-    protected abstract Player createPlayer();
 }

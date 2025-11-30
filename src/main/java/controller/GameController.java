@@ -28,7 +28,7 @@ public class GameController {
             if (curraction != null)
                 processAction(curraction);
             // move monsters
-            gui.refresh();
+            view.draw(gui);
         }
 
         gui.close();

@@ -20,11 +20,11 @@ public class Position {
     }
 
     public Position getLeft() {
-        return new Position(x + 1, y);
+        return new Position(x - 1, y);
     }
 
     public Position getRight() {
-        return new Position(x - 1, y);
+        return new Position(x + 1, y);
     }
 
     public Position getUp() {
