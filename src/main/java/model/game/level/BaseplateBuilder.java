@@ -1,6 +1,7 @@
 package model.game.level;
 import model.entities.*;
 import model.entities.pools.MonsterPool;
+import model.entities.pools.MonsterPoolEmptyException;
 import model.game.Position;
 
 import java.util.ArrayList;
@@ -71,10 +72,15 @@ public class BaseplateBuilder extends LevelBuilder{
                 default:
                     SpawnLocation = new Position(1, 1);
             }
-
-            Monster monster = pool.acquire();
-            monster.reset(SpawnLocation);
-            monsters.add(monster);
+            try {
+                Monster monster = pool.acquire();
+                monster.reset(SpawnLocation);
+                monsters.add(monster);
+            }   catch (MonsterPoolEmptyException e) {
+                System.err.println("Aviso: " + e.getMessage() +
+                        " Apenas " + monsters.size() + " monstros criados.");
+                break;
+            }
         }
         return monsters;
     }
