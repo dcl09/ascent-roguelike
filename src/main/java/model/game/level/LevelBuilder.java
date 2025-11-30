@@ -1,8 +1,8 @@
 package model.game.level;
-
+import model.entities.*;
 import java.util.List;
 
-public class LevelBuilder {
+public abstract class LevelBuilder {
     public Level createLevel() {
         Level level = new Level(getWidth(), getHeight());
 
