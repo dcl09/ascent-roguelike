@@ -14,10 +14,12 @@ import java.io.IOException;
 
 public class GUI {
     private final Screen screen;
-
+    private final TextGraphics graphics;
+    
     public GUI(int width, int height) throws IOException {
         Terminal terminal = createTerminal(width, height);
         this.screen = createScreen(terminal);
+        this.graphics = screen.newTextGraphics();
     }
 
     public Terminal createTerminal(int width, int height) throws IOException {
@@ -64,9 +66,8 @@ public class GUI {
     }
 
     public void drawChar(int x, int y, char c, String color){
-        TextGraphics tg = screen.newTextGraphics();
-        tg.setForegroundColor(TextColor.Factory.fromString(color));
-        tg.putString(x, y, "" + c);
+        graphics.setForegroundColor(TextColor.Factory.fromString(color));
+        graphics.putString(x, y, "" + c);
     }
 
     public void refresh() throws IOException {
