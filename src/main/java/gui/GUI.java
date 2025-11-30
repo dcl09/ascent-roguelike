@@ -40,27 +40,29 @@ public class GUI {
 
     /* placeholder implementation */
     public ACTION processKey() throws IOException {
-        /* change to pollInput after clock implementation */
         KeyStroke key = screen.readInput();
         if (key == null) return null;
 
         switch (key.getKeyType()) {
-            case KeyType.EOF:
+            case EOF:
                 return ACTION.QUIT;
-            case KeyType.ArrowUp:
+            case ArrowUp:
                 return ACTION.UP;
-            case KeyType.ArrowDown:
+            case ArrowDown:
                 return ACTION.DOWN;
-            case KeyType.ArrowLeft:
+            case ArrowLeft:
                 return ACTION.LEFT;
-            case  KeyType.ArrowRight:
+            case ArrowRight:
                 return ACTION.RIGHT;
-            case KeyType.Escape:
+            case Escape:
                 return ACTION.MENU;
-            case KeyType.Enter:
+            case Enter:
                 return ACTION.SELECT;
-            case KeyType.Character:
+            case Character:
                 if (key.getCharacter() == 'e') return ACTION.INTERACT;
+                break;
+            default:
+                break;
         }
         return ACTION.NONE;
     }
