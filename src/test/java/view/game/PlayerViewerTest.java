@@ -66,4 +66,24 @@ class PlayerViewerTest {
         // 10,10 -> 10,9 -> 10,8 -> 11,8 -> 11,9
         Mockito.verify(gui).drawChar(11, 9, '@', "BLUE");
     }
+
+    @Test
+    void drawPlayerWithModifiedSymbol() {
+        Player player = new Player(new Position(5, 5));
+        player.setSymbol('S');
+
+        playerViewer.draw(player, gui);
+
+        Mockito.verify(gui).drawChar(5, 5, 'S', "BLUE");
+    }
+
+    @Test
+    void drawPlayerWithModifiedColor() {
+        Player player = new Player(new Position(5, 5));
+        player.setColor("RED");
+
+        playerViewer.draw(player, gui);
+
+        Mockito.verify(gui).drawChar(5, 5, '@', "RED");
+    }
 }
