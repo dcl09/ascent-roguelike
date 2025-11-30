@@ -13,7 +13,9 @@ import org.mockito.Mockito;
 import view.GameView;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class GameViewTest {
     private GUI gui;
@@ -70,5 +72,15 @@ public class GameViewTest {
 
         Mockito.verify(gui).drawChar(5, 5, 'M', "RED");
         Mockito.verify(gui).drawChar(6, 6, 'M', "RED");
+    }
+
+    @Test
+    void drawRendersPlayer() throws IOException {
+        Player player = new Player(new Position(10, 10));
+        Mockito.when(model.getPlayer()).thenReturn(player);
+
+        gameView.draw(gui);
+
+        Mockito.verify(gui).drawChar(10, 10, '@', "BLUE");
     }
 }
