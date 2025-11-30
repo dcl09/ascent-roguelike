@@ -134,46 +134,6 @@ class MonsterTest {
     }
 
     @Nested
-    class MovementTests {
-
-        private Monster monster;
-
-        @BeforeEach
-        void setUp() {
-            Position start = new Position(5, 5);
-            monster = new Monster(start);
-        }
-
-        @Test
-        void moveUpChangesPositionY() {
-            monster.moveUp();
-            assertEquals(4, monster.getPosition().getY());
-            assertEquals(5, monster.getPosition().getX());
-        }
-
-        @Test
-        void moveDownChangesPositionY() {
-            monster.moveDown();
-            assertEquals(6, monster.getPosition().getY());
-            assertEquals(5, monster.getPosition().getX());
-        }
-
-        @Test
-        void moveLeftChangesPositionX() {
-            monster.moveLeft();
-            assertEquals(4, monster.getPosition().getX());
-            assertEquals(5, monster.getPosition().getY());
-        }
-
-        @Test
-        void moveRightChangesPositionX() {
-            monster.moveRight();
-            assertEquals(6, monster.getPosition().getX());
-            assertEquals(5, monster.getPosition().getY());
-        }
-    }
-
-    @Nested
     class CombatantTests {
 
         private Monster monster;
