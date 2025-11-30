@@ -10,6 +10,7 @@ import model.game.level.Level;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.mockito.InOrder;
 import view.GameView;
 
 import java.io.IOException;
