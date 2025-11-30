@@ -28,19 +28,24 @@ public class Player extends Entity implements Combatant, Movable, Interactor {
 
     public Inventory getInventory() { return inventory; }
 
-    /*
     @Override
-    public boolean moveTo(Position newPosition) {
-        if (!canMoveTo(newPosition)) return false;
-        setPosition(newPosition);
-        return true;
+    void moveUp(){
+        position = position.getUp();
     }
-    */
 
     @Override
-    public boolean canMoveTo(Position position) {
-        //todo: Falta adicionar outras restrições para movimento
-        return isAlive() && position != null;
+    void moveDown(){
+        position = position.getDown();
+    }
+
+    @Override
+    void moveLeft(){
+        position = position.getLeft();
+    }
+
+    @Override
+    void moveRight(){
+        position = position.getRight();
     }
 
     @Override
