@@ -83,4 +83,25 @@ public class GameViewTest {
 
         Mockito.verify(gui).drawChar(10, 10, '@', "BLUE");
     }
+
+
+    @Test
+    void drawRespectsLayeringOrder() throws IOException {
+        Position sharedPos = new Position(5, 5);
+
+        Mockito.when(level.getWalls()).thenReturn(Collections.singletonList(new Wall(sharedPos)));
+        Mockito.when(level.getMonsters()).thenReturn(Collections.singletonList(new Monster(sharedPos)));
+        Mockito.when(model.getPlayer()).thenReturn(new Player(sharedPos));
+
+        gameView.draw(gui);
+
+        InOrder inOrder = Mockito.inOrder(gui);
+
+        inOrder.verify(gui).clear();
+        inOrder.verify(gui).drawChar(5, 5, '#', "WHITE");
+        inOrder.verify(gui).drawChar(5, 5, 'M', "RED");
+        inOrder.verify(gui).drawChar(5, 5, '@', "BLUE");
+        inOrder.verify(gui).refresh();
+    }
+
 }
