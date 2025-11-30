@@ -60,7 +60,7 @@ public class Player extends Entity implements Combatant, Movable, Interactor {
 
     @Override
     public void interactWith(Interactable target) {
-        if (target.canInteract() && target.canInteract()) {
+        if (target.canInteract()) {
             target.interact(this);
         }
     }
