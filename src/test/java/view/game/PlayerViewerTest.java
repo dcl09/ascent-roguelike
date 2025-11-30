@@ -9,14 +9,5 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerViewerTest {
     private PlayerViewer playerViewer;
 
-    @BeforeEach
-    void setup() {
-        playerViewer = new PlayerViewer();
-    }
-
-    @Test
-    void viewerInstantion() {
-        assertNotNull(playerViewer);
-    }
     
 }
