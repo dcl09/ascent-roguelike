@@ -16,7 +16,7 @@ public class GameModel {
 
     public GameModel(Player player) {
         this.player = player;
-        BaseplateBuilder builder = new BaseplateBuilder(50, 50 ,4);
+        BaseplateBuilder builder = new BaseplateBuilder(40, 20 ,4);
         this.level = builder.createLevel();
     }
 
