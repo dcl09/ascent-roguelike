@@ -70,9 +70,7 @@ public class GameController {
     public boolean conditionals(Position position) {
         if (position == null)
             return false;
-        if (!model.getLevel().isWall(position))
-            return true;
-        return false;
+        return !model.getLevel().isWall(position);
     }
 
 }

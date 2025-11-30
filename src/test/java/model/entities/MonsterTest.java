@@ -137,11 +137,10 @@ class MonsterTest {
     class MovementTests {
 
         private Monster monster;
-        private Position start;
 
         @BeforeEach
         void setUp() {
-            start = new Position(5, 5);
+            Position start = new Position(5, 5);
             monster = new Monster(start);
         }
 

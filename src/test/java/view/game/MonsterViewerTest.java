@@ -2,7 +2,6 @@ package view.game;
 
 import gui.GUI;
 import model.entities.Monster;
-import model.entities.Player;
 import model.game.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

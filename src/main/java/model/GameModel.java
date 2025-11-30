@@ -1,12 +1,7 @@
 package model;
 
 import model.entities.*;
-import model.game.*;
 import model.game.level.*;
-
-
-import java.io.IOException;
-import java.util.List;
 
 public class GameModel {
     private final Level level;

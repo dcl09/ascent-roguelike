@@ -3,7 +3,6 @@ import model.entities.*;
 import model.entities.pools.MonsterPool;
 import model.game.Position;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
