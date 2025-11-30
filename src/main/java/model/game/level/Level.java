@@ -5,8 +5,8 @@ import model.game.Position;
 import java.util.List;
 
 public class Level {
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
 
     private Player player;
 

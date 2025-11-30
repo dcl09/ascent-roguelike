@@ -15,10 +15,6 @@ import java.io.IOException;
 public class GUI {
     private final Screen screen;
 
-    public GUI(Screen screen) {
-        this.screen = screen;
-    }
-
     public GUI(int width, int height) throws IOException {
         Terminal terminal = createTerminal(width, height);
         this.screen = createScreen(terminal);
@@ -42,7 +38,7 @@ public class GUI {
 
     /* placeholder implementation */
     public ACTION processKey() throws IOException {
-        KeyStroke key = screen.pollInput();
+        KeyStroke key = screen.readInput();
         if (key == null) return null;
 
         switch (key.getKeyType()) {
@@ -69,7 +65,7 @@ public class GUI {
     public void drawChar(int x, int y, char c, String color){
         TextGraphics tg = screen.newTextGraphics();
         tg.setForegroundColor(TextColor.Factory.fromString(color));
-        tg.putString(x, y+1, "" + c);
+        tg.putString(x, y, "" + c);
     }
 
     public void refresh() throws IOException {
