@@ -10,13 +10,25 @@ import java.io.IOException;
 public class GameView {
     private final GameModel model;
 
-    private final PlayerViewer playerViewer = new PlayerViewer();
-    private final MonsterViewer monsterViewer = new MonsterViewer();
-    private final WallViewer wallViewer = new WallViewer();
-    private final ChestViewer chestViewer = new ChestViewer();
+    private final PlayerViewer playerViewer;
+    private final MonsterViewer monsterViewer;
+    private final WallViewer wallViewer;
+    private final ChestViewer chestViewer;
+
+    public GameView(GameModel model,
+                    PlayerViewer playerViewer,
+                    MonsterViewer monsterViewer,
+                    WallViewer wallViewer,
+                    ChestViewer chestViewer) {
+        this.model = model;
+        this.playerViewer = playerViewer;
+        this.monsterViewer = monsterViewer;
+        this.wallViewer = wallViewer;
+        this.chestViewer = chestViewer;
+    }
 
     public GameView(GameModel model) {
-        this.model = model;
+        this(model, new PlayerViewer(), new MonsterViewer(), new WallViewer(), new ChestViewer());
     }
 
     public void draw(GUI gui) throws IOException {

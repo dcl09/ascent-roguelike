@@ -9,10 +9,9 @@ public class GameModel {
 
     /* todo: add list of items, inventory and other stuff here */
 
-    public GameModel(Player player) {
+    public GameModel(Player player, Level level) {
         this.player = player;
-        BaseplateBuilder builder = new BaseplateBuilder(40, 20 ,4);
-        this.level = builder.createLevel(this.player);
+        this.level = level;
     }
 
     public Player getPlayer() {

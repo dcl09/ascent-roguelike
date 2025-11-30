@@ -24,13 +24,23 @@ public class GameViewTest {
     private GameModel model;
     private Level level;
 
+    private PlayerViewer playerViewer;
+    private MonsterViewer monsterViewer;
+    private WallViewer wallViewer;
+    private ChestViewer chestViewer;
+
     @BeforeEach
     void setup() {
         gui = Mockito.mock(GUI.class);
         model = Mockito.mock(GameModel.class);
         level = Mockito.mock(Level.class);
 
-        gameView = new GameView(model);
+        playerViewer = Mockito.mock(PlayerViewer.class);
+        monsterViewer = Mockito.mock(MonsterViewer.class);
+        wallViewer = Mockito.mock(WallViewer.class);
+        chestViewer = Mockito.mock(ChestViewer.class);
+
+        gameView = new GameView(model, playerViewer, monsterViewer, wallViewer, chestViewer);
 
         Mockito.when(model.getLevel()).thenReturn(level);
         Mockito.when(level.getWalls()).thenReturn(Collections.emptyList());
@@ -48,74 +58,47 @@ public class GameViewTest {
     }
 
     @Test
-    void drawRendersAllWalls() throws IOException {
-        List<Wall> walls = Arrays.asList(
-                new Wall(new Position(1, 1)),
-                new Wall(new Position(2, 2))
-        );
-        Mockito.when(level.getWalls()).thenReturn(walls);
+    void drawDelegatesToWallViewer() throws IOException {
+        Wall wall = new Wall(new Position(1, 1));
+        Mockito.when(level.getWalls()).thenReturn(List.of(wall));
 
         gameView.draw(gui);
-
-        Mockito.verify(gui).drawChar(1, 1, '#', "WHITE");
-        Mockito.verify(gui).drawChar(2, 2, '#', "WHITE");
+        Mockito.verify(wallViewer).draw(wall, gui);
     }
 
     @Test
-    void drawRendersAllMonsters() throws IOException {
-        List<Monster> monsters = Arrays.asList(
-                new Monster(new Position(5, 5)),
-                new Monster(new Position(6, 6))
-        );
-        Mockito.when(level.getMonsters()).thenReturn(monsters);
+    void drawDelegatesToMonsterViewer() throws IOException {
+        Monster monster = new Monster(new Position(5, 5));
+        Mockito.when(level.getMonsters()).thenReturn(List.of(monster));
 
         gameView.draw(gui);
-
-        Mockito.verify(gui).drawChar(5, 5, 'M', "RED");
-        Mockito.verify(gui).drawChar(6, 6, 'M', "RED");
+        Mockito.verify(monsterViewer).draw(monster, gui);
     }
 
     @Test
-    void drawRendersPlayer() throws IOException {
+    void drawDelegatesToPlayerViewer() throws IOException {
+        // Arrange
         Player player = new Player(new Position(10, 10));
         Mockito.when(model.getPlayer()).thenReturn(player);
 
         gameView.draw(gui);
-
-        Mockito.verify(gui).drawChar(10, 10, '@', "BLUE");
+        Mockito.verify(playerViewer).draw(player, gui);
     }
 
+    // todo: implement tests for chest when it is properly implemented
 
     @Test
     void drawRespectsLayeringOrder() throws IOException {
-        Position sharedPos = new Position(5, 5);
-
-        Mockito.when(level.getWalls()).thenReturn(Collections.singletonList(new Wall(sharedPos)));
-        Mockito.when(level.getMonsters()).thenReturn(Collections.singletonList(new Monster(sharedPos)));
-        Mockito.when(model.getPlayer()).thenReturn(new Player(sharedPos));
-
-        gameView.draw(gui);
-
-        InOrder inOrder = Mockito.inOrder(gui);
-
-        inOrder.verify(gui).clear();
-        inOrder.verify(gui).drawChar(5, 5, '#', "WHITE");
-        inOrder.verify(gui).drawChar(5, 5, 'M', "RED");
-        inOrder.verify(gui).drawChar(5, 5, '@', "BLUE");
-        inOrder.verify(gui).refresh();
-    }
-
-    @Test
-    void drawHandlesEmptyLevelGracefully() throws IOException {
-        // sanity check when levels are empty
-        Mockito.when(level.getWalls()).thenReturn(Collections.emptyList());
-        Mockito.when(level.getMonsters()).thenReturn(Collections.emptyList());
+        Mockito.when(level.getWalls()).thenReturn(List.of(new Wall(new Position(0,0))));
+        Mockito.when(level.getMonsters()).thenReturn(List.of(new Monster(new Position(0,0))));
         Mockito.when(model.getPlayer()).thenReturn(new Player(new Position(0,0)));
 
         gameView.draw(gui);
-
-        Mockito.verify(gui).clear();
-        Mockito.verify(gui).drawChar(0, 0, '@', "BLUE");
-        Mockito.verify(gui).refresh();
+        InOrder inOrder = Mockito.inOrder(gui, wallViewer, monsterViewer, playerViewer);
+        inOrder.verify(gui).clear();
+        inOrder.verify(wallViewer).draw(Mockito.any(), Mockito.eq(gui));
+        inOrder.verify(monsterViewer).draw(Mockito.any(), Mockito.eq(gui));
+        inOrder.verify(playerViewer).draw(Mockito.any(), Mockito.eq(gui));
+        inOrder.verify(gui).refresh();
     }
 }
