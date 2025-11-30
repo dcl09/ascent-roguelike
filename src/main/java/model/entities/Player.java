@@ -15,8 +15,8 @@ public class Player extends Entity implements Combatant, Movable, Interactor {
     private final Stats stats;
     private final Inventory inventory;
 
-    public Player(Position position, char symbol, String color) {
-        super(position, symbol, color);
+    public Player(Position position) {
+        super(position, '@', "BLUE");
         this.stats = new Stats(100, 1, 1);
         this.inventory = new Inventory(10);
     }

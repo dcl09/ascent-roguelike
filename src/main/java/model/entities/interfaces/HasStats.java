@@ -7,4 +7,7 @@ public interface HasStats {
     default boolean isAlive() {
         return !getStats().isDead();
     }
+    default int getMovementSpeed() {
+        return getStats().getSpeed();
+    }
 }
