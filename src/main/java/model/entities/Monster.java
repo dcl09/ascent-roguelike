@@ -43,6 +43,10 @@ public class Monster extends Entity implements Combatant, Movable {
         this.active = true;
     }
 
+    public void reset(Position position) {
+        reset(position, 'M',"Red", 90, 2 , 2);
+    }
+
     @Override
     public Stats getStats() {
         return stats;
