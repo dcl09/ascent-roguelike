@@ -16,6 +16,12 @@ public class Monster extends Entity implements Combatant, Movable {
         this.active = false;
     }
 
+    public Monster(Position position){
+        super (position, 'M', "RED");
+        this.stats = new Stats(90, 2, 2);
+        this.active = true;
+    }
+
     public Monster (Position position, char symbol, String color) {
         super(position, symbol, color);
         this.stats = new Stats(90, 2, 2);
