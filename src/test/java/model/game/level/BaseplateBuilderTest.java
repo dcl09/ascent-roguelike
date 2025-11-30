@@ -1,12 +1,22 @@
 package model.game.level;
 
 import model.entities.*;
+import model.entities.pools.MonsterPool;
 import model.game.Position;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BaseplateBuilderTest {
+
+    @BeforeEach
+    void setUp() {
+        MonsterPool pool = MonsterPool.getInstance();
+        while (pool.available() < 30) {
+            pool.release(new Monster());
+        }
+    }
 
     @Test
     void createLevel_ShouldSetCorrectDimensions() {
@@ -63,5 +73,23 @@ class BaseplateBuilderTest {
                 m.getPosition().equals(new Position(1, 1))));
         assertTrue(monsters.stream().anyMatch(m ->
                 m.getPosition().equals(new Position(18, 18))));
+    }
+
+    @Test
+    void createLevel_ShouldHandlePoolExhaustion() {
+        MonsterPool pool = MonsterPool.getInstance();
+        java.util.List<Monster> acquired = new java.util.ArrayList<>();
+        while (pool.hasAvailable()) {
+            acquired.add(pool.acquire());
+        }
+
+        BaseplateBuilder builder = new BaseplateBuilder(20, 20, 10);
+        Level level = builder.createLevel(new Player(new Position(10, 10)));
+
+        assertEquals(0, level.getMonsters().size());
+
+        for (Monster m : acquired) {
+            pool.release(m);
+        }
     }
 }
