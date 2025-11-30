@@ -2,6 +2,7 @@ import controller.GameController;
 import gui.GUI;
 import model.GameModel;
 import model.entities.Player;
+import model.entities.pools.MonsterPool;
 import model.game.Position;
 import model.game.level.BaseplateBuilder;
 import model.game.level.Level;
