@@ -59,22 +59,22 @@ public class Monster extends Entity implements Combatant, Movable {
     }
 
     @Override
-    void moveUp(){
+    public void moveUp(){
         position = position.getUp();
     }
 
     @Override
-    void moveDown(){
+    public void moveDown(){
         position = position.getDown();
     }
 
     @Override
-    void moveLeft(){
+    public void moveLeft(){
         position = position.getLeft();
     }
 
     @Override
-    void moveRight(){
+    public void moveRight(){
         position = position.getRight();
     }
 
