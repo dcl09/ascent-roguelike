@@ -1,6 +1,7 @@
 package controller;
 
 import model.GameModel;
+import model.entities.Player;
 import model.game.Position;
 import view.GameView;
 import gui.*;
@@ -35,29 +36,31 @@ public class GameController {
     }
 
     public void processAction(ACTION action){
-        Position currentPos = model.getPlayer().getPosition();
+        Player player = model.getPlayer();
+        Position currentPos = player.getPosition();
         Position newPos = null;
+
 
         switch (action) {
             case UP:
                 newPos = currentPos.getUp();
                 if (conditionals(newPos))
-                    model.getPlayer().moveUp();
+                    player.moveUp();
                 break;
             case DOWN:
                 newPos = currentPos.getDown();
                 if (conditionals(newPos))
-                    model.getPlayer().moveDown();
+                    player.moveDown();
                 break;
             case LEFT:
                 newPos = currentPos.getLeft();
                 if (conditionals(newPos))
-                    model.getPlayer().moveLeft();
+                    player.moveLeft();
                 break;
             case RIGHT:
                 newPos = currentPos.getRight();
                 if (conditionals(newPos))
-                    model.getPlayer().moveRight();
+                    player.moveRight();
                 break;
             default:
                 break;
