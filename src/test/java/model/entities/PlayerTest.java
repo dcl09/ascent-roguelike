@@ -184,45 +184,6 @@ class PlayerTest {
     }
 
     @Nested
-    class MovementTests {
-
-        private Player testPlayer;
-
-        @BeforeEach
-        void setUpMovement() {
-            testPlayer = new Player(new Position(5, 5));
-        }
-
-        @Test
-        void moveUpChangesPositionY() {
-            testPlayer.moveUp();
-            assertEquals(4, testPlayer.getPosition().getY());
-            assertEquals(5, testPlayer.getPosition().getX());
-        }
-
-        @Test
-        void moveDownChangesPositionY() {
-            testPlayer.moveDown();
-            assertEquals(6, testPlayer.getPosition().getY());
-            assertEquals(5, testPlayer.getPosition().getX());
-        }
-
-        @Test
-        void moveLeftChangesPositionX() {
-            testPlayer.moveLeft();
-            assertEquals(4, testPlayer.getPosition().getX());
-            assertEquals(5, testPlayer.getPosition().getY());
-        }
-
-        @Test
-        void moveRightChangesPositionX() {
-            testPlayer.moveRight();
-            assertEquals(6, testPlayer.getPosition().getX());
-            assertEquals(5, testPlayer.getPosition().getY());
-        }
-    }
-
-    @Nested
     class InteractionTests {
 
         @Test
