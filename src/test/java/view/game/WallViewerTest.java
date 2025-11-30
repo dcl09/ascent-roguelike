@@ -24,5 +24,10 @@ class WallViewerTest {
         Mockito.verify(gui).drawChar(1, 2, '#', "WHITE");
     }
 
-    
+    @Test
+    void drawWallAtBoundary() {
+        Wall wall = new Wall(new Position(39, 19));
+        wallViewer.draw(wall, gui);
+        Mockito.verify(gui).drawChar(39, 19, '#', "WHITE");
+    }
 }
