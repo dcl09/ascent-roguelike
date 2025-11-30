@@ -20,4 +20,9 @@ class PlayerViewerTest {
         player = new Player(new Position(5,8));
     }
 
+    @Test
+    void drawPlayer() {
+        playerViewer.draw(player, gui);
+        Mockito.verify(gui, Mockito.times(1)).drawChar(5, 8, '@', "BLUE");
+    }
 }
