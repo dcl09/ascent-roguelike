@@ -2,6 +2,7 @@ package model.items.armour;
 
 import model.entities.Player;
 import model.items.EquippableItem;
+import model.items.Item;
 
 public class Armour extends EquippableItem {
     protected final int bonusResistanceToDamage;
@@ -29,5 +30,10 @@ public class Armour extends EquippableItem {
     @Override
     protected void onUnequipStats(Player player) {
         player.getStats().loseResistanceToDamage(bonusResistanceToDamage);
+    }
+
+    @Override
+    public Item use(Player player) {
+        return player.equipArmour(this);
     }
 }

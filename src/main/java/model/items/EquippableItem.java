@@ -32,4 +32,6 @@ public abstract class EquippableItem extends Item{
     protected abstract void onEquipStats(Player player);
 
     protected abstract void onUnequipStats(Player player);
+
+    public abstract Item use(Player player);
 }
