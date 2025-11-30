@@ -17,4 +17,14 @@ public class HealthRestore extends Item{
     public void consume(Player player) {
         player.getStats().heal(restoredHealth);
     }
+
+    @Override
+    public Item use(Player player) {
+        boolean added = player.addConsumable(this);
+        if (added) {
+            return null;
+        } else {
+            return this;
+        }
+    }
 }
