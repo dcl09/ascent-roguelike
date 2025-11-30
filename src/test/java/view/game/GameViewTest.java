@@ -57,4 +57,18 @@ public class GameViewTest {
         Mockito.verify(gui).drawChar(1, 1, '#', "WHITE");
         Mockito.verify(gui).drawChar(2, 2, '#', "WHITE");
     }
+
+    @Test
+    void drawRendersAllMonsters() throws IOException {
+        List<Monster> monsters = Arrays.asList(
+                new Monster(new Position(5, 5)),
+                new Monster(new Position(6, 6))
+        );
+        Mockito.when(level.getMonsters()).thenReturn(monsters);
+
+        gameView.draw(gui);
+
+        Mockito.verify(gui).drawChar(5, 5, 'M', "RED");
+        Mockito.verify(gui).drawChar(6, 6, 'M', "RED");
+    }
 }
