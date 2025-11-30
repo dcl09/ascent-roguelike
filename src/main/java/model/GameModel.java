@@ -2,7 +2,7 @@ package model;
 
 import model.entities.*;
 import model.game.*;
-import model.game.level.BaseplateBuilder;
+import model.game.level.*;
 
 
 import java.io.IOException;
@@ -17,7 +17,7 @@ public class GameModel {
     public GameModel(Player player) {
         this.player = player;
         BaseplateBuilder builder = new BaseplateBuilder(40, 20 ,4);
-        this.level = builder.createLevel();
+        this.level = builder.createLevel(this.player);
     }
 
     public Player getPlayer() {

@@ -22,12 +22,12 @@ public class GameView {
         gui.clear();
 
         // Draw walls
-        for (var wall : model.getWalls()) {
+        for (var wall : model.getLevel().getWalls()) {
             wallViewer.draw(wall, gui);
         }
 
         // Draw monsters
-        for (var monster : model.getMonsters()) {
+        for (var monster : model.getLevel().getMonsters()) {
             monsterViewer.draw(monster, gui);
         }
 
