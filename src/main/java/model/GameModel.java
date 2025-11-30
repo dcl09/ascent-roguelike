@@ -1,6 +1,7 @@
 package model;
 
 import model.entities.*;
+import model.entities.pools.MonsterPool;
 import model.game.level.*;
 
 public class GameModel {
@@ -21,6 +22,5 @@ public class GameModel {
     public Level getLevel() {
         return level;
     }
-
 }
 
