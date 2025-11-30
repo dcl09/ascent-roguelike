@@ -31,11 +31,11 @@ public class GameView {
             monsterViewer.draw(monster, gui);
         }
 
-        // Draw chests
+        /* Draw chests
         for (var chest : model.getChests()) {
             chestViewer.draw(chest, gui);
         }
-
+        */
         // Draw player (last so it appears on top)
         playerViewer.draw(model.getPlayer(), gui);
 
