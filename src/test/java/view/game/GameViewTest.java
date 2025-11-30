@@ -43,4 +43,18 @@ public class GameViewTest {
         inOrder.verify(gui).clear();
         inOrder.verify(gui).refresh();
     }
+
+    @Test
+    void drawRendersAllWalls() throws IOException {
+        List<Wall> walls = Arrays.asList(
+                new Wall(new Position(1, 1)),
+                new Wall(new Position(2, 2))
+        );
+        Mockito.when(level.getWalls()).thenReturn(walls);
+
+        gameView.draw(gui);
+
+        Mockito.verify(gui).drawChar(1, 1, '#', "WHITE");
+        Mockito.verify(gui).drawChar(2, 2, '#', "WHITE");
+    }
 }
