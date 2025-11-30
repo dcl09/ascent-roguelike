@@ -36,7 +36,7 @@ class BaseplateBuilderTest {
 
         List<Wall> walls = level.getWalls();
 
-        // Verificar cantos
+        // Verify corners
         assertTrue(level.isWall(new Position(0, 0)));
         assertTrue(level.isWall(new Position(9, 0)));
         assertTrue(level.isWall(new Position(0, 7)));
@@ -58,7 +58,7 @@ class BaseplateBuilderTest {
 
         List<Monster> monsters = level.getMonsters();
 
-        // Verificar que monstros estão nos cantos esperados
+        // Check which monsters are in the expected corners.
         assertTrue(monsters.stream().anyMatch(m ->
                 m.getPosition().equals(new Position(1, 1))));
         assertTrue(monsters.stream().anyMatch(m ->
