@@ -37,9 +37,9 @@ class MonsterViewerTest {
     }
 
     @Test
-    void drawPlayerAfterMultipleMoves() {
+    void drawMonsterAfterMultipleMoves() {
         // same as the last function...
-        Monster monster = new Monster(new Position(5, 5));
+        Monster monster = new Monster(new Position(10, 10));
 
         monster.moveUp();
         monster.moveUp();
