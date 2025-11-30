@@ -104,4 +104,17 @@ public class GameViewTest {
         inOrder.verify(gui).refresh();
     }
 
+    @Test
+    void drawHandlesEmptyLevelGracefully() throws IOException {
+        // sanity check when levels are empty
+        Mockito.when(level.getWalls()).thenReturn(Collections.emptyList());
+        Mockito.when(level.getMonsters()).thenReturn(Collections.emptyList());
+        Mockito.when(model.getPlayer()).thenReturn(new Player(new Position(0,0)));
+
+        gameView.draw(gui);
+
+        Mockito.verify(gui).clear();
+        Mockito.verify(gui).drawChar(0, 0, '@', "BLUE");
+        Mockito.verify(gui).refresh();
+    }
 }
