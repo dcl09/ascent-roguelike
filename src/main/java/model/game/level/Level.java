@@ -3,6 +3,8 @@ import model.entities.*;
 import model.game.Position;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Level {
     private final int width;
@@ -12,7 +14,7 @@ public class Level {
 
     private List<Monster> monsters;
     private List<Chest> chests;
-    private List<Wall> walls;
+    private Map<Position, Wall> walls;
 
     public Level(int width, int height){
         this.width = width;
@@ -52,18 +54,16 @@ public class Level {
     }
 
     public List<Wall> getWalls() {
-        return walls;
+        return List.copyOf(walls.values());
     }
 
     public void setWalls(List<Wall> walls) {
-        this.walls = walls;
+        this.walls = walls.stream()
+                .collect(Collectors.toMap(Wall::getPosition, wall -> wall));
     }
 
     public boolean isWall(Position position) {
-        for (Wall wall : walls)
-            if (wall.getPosition().equals(position))
-                return true;
-        return false;
+        return walls.containsKey(position);
     }
 
     public boolean isMonster(Position position) {
