@@ -1,54 +1,59 @@
 package view;
 
-
-
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextCharacter;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.terminal.swing.AWTTerminalFontConfiguration;
-import com.googlecode.lanterna.terminal.swing.AWTTerminalFrame;
+import gui.GUI;
 import model.GameModel;
+import model.game.level.Level;
+import view.game.*;
 
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 
 public class GameView {
-    // todo: add new private variables and initialize in constructor.
-    private GameModel model;
+    private final GameModel model;
 
-    public GameView(GameModel model){
+    private final PlayerViewer playerViewer;
+    private final MonsterViewer monsterViewer;
+    private final WallViewer wallViewer;
+    private final ChestViewer chestViewer;
+
+    public GameView(GameModel model,
+                    PlayerViewer playerViewer,
+                    MonsterViewer monsterViewer,
+                    WallViewer wallViewer,
+                    ChestViewer chestViewer) {
         this.model = model;
+        this.playerViewer = playerViewer;
+        this.monsterViewer = monsterViewer;
+        this.wallViewer = wallViewer;
+        this.chestViewer = chestViewer;
     }
 
-    public void draw() throws IOException {
-        DefaultTerminalFactory factory = new DefaultTerminalFactory();
-        Terminal terminal = factory.createTerminal();
-        /* this MIGHT be causing errors
-        ((AWTTerminalFrame)terminal).addWindowListener(new WindowAdapter() {
+    public GameView(GameModel model) {
+        this(model, new PlayerViewer(), new MonsterViewer(), new WallViewer(), new ChestViewer());
+    }
 
-            @Override
-            public void windowClosing(WindowEvent e) {
-                e.getWindow().dispose();
-            }
-        });
+    public void draw(GUI gui) throws IOException {
+        gui.clear();
+
+        Level currlevel = model.getLevel();
+
+        // Draw walls
+        for (var wall : currlevel.getWalls()) {
+            wallViewer.draw(wall, gui);
+        }
+
+        // Draw monsters
+        for (var monster : currlevel.getMonsters()) {
+            monsterViewer.draw(monster, gui);
+        }
+
+        /* Draw chests
+        for (var chest : model.getChests()) {
+            chestViewer.draw(chest, gui);
+        }
         */
+        // Draw player (last so it appears on top)
+        playerViewer.draw(model.getPlayer(), gui);
 
-        Screen screen = new TerminalScreen(terminal);
-        screen.setCursorPosition(null);   // we don't need a cursor
-        screen.startScreen();             // screens must be started
-        screen.doResizeIfNecessary();     // resize screen if necessary
-
-        screen.setCharacter(model.getPlayer().getPosition().getX(), model.getPlayer().getPosition().getY(), TextCharacter.fromCharacter(model.getPlayer().getSymbol())[0]);
-        screen.refresh();
+        gui.refresh();
     }
-
 }
-

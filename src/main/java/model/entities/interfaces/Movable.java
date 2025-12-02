@@ -3,7 +3,22 @@ package model.entities.interfaces;
 import model.game.Position;
 
 public interface Movable {
-    boolean moveTo(Position newPosition);
-    boolean canMoveTo(Position position);
-    int getMovementSpeed(); // this might not be needed?
+    Position getPosition();
+    void setPosition(Position position);
+
+    default void moveUp() {
+        setPosition(getPosition().getUp());
+    }
+
+    default void moveDown() {
+        setPosition(getPosition().getDown());
+    }
+
+    default void moveLeft() {
+        setPosition(getPosition().getLeft());
+    }
+
+    default void moveRight() {
+        setPosition(getPosition().getRight());
+    }
 }

@@ -1,9 +1,11 @@
 package model.items;
 
-public class Item {
+import model.entities.Player;
+
+public abstract class Item {
     //protected int level = 1; // Just an idea for now, no scaling implemented yet
-    protected String name;
-    protected Integer id; // For making choosing a random item easier
+    protected final String name;
+    protected final Integer id; // For making choosing a random item easier
 
     public Item(Integer id, String name) {
         this.id = id;
@@ -17,4 +19,6 @@ public class Item {
     public Integer getId() {
         return id;
     }
+
+    public abstract Item use(Player player);
 }

@@ -2,21 +2,17 @@ package model.entities.interfaces;
 
 public interface Combatant extends HasStats {
     default void attack(Combatant target) {
-        if (target == null) throw new IllegalArgumentException("Cannot attack null target");
-        if (!this.isAlive()) return;
-        if (!target.isAlive()) return;
-
-        target.defendFrom(this);
-    }
-
-    default void defendFrom(Combatant attacker) {
-        int damage = attacker.getStats().getDamage();
-        this.getStats().takeDamage(damage);
-
-        if (this.getStats().isDead()) {
-            // onDeath(); -> implement
+        if (target == null) {
+            throw new IllegalArgumentException("Cannot attack null target");
         }
+        if (!this.isAlive() || !target.isAlive()) {
+            return;
+        }
+        int damage = getStats().getDamage();
+        target.receiveDamage(damage);
     }
 
-
+    default void receiveDamage(int amount) {
+        getStats().takeDamage(amount);
+    }
 }

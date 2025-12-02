@@ -1,17 +1,26 @@
 package model;
 
-import model.entities.Entity;
-import model.entities.Player;
+import model.entities.*;
+import model.entities.pools.MonsterPool;
+import model.game.level.*;
 
 public class GameModel {
-    // todo: add new private variables and initialize in constructor.
-    private Player player;
+    private final Level level;
+    private final Player player;
 
-    public GameModel(Player player){
+    /* todo: add list of items, inventory and other stuff here */
+
+    public GameModel(Player player, Level level) {
         this.player = player;
+        this.level = level;
     }
 
     public Player getPlayer() {
         return player;
     }
+
+    public Level getLevel() {
+        return level;
+    }
 }
+
