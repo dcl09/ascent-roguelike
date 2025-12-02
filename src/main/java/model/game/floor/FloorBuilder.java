@@ -1,20 +1,20 @@
-package model.game.level;
+package model.game.floor;
 import model.entities.*;
 import java.util.List;
 
-public abstract class LevelBuilder {
-    public Level createLevel(Player player) {
-        Level level = new Level(getWidth(), getHeight());
+public abstract class FloorBuilder {
+    public Floor createFloor(Player player) {
+        Floor floor = new Floor(getWidth(), getHeight());
 
-        level.setPlayer(player);
-        level.setMonsters(createMonsters());
+        floor.setPlayer(player);
+        floor.setMonsters(createMonsters());
         /*
         NOT IMPLEMENTED
-        level.setChests(createChests());
+        floor.setChests(createChests());
          */
-        level.setWalls(createWalls());
+        floor.setWalls(createWalls());
 
-        return level;
+        return floor;
     }
 
     protected abstract int getWidth();
