@@ -1,4 +1,4 @@
-package model.game.level;
+package model.game.floor;
 
 import model.entities.*;
 import model.entities.pools.MonsterPool;
@@ -23,7 +23,7 @@ class BaseplateBuilderTest {
         BaseplateBuilder builder = new BaseplateBuilder(30, 20, 4);
         Player player = new Player(new Position(15, 10));
 
-        Level level = builder.createLevel(player);
+        Floor level = builder.createFloor(player);
 
         assertEquals(30, level.getWidth());
         assertEquals(20, level.getHeight());
@@ -34,7 +34,7 @@ class BaseplateBuilderTest {
         BaseplateBuilder builder = new BaseplateBuilder(30, 20, 4);
         Player player = new Player(new Position(15, 10));
 
-        Level level = builder.createLevel(player);
+        Floor level = builder.createFloor(player);
 
         assertEquals(player, level.getPlayer());
     }
@@ -42,7 +42,7 @@ class BaseplateBuilderTest {
     @Test
     void createLevel_ShouldCreateBorderWalls() {
         BaseplateBuilder builder = new BaseplateBuilder(10, 8, 0);
-        Level level = builder.createLevel(new Player(new Position(5, 4)));
+        Floor level = builder.createFloor(new Player(new Position(5, 4)));
 
         List<Wall> walls = level.getWalls();
 
@@ -56,7 +56,7 @@ class BaseplateBuilderTest {
     @Test
     void createLevel_ShouldCreateRequestedNumberOfMonsters() {
         BaseplateBuilder builder = new BaseplateBuilder(20, 20, 4);
-        Level level = builder.createLevel(new Player(new Position(10, 10)));
+        Floor level = builder.createFloor(new Player(new Position(10, 10)));
 
         assertEquals(4, level.getMonsters().size());
     }
@@ -64,7 +64,7 @@ class BaseplateBuilderTest {
     @Test
     void createLevel_MonstersShouldSpawnInCorners() {
         BaseplateBuilder builder = new BaseplateBuilder(20, 20, 4);
-        Level level = builder.createLevel(new Player(new Position(10, 10)));
+        Floor level = builder.createFloor(new Player(new Position(10, 10)));
 
         List<Monster> monsters = level.getMonsters();
 
@@ -84,7 +84,7 @@ class BaseplateBuilderTest {
         }
 
         BaseplateBuilder builder = new BaseplateBuilder(20, 20, 10);
-        Level level = builder.createLevel(new Player(new Position(10, 10)));
+        Floor level = builder.createFloor(new Player(new Position(10, 10)));
 
         assertEquals(0, level.getMonsters().size());
 

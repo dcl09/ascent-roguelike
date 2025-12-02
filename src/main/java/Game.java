@@ -2,10 +2,9 @@ import controller.GameController;
 import gui.GUI;
 import model.GameModel;
 import model.entities.Player;
-import model.entities.pools.MonsterPool;
 import model.game.Position;
-import model.game.level.BaseplateBuilder;
-import model.game.level.Level;
+import model.game.floor.BaseplateBuilder;
+import model.game.floor.Floor;
 import view.GameView;
 
 import java.io.IOException;
@@ -15,9 +14,9 @@ public class Game {
         GUI gui = new GUI(40, 20);
         Player player = new Player(new Position(20,10));
         BaseplateBuilder builder = new BaseplateBuilder(40, 20, 4);
-        Level level = builder.createLevel(player);
+        Floor floor = builder.createFloor(player);
 
-        GameModel model = new GameModel(player, level);
+        GameModel model = new GameModel(player, floor);
         GameView view = new GameView(model);
         GameController controller = new GameController(view, model, gui);
 
