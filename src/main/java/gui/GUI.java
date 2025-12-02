@@ -62,7 +62,18 @@ public class GUI {
             case KeyType.Enter:
                 return ACTION.SELECT;
             case KeyType.Character:
-                if (key.getCharacter() == 'e') return ACTION.INTERACT;
+                switch (key.getCharacter()) {
+                    case 'e':
+                        return ACTION.INTERACT;
+                    case 'w':
+                        return ACTION.UP;
+                    case 'a':
+                        return ACTION.LEFT;
+                    case 's':
+                        return ACTION.DOWN;
+                    case 'd':
+                        return ACTION.RIGHT;
+                }
         }
         return ACTION.NONE;
     }
