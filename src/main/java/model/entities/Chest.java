@@ -1,17 +1,45 @@
 package model.entities;
+
 import model.entities.interfaces.Interactable;
 import model.entities.interfaces.Interactor;
+import model.game.Position;
+import model.items.armour.Armour;
+import model.items.HealthRestore;
+import model.items.Item;
+import model.items.Weapon;
+import model.items.factories.InvalidItemIdException;
+import model.items.factories.ItemFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Chest implements Interactable {
+public class Chest extends Entity implements Interactable {
     private static final char CLOSED_SYMBOL = 'C';
     private static final char OPEN_SYMBOL = 'O';
 
-    //todo: Colocar item proveniente da Object Pool
-
     private boolean opened;
+
+    private final ItemFactory itemFactory;
+    private final Item containedItem;
+
+    public Chest(Position position, String color) {
+        super(position, CLOSED_SYMBOL, color);
+        this.opened = false;
+        this.itemFactory = ItemFactory.getInstance();
+        this.containedItem = itemFactory.createRandomItem();
+    }
+
+    public Chest(Position position, String color, int itemId) {
+        super(position, CLOSED_SYMBOL, color);
+        this.opened = false;
+        this.itemFactory = ItemFactory.getInstance();
+
+        Item item;
+        try {
+            item = itemFactory.createItem(itemId);
+        } catch (InvalidItemIdException e) {
+            System.err.println("Aviso: " + e.getMessage() + ". Criando item aleatório.");
+            item = itemFactory.createRandomItem();
+        }
+        this.containedItem = item;
+    }
 
     @Override
     public boolean canInteract() {
@@ -20,15 +48,19 @@ public class Chest implements Interactable {
 
     @Override
     public void interact(Interactor interactor) {
-        if (!opened && interactor instanceof Player) {
-            opened = true;
-            Player player = (Player) interactor;
-            // todo: Add interaction with player
+        if (!canInteract() || !(interactor instanceof Player player)) {
+            return;
         }
-        // todo: Add interaction to the ui informing what item was found
+        opened = true;
+        symbol = OPEN_SYMBOL;
+        containedItem.use(player);
     }
 
-    public String getInteractionMessage() {
-        return (opened) ? "Empty chest" : "Press E to open";
+    public Item getContainedItem() {
+        return containedItem;
+    }
+
+    public boolean isOpened() {
+        return opened;
     }
 }

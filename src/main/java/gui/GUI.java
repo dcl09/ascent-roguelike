@@ -14,22 +14,19 @@ import java.io.IOException;
 
 public class GUI {
     private final Screen screen;
-
-    public GUI(Screen screen) {
-        this.screen = screen;
-    }
-
+    private final TextGraphics graphics;
+    
     public GUI(int width, int height) throws IOException {
         Terminal terminal = createTerminal(width, height);
         this.screen = createScreen(terminal);
+        this.graphics = screen.newTextGraphics();
     }
 
     public Terminal createTerminal(int width, int height) throws IOException {
         TerminalSize terminalSize = new TerminalSize(width, height);
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
         terminalFactory.setInitialTerminalSize(terminalSize);
-        Terminal terminal = terminalFactory.createTerminal();
-        return terminal;
+        return terminalFactory.createTerminal();
     }
 
     public Screen createScreen(Terminal terminal) throws IOException {
@@ -43,23 +40,23 @@ public class GUI {
 
     /* placeholder implementation */
     public ACTION processKey() throws IOException {
-        KeyStroke key = screen.pollInput();
+        KeyStroke key = screen.readInput();
         if (key == null) return null;
 
         switch (key.getKeyType()) {
-            case KeyType.EOF:
+            case EOF:
                 return ACTION.QUIT;
-            case KeyType.ArrowUp:
+            case ArrowUp:
                 return ACTION.UP;
-            case KeyType.ArrowDown:
+            case ArrowDown:
                 return ACTION.DOWN;
-            case KeyType.ArrowLeft:
+            case ArrowLeft:
                 return ACTION.LEFT;
-            case  KeyType.ArrowRight:
+            case ArrowRight:
                 return ACTION.RIGHT;
-            case KeyType.Escape:
+            case Escape:
                 return ACTION.MENU;
-            case KeyType.Enter:
+            case Enter:
                 return ACTION.SELECT;
             case KeyType.Character:
                 switch (key.getCharacter()) {
@@ -79,9 +76,8 @@ public class GUI {
     }
 
     public void drawChar(int x, int y, char c, String color){
-        TextGraphics tg = screen.newTextGraphics();
-        tg.setForegroundColor(TextColor.Factory.fromString(color));
-        tg.putString(x, y+1, "" + c);
+        graphics.setForegroundColor(TextColor.Factory.fromString(color));
+        graphics.putString(x, y, "" + c);
     }
 
     public void refresh() throws IOException {
