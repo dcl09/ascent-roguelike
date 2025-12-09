@@ -19,6 +19,7 @@ public class GameController {
         this.model = model;
         this.gui = gui;
     }
+
     /* the game loop should be on game so we can implement ticks properly
     public void run() throws IOException {
         view.draw(gui);
@@ -35,6 +36,22 @@ public class GameController {
 
         gui.close();
     } */
+
+    /* please do not take this code seriously its just borderline pseudocode */
+
+    public ACTION placeholder_processKey() throws IOException {
+        return gui.processKey();
+    }
+
+    public void placeholder_refresh_GUI() throws IOException {
+        view.draw(gui);
+    }
+
+    public void placeholder_close_GUI () throws IOException {
+        gui.close();
+    }
+
+    /* real code continues after this */
 
     public void processAction(ACTION action){
         Player player = model.getPlayer();

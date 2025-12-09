@@ -21,8 +21,15 @@ public class Game {
         GameView view = new GameView(model);
         GameController controller = new GameController(view, model, gui);
 
+        controller.placeholder_refresh_GUI();
         while (true) {
-            /* game loop here */
+            /* game loop here with placeholders */
+            ACTION curraction = controller.placeholder_processKey();
+            if (curraction == ACTION.QUIT) break;
+            else if (curraction != null)
+                controller.processAction(curraction);
+            controller.placeholder_refresh_GUI();
         }
+        controller.placeholder_close_GUI();
     }
 }
