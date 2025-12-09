@@ -5,7 +5,6 @@ import model.entities.Player;
 import model.game.Position;
 import model.game.floor.BaseplateBuilder;
 import model.game.floor.Floor;
-import view.GameView;
 
 import java.io.IOException;
 
