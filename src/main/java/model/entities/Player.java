@@ -1,6 +1,7 @@
 package model.entities;
 
 import model.entities.components.Inventory;
+import model.entities.components.LOOKING;
 import model.entities.components.Stats;
 import model.entities.interfaces.Combatant;
 import model.entities.interfaces.Interactable;
@@ -14,6 +15,7 @@ import model.items.Weapon;
 public class Player extends Entity implements Combatant, Movable, Interactor {
     private final Stats stats;
     private final Inventory inventory;
+    private LOOKING looking = LOOKING.UP;
 
     public Player(Position position) {
         super(position, '@', "YELLOW_BRIGHT");
@@ -43,6 +45,23 @@ public class Player extends Entity implements Combatant, Movable, Interactor {
         if (target.canInteract()) {
             target.interact(this);
         }
+    }
+
+    public LOOKING lookingDirection() {
+        return looking;
+    }
+
+    public void setLookingDirection(LOOKING looking) {
+        this.looking = looking;
+    }
+
+    public Position facing(){
+        return switch (looking) {
+            case RIGHT -> new Position(position.getX() + 1, position.getY());
+            case DOWN -> new Position(position.getX(), position.getY() + 1);
+            case LEFT -> new Position(position.getX() - 1, position.getY());
+            default -> new Position(position.getX(), position.getY() - 1);
+        };
     }
 
     public Weapon equipWeapon(Weapon weapon) {

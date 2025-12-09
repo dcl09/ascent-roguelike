@@ -1,0 +1,16 @@
+package controller;
+//import game; for when game is its own class;
+import gui.ACTION;
+
+public abstract class Controller<Type> {
+    private final Type model;
+    public Controller(Type model) {
+        this.model = model;
+    }
+
+    public Type getModel() {
+        return model;
+    }
+
+    public abstract void step(Game game, ACTION action /*,long int time*/ );
+}
