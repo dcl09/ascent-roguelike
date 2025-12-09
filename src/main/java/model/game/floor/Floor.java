@@ -1,4 +1,4 @@
-package model.game.level;
+package model.game.floor;
 import model.entities.*;
 import model.game.Position;
 
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Level {
+public class Floor {
     private final int width;
     private final int height;
 
@@ -16,7 +16,7 @@ public class Level {
     private List<Chest> chests;
     private Map<Position, Wall> walls;
 
-    public Level(int width, int height){
+    public Floor(int width, int height){
         this.width = width;
         this.height = height;
     }

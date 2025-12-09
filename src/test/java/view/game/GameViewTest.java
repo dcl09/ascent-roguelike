@@ -6,7 +6,7 @@ import model.entities.Monster;
 import model.entities.Player;
 import model.entities.Wall;
 import model.game.Position;
-import model.game.level.Level;
+import model.game.floor.Floor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -14,7 +14,6 @@ import org.mockito.InOrder;
 import view.GameView;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class GameViewTest {
     private GUI gui;
     private GameView gameView;
     private GameModel model;
-    private Level level;
+    private Floor level;
 
     private PlayerViewer playerViewer;
     private MonsterViewer monsterViewer;
@@ -33,7 +32,7 @@ public class GameViewTest {
     void setup() {
         gui = Mockito.mock(GUI.class);
         model = Mockito.mock(GameModel.class);
-        level = Mockito.mock(Level.class);
+        level = Mockito.mock(Floor.class);
 
         playerViewer = Mockito.mock(PlayerViewer.class);
         monsterViewer = Mockito.mock(MonsterViewer.class);
@@ -42,7 +41,7 @@ public class GameViewTest {
 
         gameView = new GameView(model, playerViewer, monsterViewer, wallViewer, chestViewer);
 
-        Mockito.when(model.getLevel()).thenReturn(level);
+        Mockito.when(model.getFloor()).thenReturn(level);
         Mockito.when(level.getWalls()).thenReturn(Collections.emptyList());
         Mockito.when(level.getMonsters()).thenReturn(Collections.emptyList());
         Mockito.when(model.getPlayer()).thenReturn(new Player(new Position(0, 0)));
