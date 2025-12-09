@@ -58,7 +58,7 @@ public class GUI {
                 return ACTION.MENU;
             case Enter:
                 return ACTION.SELECT;
-            case KeyType.Character:
+            case Character:
                 switch (key.getCharacter()) {
                     case 'e':
                         return ACTION.INTERACT;

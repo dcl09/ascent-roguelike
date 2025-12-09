@@ -1,4 +1,4 @@
-package model.game.level;
+package model.game.floor;
 import model.entities.*;
 import model.entities.pools.MonsterPool;
 import model.entities.pools.MonsterPoolEmptyException;
@@ -9,7 +9,7 @@ import java.util.List;
 
 /* Temporary level builder for first submission */
 
-public class BaseplateBuilder extends LevelBuilder{
+public class BaseplateBuilder extends FloorBuilder {
     private final MonsterPool pool;
     private List<Monster> monsters;
 

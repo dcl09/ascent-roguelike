@@ -1,4 +1,4 @@
-package model.game.level;
+package model.game.floor;
 
 import model.entities.*;
 import model.game.Position;
@@ -10,11 +10,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LevelTest {
 
-    private Level level;
+    private Floor level;
 
     @BeforeEach
     void setUp() {
-        level = new Level(20, 15);
+        level = new Floor(20, 15);
     }
 
     @Test

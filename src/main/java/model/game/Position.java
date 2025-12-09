@@ -35,6 +35,16 @@ public class Position {
         return new Position(x, y + 1);
     }
 
+    public Position getRandomAdjacent() {
+        int n = (int) (Math.random() * 4);
+        return switch (n) {
+            case 0 -> getUp();
+            case 1 -> getRight();
+            case 2 -> getDown();
+            default -> getLeft();
+        };
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

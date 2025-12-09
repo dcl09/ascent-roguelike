@@ -2,7 +2,7 @@ package view;
 
 import gui.GUI;
 import model.GameModel;
-import model.game.level.Level;
+import model.game.floor.Floor;
 import view.game.*;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class GameView {
     public void draw(GUI gui) throws IOException {
         gui.clear();
 
-        Level currlevel = model.getLevel();
+        Floor currlevel = model.getFloor();
 
         // Draw walls
         for (var wall : currlevel.getWalls()) {
