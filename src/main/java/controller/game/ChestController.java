@@ -7,12 +7,12 @@ import model.game.Position;
 import model.game.floor.Floor;
 
 public class ChestController extends GameController{
-    //Todo: Add game & floor check for chest
+    //Todo: Import game & implement time
     public ChestController(Floor floor){ super(floor); }
 
     public void step(Game game, ACTION action/*, long time*/){
         Position checkForChest = getModel().getPlayer().facing();
-        //if getModel().isChest(checkForChest)
+        if (getModel().isChest(checkForChest)) {
             for (Chest chest : getModel().getChests()) {
                 if (chest.getPosition().equals(checkForChest)) {
                     if (chest.canInteract()) {
@@ -21,6 +21,7 @@ public class ChestController extends GameController{
                     break;
                 }
             }
+        }
     }
 }
 

@@ -4,7 +4,7 @@ import gui.ACTION;
 import model.entities.components.LOOKING;
 import model.game.Position;
 import model.game.floor.Floor;
-// todo: change floor isMonster function to return said monster for fighting purposes, import game, add time
+// todo: implement getter of specific monster infront of player, import game & implement time
 public class PlayerController extends GameController{
 
     public PlayerController(Floor floor) {
@@ -44,6 +44,5 @@ public class PlayerController extends GameController{
         if (action == ACTION.DOWN) movePlayerDown();
         if (action == ACTION.LEFT) movePlayerLeft();
         if (action == ACTION.RIGHT) movePlayerRight();
-
     }
 }
