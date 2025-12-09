@@ -1,4 +1,5 @@
 package model.game.level;
+
 import model.entities.*;
 import model.entities.pools.MonsterPool;
 import model.entities.pools.MonsterPoolEmptyException;
@@ -7,17 +8,14 @@ import model.game.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-/* Temporary level builder for first submission */
-
-public class BaseplateBuilder extends LevelBuilder{
+public class BaseplateBuilder extends LevelBuilder {
     private final MonsterPool pool;
-    private List<Monster> monsters;
 
     private final int numberOfMonsters;
     private final int width;
     private final int height;
 
-    public BaseplateBuilder(int width, int height, int numberOfMonsters){
+    public BaseplateBuilder(int width, int height, int numberOfMonsters) {
         this.width = width;
         this.height = height;
         this.numberOfMonsters = numberOfMonsters;
@@ -52,31 +50,37 @@ public class BaseplateBuilder extends LevelBuilder{
     }
 
     @Override
-    protected List<Monster> createMonsters(){
+    protected List<Chest> createChests() {
+        // BaseplateBuilder não cria chests
+        return new ArrayList<>();
+    }
+
+    @Override
+    protected List<Monster> createMonsters() {
         List<Monster> monsters = new ArrayList<>();
         for (int iter = 0; iter < numberOfMonsters; iter++) {
-            Position SpawnLocation;
-            switch ( iter % 4){
+            Position spawnLocation;
+            switch (iter % 4) {
                 case 0:
-                    SpawnLocation = new Position(1, 1);
+                    spawnLocation = new Position(1, 1);
                     break;
                 case 1:
-                    SpawnLocation = new Position(width - 2, height - 2);
+                    spawnLocation = new Position(width - 2, height - 2);
                     break;
                 case 2:
-                    SpawnLocation = new Position(width - 2, 1);
+                    spawnLocation = new Position(width - 2, 1);
                     break;
                 case 3:
-                    SpawnLocation = new Position(1, height - 2);
+                    spawnLocation = new Position(1, height - 2);
                     break;
                 default:
-                    SpawnLocation = new Position(1, 1);
+                    spawnLocation = new Position(1, 1);
             }
             try {
                 Monster monster = pool.acquire();
-                monster.reset(SpawnLocation);
+                monster.reset(spawnLocation);
                 monsters.add(monster);
-            }   catch (MonsterPoolEmptyException e) {
+            } catch (MonsterPoolEmptyException e) {
                 System.err.println("Aviso: " + e.getMessage() +
                         " Apenas " + monsters.size() + " monstros criados.");
                 break;

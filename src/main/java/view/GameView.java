@@ -2,6 +2,9 @@ package view;
 
 import gui.GUI;
 import model.GameModel;
+import model.entities.Chest;
+import model.entities.Monster;
+import model.entities.Wall;
 import model.game.level.Level;
 import view.game.*;
 
@@ -37,20 +40,20 @@ public class GameView {
         Level currlevel = model.getLevel();
 
         // Draw walls
-        for (var wall : currlevel.getWalls()) {
+        for (Wall wall : currlevel.getWalls()) {
             wallViewer.draw(wall, gui);
         }
 
+        // Draw chests
+        for (Chest chest : currlevel.getChests()) {
+            chestViewer.draw(chest, gui);
+        }
+
         // Draw monsters
-        for (var monster : currlevel.getMonsters()) {
+        for (Monster monster : currlevel.getMonsters()) {
             monsterViewer.draw(monster, gui);
         }
 
-        /* Draw chests
-        for (var chest : model.getChests()) {
-            chestViewer.draw(chest, gui);
-        }
-        */
         // Draw player (last so it appears on top)
         playerViewer.draw(model.getPlayer(), gui);
 
