@@ -63,12 +63,16 @@ public class GUI {
                     case 'e':
                         return ACTION.INTERACT;
                     case 'w':
+                        if (key.isShiftDown()) return ACTION.LOOK_UP;
                         return ACTION.UP;
                     case 'a':
+                        if (key.isShiftDown()) return ACTION.LOOK_LEFT;
                         return ACTION.LEFT;
                     case 's':
+                        if (key.isShiftDown()) return ACTION.LOOK_DOWN;
                         return ACTION.DOWN;
                     case 'd':
+                        if (key.isShiftDown()) return ACTION.LOOK_RIGHT;
                         return ACTION.RIGHT;
                 }
         }
