@@ -47,12 +47,16 @@ public class GUI {
             case EOF:
                 return ACTION.QUIT;
             case ArrowUp:
+                if (key.isShiftDown()) return ACTION.LOOK_UP;
                 return ACTION.UP;
             case ArrowDown:
+                if (key.isShiftDown()) return ACTION.LOOK_DOWN;
                 return ACTION.DOWN;
             case ArrowLeft:
+                if (key.isShiftDown()) return ACTION.LOOK_LEFT;
                 return ACTION.LEFT;
             case ArrowRight:
+                if (key.isShiftDown()) return ACTION.LOOK_RIGHT;
                 return ACTION.RIGHT;
             case Escape:
                 return ACTION.MENU;
