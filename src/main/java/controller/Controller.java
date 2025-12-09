@@ -3,6 +3,7 @@ package controller;
 import gui.ACTION;
 
 public abstract class Controller<Type> {
+    //Todo: Implement time & import game
     private final Type model;
     public Controller(Type model) {
         this.model = model;

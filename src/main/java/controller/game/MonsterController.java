@@ -6,7 +6,7 @@ import model.game.Position;
 import model.game.floor.Floor;
 
 public class MonsterController extends GameController {
-
+// Todo: Implement time and related checks & import game
     private long lastMovement;
 
     public MonsterController(Floor floor){ super(floor); }
@@ -22,7 +22,7 @@ public class MonsterController extends GameController {
     public void step(Game game, ACTION action/*, long time*/){
         // Implement check if enough time has elapsed since last movement
         for (Monster monster : getModel().getMonsters()) {
-            // Implement check if monster is aware of player, else random chance for random movement
+            // Implement check if monster is aware of player, else random movement
             moveMonster(monster, monster.getPosition().getRandomAdjacent());
         }
     }
