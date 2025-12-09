@@ -1,5 +1,6 @@
 package model;
 
+import gui.ACTION;
 import model.entities.*;
 import model.game.floor.*;
 
@@ -21,5 +22,6 @@ public class GameModel {
     public Floor getFloor() {
         return floor;
     }
+
 }
 
