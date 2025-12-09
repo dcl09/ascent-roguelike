@@ -1,4 +1,5 @@
 import controller.GameController;
+import gui.ACTION;
 import gui.GUI;
 import model.GameModel;
 import model.entities.Player;
@@ -20,6 +21,8 @@ public class Game {
         GameView view = new GameView(model);
         GameController controller = new GameController(view, model, gui);
 
-        controller.run();
+        while (true) {
+            /* game loop here */
+        }
     }
 }
