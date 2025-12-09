@@ -1,4 +1,4 @@
-import controller.GameController;
+import controller.game.GameController;
 import gui.GUI;
 import model.GameModel;
 import model.entities.Player;
