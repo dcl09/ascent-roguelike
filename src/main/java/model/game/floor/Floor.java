@@ -72,4 +72,18 @@ public class Floor {
                 return true;
         return false;
     }
+
+    public boolean isChest(Position position) {
+        for (Chest chest : chests)
+            if (chest.getPosition().equals(position))
+                return true;
+        return false;
+    }
+
+    /*public boolean isDoor(Position position) {
+        for (Door door : doors)
+            if (door.getPosition().equals(position))
+                return true;
+        return false;
+    }*/
 }

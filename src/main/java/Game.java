@@ -1,11 +1,10 @@
-import controller.GameController;
+import controller.game.GameController;
 import gui.GUI;
 import model.GameModel;
 import model.entities.Player;
 import model.game.Position;
 import model.game.floor.BaseplateBuilder;
 import model.game.floor.Floor;
-import view.GameView;
 
 import java.io.IOException;
 

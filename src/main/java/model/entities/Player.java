@@ -2,6 +2,7 @@ package model.entities;
 
 import model.entities.components.LOOKING;
 import model.entities.components.Inventory;
+import model.entities.components.LOOKING;
 import model.entities.components.Stats;
 import model.entities.interfaces.Combatant;
 import model.entities.interfaces.Interactable;
