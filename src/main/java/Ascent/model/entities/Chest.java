@@ -1,0 +1,63 @@
+package Ascent.model.entities;
+
+import Ascent.model.entities.interfaces.Interactable;
+import Ascent.model.entities.interfaces.Interactor;
+import Ascent.model.game.Position;
+import Ascent.model.items.Item;
+import Ascent.model.items.factories.InvalidItemIdException;
+import Ascent.model.items.factories.ItemFactory;
+
+public class Chest extends Entity implements Interactable {
+    private static final char CLOSED_SYMBOL = 'C';
+    private static final char OPEN_SYMBOL = 'O';
+
+    private boolean opened;
+
+    private final ItemFactory itemFactory;
+    private final Item containedItem;
+
+    public Chest(Position position, String color) {
+        super(position, CLOSED_SYMBOL, color);
+        this.opened = false;
+        this.itemFactory = ItemFactory.getInstance();
+        this.containedItem = itemFactory.createRandomItem();
+    }
+
+    public Chest(Position position, String color, int itemId) {
+        super(position, CLOSED_SYMBOL, color);
+        this.opened = false;
+        this.itemFactory = ItemFactory.getInstance();
+
+        Item item;
+        try {
+            item = itemFactory.createItem(itemId);
+        } catch (InvalidItemIdException e) {
+            System.err.println("Aviso: " + e.getMessage() + ". Criando item aleatório.");
+            item = itemFactory.createRandomItem();
+        }
+        this.containedItem = item;
+    }
+
+    @Override
+    public boolean canInteract() {
+        return !opened;
+    }
+
+    @Override
+    public void interact(Interactor interactor) {
+        if (!canInteract() || !(interactor instanceof Player player)) {
+            return;
+        }
+        opened = true;
+        symbol = OPEN_SYMBOL;
+        containedItem.use(player);
+    }
+
+    public Item getContainedItem() {
+        return containedItem;
+    }
+
+    public boolean isOpened() {
+        return opened;
+    }
+}

@@ -1,0 +1,6 @@
+package Ascent.gui;
+
+public enum ACTION {
+    NONE, QUIT, SELECT, INTERACT, MENU, UP, DOWN, LEFT, RIGHT, LOOK_UP, LOOK_DOWN, LOOK_LEFT, LOOK_RIGHT
+}
+
