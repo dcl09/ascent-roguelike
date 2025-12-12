@@ -3,7 +3,10 @@ package model.game.level;
 import model.entities.*;
 import model.game.Position;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Level {
     private final int width;
@@ -12,7 +15,7 @@ public class Level {
     private Player player;
     private List<Monster> monsters;
     private List<Chest> chests;
-    private List<Wall> walls;
+    private Map<Position, Wall> walls;
     private List<Door> doors;
 
     public Level(int width, int height) {
@@ -20,7 +23,7 @@ public class Level {
         this.height = height;
         this.monsters = new ArrayList<>();
         this.chests = new ArrayList<>();
-        this.walls = new ArrayList<>();
+        this.walls = new HashMap<>();
         this.doors = new ArrayList<>();
     }
 
@@ -56,12 +59,15 @@ public class Level {
         this.chests = chests;
     }
 
-    public List<Wall> getWalls() {
-        return walls;
+    public Collection<Wall> getWalls() {
+        return walls.values();
     }
 
     public void setWalls(List<Wall> walls) {
-        this.walls = walls;
+        this.walls.clear();
+        for (Wall wall : walls) {
+            this.walls.put(wall.getPosition(), wall);
+        }
     }
 
     public List<Door> getDoors() {
@@ -73,43 +79,45 @@ public class Level {
     }
 
     public boolean isWall(Position position) {
-        for (Wall wall : walls) {
-            if (wall.getPosition().equals(position)) return true;
-        }
-        return false;
+        return walls.containsKey(position);
     }
 
     public boolean isMonster(Position position) {
         for (Monster monster : monsters) {
-            if (monster.getPosition().equals(position)) return true;
+            if (monster.getPosition().equals(position))
+                return true;
         }
         return false;
     }
 
     public boolean isChest(Position position) {
         for (Chest chest : chests) {
-            if (chest.getPosition().equals(position)) return true;
+            if (chest.getPosition().equals(position))
+                return true;
         }
         return false;
     }
 
     public Chest getChestAt(Position position) {
         for (Chest chest : chests) {
-            if (chest.getPosition().equals(position)) return chest;
+            if (chest.getPosition().equals(position))
+                return chest;
         }
         return null;
     }
 
     public boolean isDoor(Position position) {
         for (Door door : doors) {
-            if (door.getPosition().equals(position)) return true;
+            if (door.getPosition().equals(position))
+                return true;
         }
         return false;
     }
 
     public Door getDoorAt(Position position) {
         for (Door door : doors) {
-            if (door.getPosition().equals(position)) return door;
+            if (door.getPosition().equals(position))
+                return door;
         }
         return null;
     }
