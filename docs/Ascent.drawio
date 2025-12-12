@@ -312,7 +312,7 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="o75tmSS3bGb5CLw6KrYa-5" value="&lt;div&gt;Game&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="o75tmSS3bGb5CLw6KrYa-5" value="&lt;div&gt;Ascent.Game&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="460" y="1610" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="o75tmSS3bGb5CLw6KrYa-6" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="o75tmSS3bGb5CLw6KrYa-3" target="o75tmSS3bGb5CLw6KrYa-5">
