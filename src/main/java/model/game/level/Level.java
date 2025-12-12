@@ -14,7 +14,7 @@ public class Level {
 
     private Player player;
     private Map<Position, Monster> monsters;
-    private List<Chest> chests;
+    private Map<Position, Chest> chests;
     private Map<Position, Wall> walls;
     private List<Door> doors;
 
@@ -22,7 +22,7 @@ public class Level {
         this.width = width;
         this.height = height;
         this.monsters = new HashMap<>();
-        this.chests = new ArrayList<>();
+        this.chests = new HashMap<>();
         this.walls = new HashMap<>();
         this.doors = new ArrayList<>();
     }
@@ -54,12 +54,15 @@ public class Level {
         }
     }
 
-    public List<Chest> getChests() {
-        return chests;
+    public Collection<Chest> getChests() {
+        return chests.values();
     }
 
     public void setChests(List<Chest> chests) {
-        this.chests = chests;
+        this.chests.clear();
+        for (Chest chest : chests) {
+            this.chests.put(chest.getPosition(), chest);
+        }
     }
 
     public Collection<Wall> getWalls() {
@@ -90,19 +93,11 @@ public class Level {
     }
 
     public boolean isChest(Position position) {
-        for (Chest chest : chests) {
-            if (chest.getPosition().equals(position))
-                return true;
-        }
-        return false;
+        return chests.containsKey(position);
     }
 
     public Chest getChestAt(Position position) {
-        for (Chest chest : chests) {
-            if (chest.getPosition().equals(position))
-                return chest;
-        }
-        return null;
+        return chests.get(position);
     }
 
     public boolean isDoor(Position position) {
