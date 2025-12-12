@@ -2,7 +2,7 @@ package model.game.level;
 
 import model.entities.*;
 import model.game.Position;
-import java.util.ArrayList;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +16,7 @@ public class Level {
     private Map<Position, Monster> monsters;
     private Map<Position, Chest> chests;
     private Map<Position, Wall> walls;
-    private List<Door> doors;
+    private Map<Position, Door> doors;
 
     public Level(int width, int height) {
         this.width = width;
@@ -24,7 +24,7 @@ public class Level {
         this.monsters = new HashMap<>();
         this.chests = new HashMap<>();
         this.walls = new HashMap<>();
-        this.doors = new ArrayList<>();
+        this.doors = new HashMap<>();
     }
 
     public int getWidth() {
@@ -76,12 +76,15 @@ public class Level {
         }
     }
 
-    public List<Door> getDoors() {
-        return doors;
+    public Collection<Door> getDoors() {
+        return doors.values();
     }
 
     public void setDoors(List<Door> doors) {
-        this.doors = doors;
+        this.doors.clear();
+        for (Door door : doors) {
+            this.doors.put(door.getPosition(), door);
+        }
     }
 
     public boolean isWall(Position position) {
@@ -101,18 +104,10 @@ public class Level {
     }
 
     public boolean isDoor(Position position) {
-        for (Door door : doors) {
-            if (door.getPosition().equals(position))
-                return true;
-        }
-        return false;
+        return doors.containsKey(position);
     }
 
     public Door getDoorAt(Position position) {
-        for (Door door : doors) {
-            if (door.getPosition().equals(position))
-                return door;
-        }
-        return null;
+        return doors.get(position);
     }
 }
