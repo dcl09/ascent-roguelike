@@ -22,7 +22,7 @@ class PlayerViewerTest {
         Player player = new Player(new Position(5, 8));
 
         playerViewer.draw(player, gui);
-        Mockito.verify(gui).drawChar(5, 8, '@', "BLUE");
+        Mockito.verify(gui).drawChar(5, 8, '@', "YELLOW_BRIGHT");
     }
 
     @Test
@@ -30,7 +30,7 @@ class PlayerViewerTest {
         Player player = new Player(new Position(0, 0));
 
         playerViewer.draw(player, gui);
-        Mockito.verify(gui).drawChar(0, 0, '@', "BLUE");
+        Mockito.verify(gui).drawChar(0, 0, '@', "YELLOW_BRIGHT");
     }
 
     @Test
@@ -38,7 +38,7 @@ class PlayerViewerTest {
         Player player = new Player(new Position(-1, -1));
 
         playerViewer.draw(player, gui);
-        Mockito.verify(gui).drawChar(-1, -1, '@', "BLUE");
+        Mockito.verify(gui).drawChar(-1, -1, '@', "YELLOW_BRIGHT");
     }
 
     @Test
@@ -49,7 +49,7 @@ class PlayerViewerTest {
         player.moveLeft();
         playerViewer.draw(player, gui);
 
-        Mockito.verify(gui).drawChar(4, 4, '@', "BLUE");
+        Mockito.verify(gui).drawChar(4, 4, '@', "YELLOW_BRIGHT");
     }
 
     @Test
@@ -63,7 +63,7 @@ class PlayerViewerTest {
         playerViewer.draw(player, gui);
 
         // 10,10 -> 10,9 -> 10,8 -> 11,8 -> 11,9
-        Mockito.verify(gui).drawChar(11, 9, '@', "BLUE");
+        Mockito.verify(gui).drawChar(11, 9, '@', "YELLOW_BRIGHT");
     }
 
     @Test
@@ -73,7 +73,7 @@ class PlayerViewerTest {
 
         playerViewer.draw(player, gui);
 
-        Mockito.verify(gui).drawChar(5, 5, 'S', "BLUE");
+        Mockito.verify(gui).drawChar(5, 5, 'S', "YELLOW_BRIGHT");
     }
 
     @Test
