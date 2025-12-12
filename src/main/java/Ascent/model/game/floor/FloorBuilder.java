@@ -1,4 +1,5 @@
 package Ascent.model.game.floor;
+
 import Ascent.model.entities.*;
 import java.util.List;
 
@@ -10,6 +11,7 @@ public abstract class FloorBuilder {
         floor.setMonsters(createMonsters());
         floor.setChests(createChests());
         floor.setWalls(createWalls());
+        floor.setDoors(createDoors());
 
         return floor;
     }
@@ -23,5 +25,7 @@ public abstract class FloorBuilder {
     protected abstract List<Chest> createChests();
 
     protected abstract List<Monster> createMonsters();
+
+    protected abstract List<Door> createDoors();
 
 }
