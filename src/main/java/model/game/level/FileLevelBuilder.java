@@ -33,6 +33,7 @@ public class FileLevelBuilder extends LevelBuilder {
     private static final char MONSTER = 'M';
     private static final char CHEST = 'C';
     private static final char EMPTY = '.';
+    private static final char DOOR = 'D';
 
     public FileLevelBuilder(String filePath) throws IOException {
         this(Path.of(filePath));
@@ -146,6 +147,21 @@ public class FileLevelBuilder extends LevelBuilder {
         }
 
         return chests;
+    }
+
+    @Override
+    protected List<Door> createDoors() {
+        List<Door> doors = new ArrayList<>();
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (grid[y][x] == DOOR) {
+                    doors.add(new Door(new Position(x, y)));
+                }
+            }
+        }
+
+        return doors;
     }
 
     // Find the player spawn position
