@@ -12,6 +12,7 @@ public abstract class LevelBuilder {
         level.setMonsters(createMonsters());
         level.setChests(createChests());
         level.setWalls(createWalls());
+        level.setDoors(createDoors());
 
         return level;
     }
@@ -23,6 +24,8 @@ public abstract class LevelBuilder {
     protected abstract List<Wall> createWalls();
 
     protected abstract List<Chest> createChests();
+
+    protected abstract List<Door> createDoors();
 
     protected abstract List<Monster> createMonsters();
 }

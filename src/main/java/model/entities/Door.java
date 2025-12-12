@@ -1,24 +1,34 @@
 package model.entities;
 
-public class Door {
-    private static final char CLOSED_SYMBOL = 'X';
-    private static final char OPEN_SYMBOL = '0';
+import model.game.Position;
+
+public class Door extends Entity {
+    private static final char CLOSED_SYMBOL = 'D';
+    private static final char OPEN_SYMBOL = 'd';
 
     private boolean isOpen;
 
-    public Door(boolean isOpen) {
-        this.isOpen = isOpen;
+    public Door(Position position) {
+        super(position, CLOSED_SYMBOL, "WHITE");
+        this.isOpen = true;
+        updateSymbol();
+    }
+
+    private void updateSymbol() {
+        this.symbol = isOpen ? OPEN_SYMBOL : CLOSED_SYMBOL;
     }
 
     public boolean isOpen() {
         return isOpen;
     }
 
-    public void close(){
+    public void close() {
         this.isOpen = false;
+        updateSymbol();
     }
 
-    public void open(){
+    public void open() {
         this.isOpen = true;
+        updateSymbol();
     }
 }
