@@ -6,6 +6,7 @@ import Ascent.model.entities.Monster;
 import Ascent.model.game.Position;
 import Ascent.model.game.floor.Floor;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class MonsterController extends GameController {
@@ -20,7 +21,7 @@ public class MonsterController extends GameController {
 
     public void step(Game game, ACTION action/*, long time*/){
         // Implement check if enough time has elapsed since last movement
-        Collection<Monster> monsters = getModel().getMonsters();
+        ArrayList<Monster> monsters = new ArrayList<>(getModel().getMonsters());
         for (Monster monster : monsters) {
             // Implement check if monster is aware of player, else random movement
             moveMonster(monster.getPosition(), monster.getPosition().getRandomAdjacent());
