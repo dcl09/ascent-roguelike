@@ -40,7 +40,7 @@ public class PlayerController extends GameController{
         }
     }
 
-    public void step(Game game, ACTION action/*, long time*/){
+    public void step(Game game, ACTION action, long time){
         if (action == ACTION.UP) movePlayerUp();
         if (action == ACTION.DOWN) movePlayerDown();
         if (action == ACTION.LEFT) movePlayerLeft();

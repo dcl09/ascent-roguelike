@@ -20,11 +20,13 @@ public class MonsterController extends GameController {
         }
     }
 
-    public void step(Game game, ACTION action/*, long time*/){
+    public void step(Game game, ACTION action, long time){
         // Implement check if enough time has elapsed since last movement
-        for (Monster monster : getModel().getMonsters()) {
-            // Implement check if monster is aware of player, else random movement
-            moveMonster(monster, monster.getPosition().getRandomAdjacent());
+        if (time - lastMovement > 500) {
+            for (Monster monster : getModel().getMonsters()) {
+                // Implement check if monster is aware of player, else random movement
+                moveMonster(monster, monster.getPosition().getRandomAdjacent());
+            }
         }
     }
 }
