@@ -6,13 +6,12 @@ import Ascent.model.entities.components.Stats;
 import Ascent.model.entities.interfaces.Combatant;
 import Ascent.model.entities.interfaces.Interactable;
 import Ascent.model.entities.interfaces.Interactor;
-import Ascent.model.entities.interfaces.Movable;
 import Ascent.model.game.Position;
 import Ascent.model.items.armour.Armour;
 import Ascent.model.items.HealthRestore;
 import Ascent.model.items.Weapon;
 
-public class Player extends Entity implements Combatant, Movable, Interactor {
+public class Player extends MovableEntity implements Combatant, Interactor {
     private final Stats stats;
     private final Inventory inventory;
     private LOOKING looking = LOOKING.UP;
