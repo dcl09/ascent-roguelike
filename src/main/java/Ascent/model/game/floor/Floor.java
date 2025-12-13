@@ -54,6 +54,23 @@ public class Floor {
         }
     }
 
+    public boolean moveMonster(Position initialPosition, Position finalPosition) {
+        if (!monsters.containsKey(initialPosition)){
+            throw new IllegalArgumentException("Monster does not exist in the position " + initialPosition.toString());
+        }
+        if (player.getPosition() == finalPosition
+                || chests.containsKey(finalPosition)
+                || walls.containsKey(finalPosition)
+                || (doors.containsKey(finalPosition) && !doors.get(finalPosition).isOpen())){
+            return false;
+        }
+        Monster oldMonster = monsters.get(initialPosition);
+        oldMonster.setPosition(finalPosition);
+        monsters.put(finalPosition, oldMonster);
+        monsters.remove(initialPosition);
+        return true;
+    }
+
     public Collection<Chest> getChests() {
         return chests.values();
     }
