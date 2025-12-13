@@ -26,10 +26,6 @@ public class Entity {
         return position;
     }
 
-    public void setPosition(Position position) {
-        this.position = position;
-    }
-
     public void setSymbol(char symbol) {
         this.symbol = symbol;
     }

@@ -2,10 +2,9 @@ package Ascent.model.entities;
 
 import Ascent.model.entities.components.Stats;
 import Ascent.model.entities.interfaces.Combatant;
-import Ascent.model.entities.interfaces.Movable;
 import Ascent.model.game.Position;
 
-public class Monster extends Entity implements Combatant, Movable {
+public class Monster extends MovableEntity implements Combatant {
     private final Stats stats;
     private boolean active;
 
