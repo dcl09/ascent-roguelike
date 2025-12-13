@@ -27,7 +27,7 @@ public class MonsterController extends GameController {
                 // Implement check if monster is aware of player, else random movement
                 moveMonster(monster, monster.getPosition().getRandomAdjacent());
             }
+            lastMovement = time;
         }
-        lastMovement = time;
     }
 }
