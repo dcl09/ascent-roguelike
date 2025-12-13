@@ -40,7 +40,7 @@ public class GUI {
     /* placeholder implementation */
     public ACTION processKey() throws IOException {
         KeyStroke key = screen.readInput();
-        if (key == null) return null;
+        if (key == null) return ACTION.NONE;
 
         switch (key.getKeyType()) {
             case EOF:
