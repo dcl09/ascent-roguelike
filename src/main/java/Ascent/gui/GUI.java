@@ -39,7 +39,7 @@ public class GUI {
 
     /* placeholder implementation */
     public ACTION processKey() throws IOException {
-        KeyStroke key = screen.readInput();
+        KeyStroke key = screen.pollInput();
         if (key == null) return ACTION.NONE;
 
         switch (key.getKeyType()) {
