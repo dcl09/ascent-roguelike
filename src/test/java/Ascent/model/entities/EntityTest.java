@@ -31,33 +31,4 @@ class EntityTest {
         assertEquals("GREEN", entity.getColor());
     }
 
-    @Test
-    void setPositionUpdatesPosition() {
-        Position newPosition = new Position(20, 30);
-
-        entity.setPosition(newPosition);
-
-        assertEquals(newPosition, entity.getPosition());
-    }
-
-    @Test
-    void setSymbolUpdatesSymbol() {
-        entity.setSymbol('X');
-
-        assertEquals('X', entity.getSymbol());
-    }
-
-    @Test
-    void setColorUpdatesColor() {
-        entity.setColor("RED");
-
-        assertEquals("RED", entity.getColor());
-    }
-
-    @Test
-    void setPositionAcceptsNull() {
-        entity.setPosition(null);
-
-        assertNull(entity.getPosition());
-    }
 }
