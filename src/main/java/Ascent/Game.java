@@ -39,7 +39,7 @@ public class Game {
         int frameTime = 1000 / FPS;
 
         // stateStack.push(new StartMenuState (new StartMenu))
-        
+
         // Default level file
         String defaultLevelPath = "levels/level1.txt";
         FileLevelBuilder builder = new FileLevelBuilder(defaultLevelPath);

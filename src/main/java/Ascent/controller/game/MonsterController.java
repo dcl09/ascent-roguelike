@@ -28,5 +28,6 @@ public class MonsterController extends GameController {
                 moveMonster(monster, monster.getPosition().getRandomAdjacent());
             }
         }
+        lastMovement = time;
     }
 }
