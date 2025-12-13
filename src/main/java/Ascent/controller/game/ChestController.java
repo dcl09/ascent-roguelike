@@ -10,7 +10,7 @@ public class ChestController extends GameController{
     //Todo: Import game & implement time
     public ChestController(Floor floor){ super(floor); }
 
-    public void step(Game game, ACTION action/*, long time*/){
+    public void step(Game game, ACTION action, long time){
         Position checkForChest = getModel().getPlayer().facing();
         if (getModel().isChest(checkForChest)) {
             for (Chest chest : getModel().getChests()) {

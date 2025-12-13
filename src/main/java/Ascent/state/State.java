@@ -27,9 +27,9 @@ public abstract class State<Type> {
         return model;
     }
 
-    public void step(Game game, GUI gui /*, long time*/) throws IOException {
+    public void step(Game game, GUI gui , long time) throws IOException {
         ACTION action = gui.processKey();
-        controller.step(game, action /*,time*/);
+        controller.step(game, action, time);
         viewer.draw(gui);
     }
 }
