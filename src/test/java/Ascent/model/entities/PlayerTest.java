@@ -33,7 +33,7 @@ class PlayerTest {
 
         @Test
         void playerHasCorrectColor() {
-            assertEquals("BLUE", player.getColor());
+            assertEquals("YELLOW_BRIGHT", player.getColor());
         }
 
         @Test
@@ -197,7 +197,8 @@ class PlayerTest {
             assertFalse(player.canInteract());
         }
 
-        // Test if player calls, without errors, the method interact in target when it can interact
+        // Test if player calls, without errors, the method interact in target when it
+        // can interact
 
         @Test
         void interactWithCallsTargetInteract() {

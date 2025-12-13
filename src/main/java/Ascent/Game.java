@@ -2,9 +2,7 @@ package Ascent;
 
 import Ascent.gui.GUI;
 import Ascent.model.entities.Player;
-import Ascent.model.game.Position;
-import Ascent.model.game.floor.BaseplateBuilder;
-import Ascent.model.game.floor.Floor;
+import Ascent.model.game.floor.FileLevelBuilder;
 import Ascent.state.GameState;
 import Ascent.state.State;
 
@@ -17,9 +15,9 @@ public class Game {
     private Player player;
 
     public Game() throws IOException {
-        this.gui = new GUI(40, 20);
+        this.gui = new GUI(80, 40);
         this.stateStack = new Stack<>();
-        this.player = new Player(new Position(20, 10));
+        // Player init moved to start() to depend on level spawn
     }
 
     public static void main(String[] args) throws IOException {
@@ -43,7 +41,13 @@ public class Game {
         int frameTime = 1000 / FPS;
 
         // stateStack.push(new StartMenuState (new StartMenu))
-        stateStack.push(new GameState(new BaseplateBuilder(40, 20, 4, 1).createFloor(player)));
+        // Default level file
+        String defaultLevelPath = "levels/level1.txt";
+        FileLevelBuilder builder = new FileLevelBuilder(defaultLevelPath);
+        // Find player spawn relative to level loaded
+        this.player = new Player(builder.findPlayerSpawn());
+
+        stateStack.push(new GameState(builder.createFloor(player)));
         while (!stateStack.empty()) {
             /* get time at the start of the loop, do the step, get the end time and the difference is the elapsed time */
             long startTime = System.currentTimeMillis();
@@ -65,4 +69,3 @@ public class Game {
         gui.close();
     }
 }
-
