@@ -1,10 +1,9 @@
 package Ascent.controller;
-//import game; for when game is its own class;
 import Ascent.Game;
 import Ascent.gui.ACTION;
 
 public abstract class Controller<Type> {
-    //Todo: Implement time & import game
+    //Todo: Implement time
     private final Type model;
     public Controller(Type model) {
         this.model = model;
@@ -14,5 +13,5 @@ public abstract class Controller<Type> {
         return model;
     }
 
-    public abstract void step(Game game, ACTION action /*,long int time*/ );
+    public abstract void step(Game game, ACTION action, long time);
 }

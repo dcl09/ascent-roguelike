@@ -19,7 +19,7 @@ public class FloorController extends GameController {
 //        this.doorcontroller = new DoorController(Floor);
     }
 
-    public void step(Game game, ACTION action /* long time */) {
+    public void step(Game game, ACTION action, long time) {
         if (action == ACTION.QUIT || action == ACTION.MENU)
             /* set Ascent.state to start menu */
             game.popState();
@@ -27,15 +27,15 @@ public class FloorController extends GameController {
             /* set Ascent.state to endscreen */
             game.popState();
         else {
-            playercontroller.step(game, action /*, time */);
+            playercontroller.step(game, action, time);
             if (action == ACTION.INTERACT && getModel().getPlayer().canInteract()) {
                 if (getModel().isChest(getModel().getPlayer().facing()))
-                    chestcontroller.step(game, action /*, time */);
+                    chestcontroller.step(game, action , time);
                 /*else if (getModel().isDoor(getModel().getPlayer().facing()))
                     doorcontroller.step(game, action /, time /);
                  */
             }
-            monstercontroller.step(game, action /*, time */);
+            monstercontroller.step(game, action, time);
 
         }
     }
