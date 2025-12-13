@@ -9,7 +9,7 @@ public class DoorController extends GameController {
     // Todo: Implement doors & floor checks for doors, import game & implement time
     public DoorController(Floor floor){ super(floor); }
 
-    public void step(Game game, ACTION action/*, long time*/) {
+    public void step(Game game, ACTION action, long time) {
         Position checkForDoor = getModel().getPlayer().facing();
         /*
         if getModel().isDoor(checkForDoor)
