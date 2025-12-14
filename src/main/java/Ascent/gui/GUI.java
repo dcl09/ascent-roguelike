@@ -14,7 +14,7 @@ import java.io.IOException;
 public class GUI {
     private final Screen screen;
     private final TextGraphics graphics;
-    
+
     public GUI(int width, int height) throws IOException {
         Terminal terminal = createTerminal(width, height);
         this.screen = createScreen(terminal);
@@ -40,49 +40,58 @@ public class GUI {
     /* placeholder implementation */
     public ACTION processKey() throws IOException {
         KeyStroke key = screen.pollInput();
-        if (key == null) return ACTION.NONE;
+        if (key == null)
+            return ACTION.NONE;
 
         switch (key.getKeyType()) {
             case EOF:
                 return ACTION.QUIT;
             case ArrowUp:
-                if (key.isShiftDown()) return ACTION.LOOK_UP;
+                if (key.isShiftDown())
+                    return ACTION.LOOK_UP;
                 return ACTION.UP;
             case ArrowDown:
-                if (key.isShiftDown()) return ACTION.LOOK_DOWN;
+                if (key.isShiftDown())
+                    return ACTION.LOOK_DOWN;
                 return ACTION.DOWN;
             case ArrowLeft:
-                if (key.isShiftDown()) return ACTION.LOOK_LEFT;
+                if (key.isShiftDown())
+                    return ACTION.LOOK_LEFT;
                 return ACTION.LEFT;
             case ArrowRight:
-                if (key.isShiftDown()) return ACTION.LOOK_RIGHT;
+                if (key.isShiftDown())
+                    return ACTION.LOOK_RIGHT;
                 return ACTION.RIGHT;
             case Escape:
                 return ACTION.MENU;
             case Enter:
                 return ACTION.SELECT;
             case Character:
-                switch (key.getCharacter()) {
+                switch (Character.toLowerCase(key.getCharacter())) {
                     case 'e':
                         return ACTION.INTERACT;
                     case 'w':
-                        if (key.isShiftDown()) return ACTION.LOOK_UP;
+                        if (key.isShiftDown())
+                            return ACTION.LOOK_UP;
                         return ACTION.UP;
                     case 'a':
-                        if (key.isShiftDown()) return ACTION.LOOK_LEFT;
+                        if (key.isShiftDown())
+                            return ACTION.LOOK_LEFT;
                         return ACTION.LEFT;
                     case 's':
-                        if (key.isShiftDown()) return ACTION.LOOK_DOWN;
+                        if (key.isShiftDown())
+                            return ACTION.LOOK_DOWN;
                         return ACTION.DOWN;
                     case 'd':
-                        if (key.isShiftDown()) return ACTION.LOOK_RIGHT;
+                        if (key.isShiftDown())
+                            return ACTION.LOOK_RIGHT;
                         return ACTION.RIGHT;
                 }
         }
         return ACTION.NONE;
     }
 
-    public void drawChar(int x, int y, char c, String color){
+    public void drawChar(int x, int y, char c, String color) {
         graphics.setForegroundColor(TextColor.Factory.fromString(color));
         graphics.putString(x, y, "" + c);
     }
@@ -95,7 +104,7 @@ public class GUI {
         screen.close();
     }
 
-    public void clear(){
+    public void clear() {
         screen.clear();
     }
 
