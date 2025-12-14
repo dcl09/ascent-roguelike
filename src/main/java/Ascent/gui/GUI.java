@@ -96,6 +96,11 @@ public class GUI {
         graphics.putString(x, y, "" + c);
     }
 
+    public void drawText(int x, int y, String text, String color){
+        graphics.setForegroundColor(TextColor.Factory.fromString(color));
+        graphics.putString(x, y + 1,  text);
+    }
+
     public void refresh() throws IOException {
         screen.refresh();
     }

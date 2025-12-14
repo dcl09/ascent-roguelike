@@ -3,7 +3,9 @@ package Ascent;
 import Ascent.gui.GUI;
 import Ascent.model.entities.Player;
 import Ascent.model.game.floor.FileLevelBuilder;
+import Ascent.model.menu.StartMenu;
 import Ascent.state.GameState;
+import Ascent.state.StartMenuState;
 import Ascent.state.State;
 
 import java.io.IOException;
@@ -12,7 +14,6 @@ import java.util.Stack;
 public class Game {
     private final GUI gui;
     private Stack<State<?>> stateStack;
-    private Player player;
 
     public Game() throws IOException {
         this.gui = new GUI(80, 40);
@@ -38,15 +39,8 @@ public class Game {
         int FPS = 60; // 10 fps feels sluggish and unnecessary, it slows the game down for no reason (computations are fast, for now)
         int frameTime = 1000 / FPS;
 
-        // stateStack.push(new StartMenuState (new StartMenu))
+        stateStack.push(new StartMenuState(new StartMenu()));
 
-        // Default level file
-        String defaultLevelPath = "levels/level1.txt";
-        FileLevelBuilder builder = new FileLevelBuilder(defaultLevelPath);
-        // Find player spawn relative to level loaded
-        this.player = new Player(builder.findPlayerSpawn());
-
-        stateStack.push(new GameState(builder.createFloor(player)));
         while (!stateStack.empty()) {
             long startTime = System.currentTimeMillis();
 

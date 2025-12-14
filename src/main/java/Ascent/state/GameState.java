@@ -5,10 +5,12 @@ import Ascent.controller.Controller;
 import Ascent.controller.game.FloorController;
 import Ascent.model.game.floor.Floor;
 import Ascent.view.Viewer;
-import Ascent.view.game.*;
+import Ascent.view.game.GameViewer;
+
+import java.io.IOException;
 
 public class GameState extends State<Floor> {
-    public GameState(Floor floor) {
+    public GameState(Floor floor) throws IOException {
         super(floor);
     }
 
