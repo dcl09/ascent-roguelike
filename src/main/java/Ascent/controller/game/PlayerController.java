@@ -15,13 +15,7 @@ public class PlayerController extends GameController {
     }
 
     public void movePlayer(Position position) {
-        if (!getModel().isWall(position)) {
-            if (getModel().isMonster(position))
-                ;
-            // hurt monster in position
-            else
-                getModel().getPlayer().setPosition(position);
-        }
+        getModel().movePlayer(position);
     }
 
     public void step(Game game, ACTION action, long time) {
