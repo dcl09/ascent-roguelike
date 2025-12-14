@@ -18,7 +18,7 @@ public class Player extends MovableEntity implements Combatant, Interactor {
 
     public Player(Position position) {
         super(position, '►', "YELLOW_BRIGHT");
-        this.stats = new Stats(100, 1, 1);
+        this.stats = new Stats(100, 10, 1);
         this.inventory = new Inventory(10);
         this.looking = LOOKING.RIGHT;
     }

@@ -11,19 +11,19 @@ public class Monster extends MovableEntity implements Combatant {
     // Empty Constructor for pool
     public Monster() {
         super(new Position(0, 0), 'M', "RED");
-        this.stats = new Stats(90, 2, 2);
+        this.stats = new Stats(30, 5, 1);
         this.active = false;
     }
 
-    public Monster(Position position){
-        super (position, 'M', "RED");
-        this.stats = new Stats(90, 2, 2);
+    public Monster(Position position) {
+        super(position, 'M', "RED");
+        this.stats = new Stats(30, 5, 1);
         this.active = true;
     }
 
-    public Monster (Position position, char symbol, String color) {
+    public Monster(Position position, char symbol, String color) {
         super(position, symbol, color);
-        this.stats = new Stats(90, 2, 2);
+        this.stats = new Stats(30, 5, 1);
         this.active = true;
     }
 
@@ -40,7 +40,7 @@ public class Monster extends MovableEntity implements Combatant {
     }
 
     public void reset(Position position, char symbol, String color,
-                      int health, int damage, int speed) {
+            int health, int damage, int speed) {
         setPosition(position);
         setSymbol(symbol);
         setColor(color);
@@ -49,7 +49,7 @@ public class Monster extends MovableEntity implements Combatant {
     }
 
     public void reset(Position position) {
-        reset(position, 'M',"Red", 90, 2 , 2);
+        reset(position, 'M', "Red", 30, 5, 1);
     }
 
     @Override
