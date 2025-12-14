@@ -27,12 +27,12 @@ public class PlayerController extends GameController {
     public void step(Game game, ACTION action, long time) {
         Player player = getModel().getPlayer();
         if (action == ACTION.UP)
-            movePlayer(player.moveInDirection(LOOKING.UP));
+            movePlayer(player.moveToward(LOOKING.UP));
         if (action == ACTION.DOWN)
-            movePlayer(player.moveInDirection(LOOKING.DOWN));
+            movePlayer(player.moveToward(LOOKING.DOWN));
         if (action == ACTION.LEFT)
-            movePlayer(player.moveInDirection(LOOKING.LEFT));
+            movePlayer(player.moveToward(LOOKING.LEFT));
         if (action == ACTION.RIGHT)
-            movePlayer(player.moveInDirection(LOOKING.RIGHT));
+            movePlayer(player.moveToward(LOOKING.RIGHT));
     }
 }
