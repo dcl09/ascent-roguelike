@@ -28,7 +28,7 @@ class PlayerTest {
 
         @Test
         void playerHasCorrectSymbol() {
-            assertEquals('@', player.getSymbol());
+            assertEquals('►', player.getSymbol());
         }
 
         @Test
@@ -45,7 +45,7 @@ class PlayerTest {
         void playerHasDefaultStats() {
             Stats stats = player.getStats();
             assertEquals(100, stats.getMaxHealth());
-            assertEquals(1, stats.getDamage());
+            assertEquals(10, stats.getDamage());
             assertEquals(1, stats.getSpeed());
         }
 
@@ -73,7 +73,7 @@ class PlayerTest {
         @Test
         void equipWeaponAppliesBonuses() {
             player.equipWeapon(sword);
-            assertEquals(11, player.getStats().getDamage());
+            assertEquals(20, player.getStats().getDamage());
             assertEquals(3, player.getStats().getSpeed());
         }
 
@@ -82,7 +82,7 @@ class PlayerTest {
             player.equipWeapon(sword);
             player.equipWeapon(knife);
 
-            assertEquals(6, player.getStats().getDamage());
+            assertEquals(15, player.getStats().getDamage());
             assertEquals(1, player.getStats().getSpeed());
         }
 
@@ -100,7 +100,7 @@ class PlayerTest {
             player.equipWeapon(sword);
             player.equipWeapon(null);
 
-            assertEquals(1, player.getStats().getDamage());
+            assertEquals(10, player.getStats().getDamage());
             assertEquals(1, player.getStats().getSpeed());
         }
     }
