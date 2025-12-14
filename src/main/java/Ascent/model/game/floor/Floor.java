@@ -17,6 +17,7 @@ public class Floor {
     private Map<Position, Chest> chests;
     private Map<Position, Wall> walls;
     private Map<Position, Door> doors;
+    private Monster lastAttackedMonster;
 
     public Floor(int width, int height) {
         this.width = width;
@@ -58,16 +59,19 @@ public class Floor {
         if (!monsters.containsKey(initialPosition)) {
             throw new IllegalArgumentException("Monster does not exist in the position " + initialPosition.toString());
         }
-        if (player.getPosition() == finalPosition
-                || chests.containsKey(finalPosition)
+        Monster monster = monsters.get(initialPosition);
+        if (player.getPosition().equals(finalPosition)) {
+            // monster deals damage to player
+            monster.attack(player);
+            return false;
+        }
+        if (chests.containsKey(finalPosition)
                 || walls.containsKey(finalPosition)
                 || (doors.containsKey(finalPosition) && !doors.get(finalPosition).isOpen())) {
             return false;
         }
-        // todo: atack logic
-        Monster oldMonster = monsters.get(initialPosition);
-        oldMonster.setPosition(finalPosition);
-        monsters.put(finalPosition, oldMonster);
+        monster.setPosition(finalPosition);
+        monsters.put(finalPosition, monster);
         monsters.remove(initialPosition);
         return true;
     }
@@ -78,20 +82,14 @@ public class Floor {
             Monster currMonster = monsters.get(finalPosition);
 
             // player deals damage to monster
-            currMonster.receiveDamage(player.getStats().getDamage());
-
-            // monster deals damage to player
-            player.receiveDamage(currMonster.getStats().getDamage());
-
+            player.attack(currMonster);
+            lastAttackedMonster = currMonster;
             return false;
-        }
-        else if (chests.containsKey(finalPosition)
+        } else if (chests.containsKey(finalPosition)
                 || walls.containsKey(finalPosition)
                 || (doors.containsKey(finalPosition) && !doors.get(finalPosition).isOpen())) {
             return false;
         }
-
-        // todo: atack logic
         player.setPosition(finalPosition);
         return true;
     }
@@ -151,5 +149,9 @@ public class Floor {
 
     public Door getDoorAt(Position position) {
         return doors.get(position);
+    }
+
+    public Monster getLastAttackedMonster() {
+        return lastAttackedMonster;
     }
 }
