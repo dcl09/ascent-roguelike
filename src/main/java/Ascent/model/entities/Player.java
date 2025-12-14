@@ -58,7 +58,11 @@ public class Player extends MovableEntity implements Combatant, Interactor {
         setSymbol(looking.getSymbol());
     }
 
-    public Position moveInDirection(LOOKING looking) {
+    public Position facing() {
+        return looking.move(this.position);
+    }
+
+    public Position moveToward(LOOKING looking) {
         setLookingDirection(looking);
         return looking.move(this.position);
     }

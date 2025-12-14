@@ -10,14 +10,14 @@ public class FloorController extends GameController {
     private final PlayerController playercontroller;
     private final MonsterController monstercontroller;
     private final ChestController chestcontroller;
-    // private final DoorController doorcontroller;
+    private final DoorController doorcontroller;
 
     public FloorController(Floor floor) {
         super(floor);
         this.playercontroller = new PlayerController(floor);
         this.monstercontroller = new MonsterController(floor);
         this.chestcontroller = new ChestController(floor);
-        // this.doorcontroller = new DoorController(Floor);
+        this.doorcontroller = new DoorController(floor);
     }
 
     public void step(Game game, ACTION action, long time) {
@@ -33,9 +33,11 @@ public class FloorController extends GameController {
                 /*
                  * if (getModel().isChest(getModel().getPlayer().facing()))
                  * chestcontroller.step(game, action , time);
-                 * else if (getModel().isDoor(getModel().getPlayer().facing()))
-                 * doorcontroller.step(game, action /, time /);
                  */
+                
+                if (getModel().isDoor(getModel().getPlayer().facing())) {
+                    doorcontroller.step(game, action, time);
+                }
             }
             monstercontroller.step(game, action, time);
 
