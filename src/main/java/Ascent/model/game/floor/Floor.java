@@ -73,11 +73,24 @@ public class Floor {
     }
 
     public boolean movePlayer(Position finalPosition) {
-        if (chests.containsKey(finalPosition)
+        // initial basic damage logic
+        if (monsters.containsKey(finalPosition)) {
+            Monster currMonster = monsters.get(finalPosition);
+
+            // player deals damage to monster
+            currMonster.receiveDamage(player.getStats().getDamage());
+
+            // monster deals damage to player
+            player.receiveDamage(currMonster.getStats().getDamage());
+
+            return false;
+        }
+        else if (chests.containsKey(finalPosition)
                 || walls.containsKey(finalPosition)
                 || (doors.containsKey(finalPosition) && !doors.get(finalPosition).isOpen())) {
             return false;
         }
+
         // todo: atack logic
         player.setPosition(finalPosition);
         return true;
