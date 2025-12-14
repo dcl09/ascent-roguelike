@@ -13,6 +13,7 @@ public class GameViewer extends Viewer<Floor> {
         super(floor);
     }
 
+    @Override
     public void drawEntities(GUI gui) {
         drawEntities(gui, getModel().getWalls(), new WallViewer());
         drawEntities(gui, getModel().getDoors(), new DoorViewer());

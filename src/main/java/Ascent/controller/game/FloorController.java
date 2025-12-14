@@ -3,6 +3,10 @@ package Ascent.controller.game;
 import Ascent.Game;
 import Ascent.gui.ACTION;
 import Ascent.model.game.floor.Floor;
+import Ascent.model.menu.GameMenu;
+import Ascent.state.GameMenuState;
+
+import java.io.IOException;
 
 // Todo: set states, implement time & import game
 public class FloorController extends GameController {
@@ -20,10 +24,12 @@ public class FloorController extends GameController {
         this.doorcontroller = new DoorController(floor);
     }
 
-    public void step(Game game, ACTION action, long time) {
-        if (action == ACTION.QUIT || action == ACTION.MENU)
+    public void step(Game game, ACTION action, long time) throws IOException {
+        if (action == ACTION.QUIT)
             /* set Ascent.state to start menu */
             game.popState();
+        else if (action == ACTION.MENU)
+            game.pushState(new GameMenuState(new GameMenu()));
         else if (getModel().getPlayer().getStats().isDead())
             /* set Ascent.state to endscreen */
             game.popState();
