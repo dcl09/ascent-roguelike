@@ -14,12 +14,13 @@ import Ascent.model.items.Weapon;
 public class Player extends MovableEntity implements Combatant, Interactor {
     private final Stats stats;
     private final Inventory inventory;
-    private LOOKING looking = LOOKING.UP;
+    private LOOKING looking;
 
     public Player(Position position) {
-        super(position, '@', "YELLOW_BRIGHT");
+        super(position, '►', "YELLOW_BRIGHT");
         this.stats = new Stats(100, 1, 1);
         this.inventory = new Inventory(10);
+        this.looking = LOOKING.RIGHT;
     }
 
     @Override
@@ -27,7 +28,9 @@ public class Player extends MovableEntity implements Combatant, Interactor {
         return stats;
     }
 
-    public Inventory getInventory() { return inventory; }
+    public Inventory getInventory() {
+        return inventory;
+    }
 
     @Override
     public int getMovementSpeed() {
@@ -52,15 +55,12 @@ public class Player extends MovableEntity implements Combatant, Interactor {
 
     public void setLookingDirection(LOOKING looking) {
         this.looking = looking;
+        setSymbol(looking.getSymbol());
     }
 
-    public Position facing(){
-        return switch (looking) {
-            case RIGHT -> new Position(position.getX() + 1, position.getY());
-            case DOWN -> new Position(position.getX(), position.getY() + 1);
-            case LEFT -> new Position(position.getX() - 1, position.getY());
-            default -> new Position(position.getX(), position.getY() - 1);
-        };
+    public Position moveInDirection(LOOKING looking) {
+        setLookingDirection(looking);
+        return looking.move(this.position);
     }
 
     public Weapon equipWeapon(Weapon weapon) {
@@ -76,7 +76,8 @@ public class Player extends MovableEntity implements Combatant, Interactor {
     }
 
     public Armour equipArmour(Armour armour) {
-        if (armour == null) return null;
+        if (armour == null)
+            return null;
         Armour oldArmour = inventory.getArmour(armour.getSlot());
         if (oldArmour != null) {
             oldArmour.onUnequip(this);
