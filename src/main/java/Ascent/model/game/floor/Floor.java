@@ -58,8 +58,11 @@ public class Floor {
         if (!monsters.containsKey(initialPosition)) {
             throw new IllegalArgumentException("Monster does not exist in the position " + initialPosition.toString());
         }
-        if (player.getPosition() == finalPosition
-                || chests.containsKey(finalPosition)
+        if (player.getPosition() == finalPosition) {
+            player.receiveDamage(monsters.get(initialPosition).getStats().getDamage());
+            return false;
+        }
+        else if (chests.containsKey(finalPosition)
                 || walls.containsKey(finalPosition)
                 || (doors.containsKey(finalPosition) && !doors.get(finalPosition).isOpen())) {
             return false;
@@ -79,9 +82,6 @@ public class Floor {
 
             // player deals damage to monster
             currMonster.receiveDamage(player.getStats().getDamage());
-
-            // monster deals damage to player
-            player.receiveDamage(currMonster.getStats().getDamage());
 
             return false;
         }
