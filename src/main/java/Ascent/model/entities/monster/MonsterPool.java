@@ -26,8 +26,7 @@ public class MonsterPool {
         if (pool.isEmpty()){
             throw new MonsterPoolEmptyException();
         }
-        Monster m = pool.pop();
-        return m;
+        return pool.pop();
     }
 
     public boolean hasAvailable() {
