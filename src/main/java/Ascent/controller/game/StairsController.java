@@ -6,8 +6,11 @@ import Ascent.model.entities.Player;
 import Ascent.model.entities.Stairs;
 import Ascent.model.game.floor.FileLevelBuilder;
 import Ascent.model.game.floor.Floor;
+import Ascent.model.menu.Winscreen;
 import Ascent.state.GameState;
+import Ascent.state.WinscreenState;
 
+import java.io.File;
 import java.io.IOException;
 
 public class StairsController extends GameController {
@@ -20,9 +23,13 @@ public class StairsController extends GameController {
         if (player.facing().equals(stairs.getPosition())) {
             game.popState();
             int newLevel = getModel().getCurrLevel() + 1;
-            FileLevelBuilder builder = new FileLevelBuilder("levels/level" + newLevel + ".txt");
-            player.setPosition(builder.findPlayerSpawn());
-            game.pushState(new GameState(builder.createFloor(player, newLevel)));
+            String filepath = "levels/level" + newLevel + ".txt";
+            if (new File(filepath).exists()) {
+                FileLevelBuilder builder = new FileLevelBuilder(filepath);
+                player.setPosition(builder.findPlayerSpawn());
+                game.pushState(new GameState(builder.createFloor(player, newLevel)));
+            }else
+                game.pushState(new WinscreenState(new Winscreen()));
         }
     }
 }
