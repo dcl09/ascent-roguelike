@@ -5,7 +5,7 @@ import Ascent.controller.Controller;
 import Ascent.controller.game.FloorController;
 import Ascent.model.game.floor.Floor;
 import Ascent.view.Viewer;
-import Ascent.view.game.GameViewer;
+import Ascent.view.game.FloorViewer;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ public class GameState extends State<Floor> {
 
     @Override
     protected Viewer<Floor> getViewer() {
-        return new GameViewer(getModel());
+        return new FloorViewer(getModel());
     }
 
     @Override

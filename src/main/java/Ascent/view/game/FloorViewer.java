@@ -8,10 +8,10 @@ import Ascent.view.Viewer;
 
 import java.util.Collection;
 
-public class GameViewer extends Viewer<Floor> {
+public class FloorViewer extends Viewer<Floor> {
     private final StatsViewer statsViewer = new StatsViewer();
 
-    public GameViewer(Floor floor) {
+    public FloorViewer(Floor floor) {
         super(floor);
     }
 
