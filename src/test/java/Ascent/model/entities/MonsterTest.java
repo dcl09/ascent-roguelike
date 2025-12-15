@@ -2,6 +2,7 @@ package Ascent.model.entities;
 
 import Ascent.model.entities.components.Stats;
 import Ascent.model.entities.monster.Monster;
+import Ascent.model.entities.monster.MonsterType;
 import Ascent.model.game.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -14,13 +15,6 @@ class MonsterTest {
     @Nested
     class ConstructorTests {
 
-        private Position pos;
-
-        @BeforeEach
-        void setUp() {
-            pos = new Position(5, 10);
-        }
-
         @Test
         void emptyConstructorCreatesInactiveMonster() {
             Monster monster = new Monster();
@@ -29,23 +23,6 @@ class MonsterTest {
             assertEquals('M', monster.getSymbol());
             assertEquals("RED", monster.getColor());
             assertFalse(monster.isActive());
-        }
-
-        @Test
-        void positionConstructorCreatesActiveMonster() {
-            Monster monster = new Monster(pos);
-
-            assertEquals(pos, monster.getPosition());
-            assertTrue(monster.isActive());
-        }
-
-        @Test
-        void fullConstructorSetsAllParameters() {
-            Monster monster = new Monster(pos, 'X', "BLUE");
-
-            assertEquals(pos, monster.getPosition());
-            assertEquals('X', monster.getSymbol());
-            assertEquals("BLUE", monster.getColor());
         }
     }
 
@@ -57,21 +34,22 @@ class MonsterTest {
         @BeforeEach
         void setUp() {
             monster = new Monster();
+            monster.reset(MonsterType.GOBLIN, new Position(0, 0));
         }
 
         @Test
-        void monsterHasDefaultStats() {
+        void monsterHasGoblinStats() {
             Stats stats = monster.getStats();
 
             assertEquals(30, stats.getMaxHealth());
             assertEquals(30, stats.getHealth());
-            assertEquals(5, stats.getDamage());
-            assertEquals(1, stats.getSpeed());
+            assertEquals(3, stats.getDamage());
+            assertEquals(3, stats.getSpeed());
         }
 
         @Test
         void getMovementSpeedReturnsStatsSpeed() {
-            assertEquals(1, monster.getMovementSpeed());
+            assertEquals(3, monster.getMovementSpeed());
         }
     }
 
@@ -112,25 +90,26 @@ class MonsterTest {
         }
 
         @Test
-        void resetWithPositionRestoresDefaults() {
-            monster.getStats().takeDamage(50);
-            monster.reset(pos);
+        void resetWithMonsterTypeSetsPosition() {
+            monster.reset(MonsterType.SKELETON, pos);
 
             assertEquals(pos, monster.getPosition());
-            assertEquals(30, monster.getStats().getHealth());
+            assertEquals('s', monster.getSymbol());
+            assertEquals("WHITE", monster.getColor());
+            assertEquals(25, monster.getStats().getMaxHealth());
+            assertEquals(5, monster.getStats().getDamage());
+            assertEquals(2, monster.getStats().getSpeed());
             assertTrue(monster.isActive());
         }
 
         @Test
-        void fullResetSetsAllValues() {
-            monster.reset(pos, 'Z', "GREEN", 150, 5, 3);
+        void resetWithDragonTypeSetsCorrectStats() {
+            monster.reset(MonsterType.DRAGON, pos);
 
-            assertEquals(pos, monster.getPosition());
-            assertEquals('Z', monster.getSymbol());
-            assertEquals("GREEN", monster.getColor());
+            assertEquals('R', monster.getSymbol());
             assertEquals(150, monster.getStats().getMaxHealth());
-            assertEquals(5, monster.getStats().getDamage());
-            assertEquals(3, monster.getStats().getSpeed());
+            assertEquals(20, monster.getStats().getDamage());
+            assertEquals(4, monster.getStats().getSpeed());
         }
     }
 
@@ -142,6 +121,7 @@ class MonsterTest {
         @BeforeEach
         void setUp() {
             monster = new Monster();
+            monster.reset(MonsterType.GOBLIN, new Position(0, 0));
         }
 
         @Test
