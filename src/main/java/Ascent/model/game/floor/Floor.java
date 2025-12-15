@@ -2,6 +2,7 @@ package Ascent.model.game.floor;
 
 import Ascent.model.entities.*;
 import Ascent.model.entities.monster.Monster;
+import Ascent.model.entities.monster.MonsterPool;
 import Ascent.model.game.Position;
 
 import java.util.Collection;
@@ -85,12 +86,20 @@ public class Floor {
             // player deals damage to monster
             player.attack(currMonster);
             lastAttackedMonster = currMonster;
+
+            // if monster dies, remove it from the position and return the object to the pool
+            if (currMonster.getStats().isDead()) {
+                monsters.remove(finalPosition);
+                MonsterPool.getInstance().release(currMonster);
+            }
+
             return false;
         } else if (chests.containsKey(finalPosition)
                 || walls.containsKey(finalPosition)
                 || (doors.containsKey(finalPosition) && !doors.get(finalPosition).isOpen())) {
             return false;
         }
+
         player.setPosition(finalPosition);
         return true;
     }
