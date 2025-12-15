@@ -47,12 +47,15 @@ public class MonsterController extends GameController {
 
             if (time - lastMove >= cooldown) {
                 double distanceToPlayer = Math.abs(monster.getPosition().getX() - getModel().getPlayer().getPosition().getX()) + Math.abs(monster.getPosition().getY() - getModel().getPlayer().getPosition().getY());
-                // if (distanceToPlayer <= monster.getAggroRange()) -> activate path finding...
-                Position nextStep = PathFinder.findNextStep(monster.getPosition(), getModel().getPlayer().getPosition());
-                if (nextStep != null) {
-                    moveMonster(monster.getPosition(), nextStep);
+                if (distanceToPlayer <= monster.getMonsterType().getAggroRange()) {
+                    Position nextStep = PathFinder.findNextStep(monster.getPosition(), getModel().getPlayer().getPosition());
+                    if (nextStep != null) {
+                        moveMonster(monster.getPosition(), nextStep);
+                    }
+                    else moveMonster(monster.getPosition(), monster.getPosition().getRandomAdjacent());
                 }
                 else moveMonster(monster.getPosition(), monster.getPosition().getRandomAdjacent());
+
                 lastMovementTimes.put(monster, time);
             }
         }

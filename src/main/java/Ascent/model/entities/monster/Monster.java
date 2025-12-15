@@ -6,6 +6,7 @@ import Ascent.model.entities.interfaces.Combatant;
 import Ascent.model.game.Position;
 
 public class Monster extends MovableEntity implements Combatant {
+    // todo: review aggroRange implementation (i think its a little unorganized)
     private final Stats stats;
     private MonsterType monsterType;
     private boolean active;
@@ -35,6 +36,7 @@ public class Monster extends MovableEntity implements Combatant {
         setSymbol(monsterType.getSymbol());
         setColor(monsterType.getColor());
         stats.reset(monsterType.getBaseHealth(), monsterType.getBaseDamage(), monsterType.getBaseSpeed());
+        this.monsterType = monsterType;
         this.active = true;
     }
 
@@ -46,5 +48,9 @@ public class Monster extends MovableEntity implements Combatant {
     @Override
     public int getMovementSpeed() {
         return stats.getSpeed();
+    }
+
+    public MonsterType getMonsterType() {
+        return monsterType;
     }
 }
