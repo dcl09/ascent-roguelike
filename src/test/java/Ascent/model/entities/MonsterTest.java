@@ -63,15 +63,15 @@ class MonsterTest {
         void monsterHasDefaultStats() {
             Stats stats = monster.getStats();
 
-            assertEquals(90, stats.getMaxHealth());
-            assertEquals(90, stats.getHealth());
-            assertEquals(2, stats.getDamage());
-            assertEquals(2, stats.getSpeed());
+            assertEquals(30, stats.getMaxHealth());
+            assertEquals(30, stats.getHealth());
+            assertEquals(5, stats.getDamage());
+            assertEquals(1, stats.getSpeed());
         }
 
         @Test
         void getMovementSpeedReturnsStatsSpeed() {
-            assertEquals(2, monster.getMovementSpeed());
+            assertEquals(1, monster.getMovementSpeed());
         }
     }
 
@@ -117,7 +117,7 @@ class MonsterTest {
             monster.reset(pos);
 
             assertEquals(pos, monster.getPosition());
-            assertEquals(90, monster.getStats().getHealth());
+            assertEquals(30, monster.getStats().getHealth());
             assertTrue(monster.isActive());
         }
 

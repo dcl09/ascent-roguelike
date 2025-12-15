@@ -1,10 +1,7 @@
 package Ascent;
 
 import Ascent.gui.GUI;
-import Ascent.model.entities.Player;
-import Ascent.model.game.floor.FileLevelBuilder;
 import Ascent.model.menu.StartMenu;
-import Ascent.state.GameState;
 import Ascent.state.StartMenuState;
 import Ascent.state.State;
 
@@ -16,7 +13,7 @@ public class Game {
     private Stack<State<?>> stateStack;
 
     public Game() throws IOException {
-        this.gui = new GUI(80, 40);
+        this.gui = new GUI(100, 40);
         this.stateStack = new Stack<>();
         // Player init moved to start() to depend on level spawn
     }
@@ -36,7 +33,8 @@ public class Game {
     public void start() throws IOException {
         // todo: implement time in this funct & implement menus
 
-        int FPS = 60; // 10 fps feels sluggish and unnecessary, it slows the game down for no reason (computations are fast, for now)
+        int FPS = 60; // 10 fps feels sluggish and unnecessary, it slows the game down for no reason
+                      // (computations are fast, for now)
         int frameTime = 1000 / FPS;
 
         stateStack.push(new StartMenuState(new StartMenu()));
@@ -51,7 +49,8 @@ public class Game {
             long sleepTime = frameTime - elapsedTime;
 
             try {
-                if (sleepTime > 0) Thread.sleep(sleepTime);
+                if (sleepTime > 0)
+                    Thread.sleep(sleepTime);
             } catch (InterruptedException e) {
                 // ignore the error
             }
