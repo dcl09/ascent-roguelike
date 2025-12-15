@@ -4,6 +4,7 @@ import Ascent.model.entities.*;
 import Ascent.model.entities.monster.Monster;
 import Ascent.model.entities.monster.MonsterPool;
 import Ascent.model.entities.monster.MonsterPoolEmptyException;
+import Ascent.model.entities.monster.MonsterType;
 import Ascent.model.game.Position;
 
 import java.io.*;
@@ -12,7 +13,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-/* 
+// todo: add actual monsters to the legend (im lazy)
+/*
     Legend:
  - '#' = Wall
  - '@' = Player spawn
@@ -116,10 +118,10 @@ public class FileLevelBuilder extends FloorBuilder {
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                if (grid[y][x] == MONSTER) {
+                if (MonsterType.getTypeFromChar(grid[y][x]) != null) {
                     try {
                         Monster monster = monsterPool.acquire();
-                        monster.reset(new Position(x, y));
+                        monster.reset(MonsterType.getTypeFromChar(grid[y][x]), new Position(x, y));
                         monsters.add(monster);
                     } catch (MonsterPoolEmptyException e) {
                         System.err.println("Monsters pool is empty at (" + x + "," + y + ")");
@@ -127,7 +129,6 @@ public class FileLevelBuilder extends FloorBuilder {
                 }
             }
         }
-
         return monsters;
     }
 
