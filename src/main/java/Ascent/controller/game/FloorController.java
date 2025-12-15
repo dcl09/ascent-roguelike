@@ -36,13 +36,12 @@ public class FloorController extends GameController {
         else {
             playercontroller.step(game, action, time);
             if (action == ACTION.INTERACT && getModel().getPlayer().canInteract()) {
-                /*
-                 * if (getModel().isChest(getModel().getPlayer().facing()))
-                 * chestcontroller.step(game, action , time);
-                 */
-                
                 if (getModel().isDoor(getModel().getPlayer().facing())) {
                     doorcontroller.step(game, action, time);
+                }
+
+                if (getModel().isChest(getModel().getPlayer().facing())) {
+                    chestcontroller.step(game, action, time);
                 }
             }
             monstercontroller.step(game, action, time);
