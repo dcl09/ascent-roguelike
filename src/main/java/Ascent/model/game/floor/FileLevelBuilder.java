@@ -23,6 +23,7 @@ import java.util.List;
  - '1'-'9' = Chest with specific item (1=Small Potion, 11=Sword, etc...)
  - '.' or ' ' = Empty space
  - 'D' = Door
+ - '=' = Stairs
  */
 
 public class FileLevelBuilder extends FloorBuilder {
@@ -38,6 +39,7 @@ public class FileLevelBuilder extends FloorBuilder {
     private static final char CHEST = 'C';
     private static final char EMPTY = '.';
     private static final char DOOR = 'D';
+    private static final char STAIRS = '=';
 
     public FileLevelBuilder(String filePath) throws IOException {
         this(Path.of(filePath));
@@ -165,6 +167,18 @@ public class FileLevelBuilder extends FloorBuilder {
         }
 
         return doors;
+    }
+
+    @Override
+    protected Stairs createStairs() {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (grid[y][x] == STAIRS) {
+                    return new Stairs(new Position(x, y));
+                }
+            }
+        }
+        return null;
     }
 
     public Position findPlayerSpawn() {

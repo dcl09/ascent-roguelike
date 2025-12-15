@@ -25,10 +25,12 @@ public class FloorViewer extends Viewer<Floor> {
         drawEntity(gui, getModel().getPlayer(), new PlayerViewer());
 
         int statsX = getModel().getWidth() + 2;
-        statsViewer.drawPlayerStats(gui, getModel().getPlayer(), statsX, 2);
+
+        drawLevelCounter(gui, statsX, 2);
+        statsViewer.drawPlayerStats(gui, getModel().getPlayer(), statsX, 5);
 
         Monster lastMonster = getModel().getLastAttackedMonster();
-        statsViewer.drawMonsterStats(gui, lastMonster, statsX, 9);
+        statsViewer.drawMonsterStats(gui, lastMonster, statsX, 12);
     }
 
     private <T extends Entity> void drawEntities(GUI gui, Collection<T> entities, EntityViewer<T> viewer) {
@@ -38,5 +40,9 @@ public class FloorViewer extends Viewer<Floor> {
 
     private <T extends Entity> void drawEntity(GUI gui, T entity, EntityViewer<T> viewer) {
         viewer.draw(entity, gui);
+    }
+
+    void drawLevelCounter(GUI gui, int x, int y) {
+        gui.drawText(x, y, "--- FLOOR " + getModel().getCurrLevel() +"---", "WHITE");
     }
 }
