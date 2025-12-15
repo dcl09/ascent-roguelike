@@ -4,7 +4,7 @@ import Ascent.model.entities.components.Stats;
 
 public enum MonsterType {
     GOBLIN('g', "GREEN", 30, 3, 3),
-    ORC('O', "#154734", 0, 8, 2),
+    ORC('O', "#154734", 60, 8, 2),
     DRAGON('R', "RED", 150, 20, 4),
     SKELETON('s', "WHITE", 25, 5, 2),
     ZOMBIE('Z', "#808080 ", 50, 6, 1);
