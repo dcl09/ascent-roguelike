@@ -20,6 +20,7 @@ public class Floor {
     private Map<Position, Wall> walls;
     private Map<Position, Door> doors;
     private Monster lastAttackedMonster;
+    private Chest interactingChest;
 
     public Floor(int width, int height) {
         this.width = width;
@@ -87,7 +88,8 @@ public class Floor {
             player.attack(currMonster);
             lastAttackedMonster = currMonster;
 
-            // if monster dies, remove it from the position and return the object to the pool
+            // if monster dies, remove it from the position and return the object to the
+            // pool
             if (currMonster.getStats().isDead()) {
                 monsters.remove(finalPosition);
                 MonsterPool.getInstance().release(currMonster);
@@ -163,5 +165,13 @@ public class Floor {
 
     public Monster getLastAttackedMonster() {
         return lastAttackedMonster;
+    }
+
+    public Chest getInteractingChest() {
+        return interactingChest;
+    }
+
+    public void setInteractingChest(Chest chest) {
+        this.interactingChest = chest;
     }
 }
