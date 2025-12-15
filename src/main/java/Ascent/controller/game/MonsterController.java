@@ -67,20 +67,26 @@ public class MonsterController extends GameController {
                 nextStep = monsterPos.getRandomAdjacent();
             }
 
+            boolean moved = false;
+
             if (nextStep.equals(playerPos)) {
                 long lastAttack = lastAttackTimes.getOrDefault(monster, 0L);
                 long attackCooldown = monster.getAttackCooldown();
 
                 if (time - lastAttack >= attackCooldown) {
-                    moveMonster(monsterPos, nextStep);
-                    lastAttackTimes.put(monster, time);
+                    moved = moveMonster(monsterPos, nextStep);
+                    if (moved) {
+                        lastAttackTimes.put(monster, time);
+                    }
                 }
 
             } else {
-                moveMonster(monsterPos, nextStep);
+                moved = moveMonster(monsterPos, nextStep);
             }
 
-            lastMovementTimes.put(monster, time);
+            if (moved) {
+                lastMovementTimes.put(monster, time);
+            }
         }
     }
 }
