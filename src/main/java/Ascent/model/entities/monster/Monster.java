@@ -53,4 +53,9 @@ public class Monster extends MovableEntity implements Combatant {
     public MonsterType getMonsterType() {
         return monsterType;
     }
+
+    public long getAttackCooldown() {
+        if (monsterType == null) return 1000; // a sane default, i guess
+        return monsterType.getBaseAttackCooldown();
+    }
 }
