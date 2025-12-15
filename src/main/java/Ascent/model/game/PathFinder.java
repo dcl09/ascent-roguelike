@@ -12,10 +12,15 @@ public class PathFinder {
         PathFinder.floor = floor;
     }
 
+    private static boolean isAdjacent(Position a, Position b) {
+        int dx = Math.abs(a.getX() - b.getX());
+        int dy = Math.abs(a.getY() - b.getY());
+        return (dx + dy) == 1;
+    }
+
     private static Position getFirstStepFromPath(Map<Position, Position> parentMap, Position current, Position start) {
         Position step = current;
 
-        // duck taping this for now
         if (parentMap.get(step) == null) return null;
 
         while (!parentMap.get(step).equals(start)) {
@@ -28,6 +33,10 @@ public class PathFinder {
     public static Position findNextStep(Position start, Position target) {
         if (start.equals(target)) return start;
 
+        if (isAdjacent(start, target)) {
+            return target;
+        }
+        
         Deque<Position> positionQueue = new ArrayDeque<>();
         Set<Position> visited = new HashSet<>();
         Map<Position, Position> parentMap = new HashMap<>();

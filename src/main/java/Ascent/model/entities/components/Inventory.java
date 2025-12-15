@@ -36,7 +36,8 @@ public class Inventory {
 
     @SuppressWarnings("UnusedReturnValue")
     public Armour equipArmour(Armour newArmour) {
-        if (newArmour == null) return null;
+        if (newArmour == null)
+            return null;
         return equippedArmour.put(newArmour.getSlot(), newArmour);
     }
 
@@ -62,8 +63,13 @@ public class Inventory {
         return consumables.size() < maxConsumables;
     }
 
-    // A copy of consumables is created so that, if it is changed, it will not affect the Inventory
+    // A copy of consumables is created so that, if it is changed, it will not
+    // affect the Inventory
     public List<HealthRestore> getConsumables() {
         return new ArrayList<>(consumables);
+    }
+
+    public Map<ArmourSlot, Armour> getEquippedArmour() {
+        return new EnumMap<>(equippedArmour);
     }
 }
