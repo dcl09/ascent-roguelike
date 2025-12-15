@@ -54,11 +54,12 @@ public class MonsterController extends GameController {
             }
 
             Position monsterPos = monster.getPosition();
-            double distanceToPlayer = Math.abs(monsterPos.getX() - playerPos.getX()) + Math.abs(monsterPos.getY() - playerPos.getY());
+            double distanceToPlayer = Math.abs(monsterPos.getX() - playerPos.getX())
+                    + Math.abs(monsterPos.getY() - playerPos.getY());
 
             Position nextStep;
             if (distanceToPlayer <= monster.getMonsterType().getAggroRange()) {
-                nextStep = PathFinder.findNextStep(monsterPos, playerPos);
+                nextStep = pathFinder.findNextStep(monsterPos, playerPos);
                 if (nextStep == null) {
                     nextStep = monsterPos.getRandomAdjacent();
                 }
