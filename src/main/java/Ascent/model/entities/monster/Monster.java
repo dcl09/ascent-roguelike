@@ -1,5 +1,6 @@
-package Ascent.model.entities;
+package Ascent.model.entities.monster;
 
+import Ascent.model.entities.MovableEntity;
 import Ascent.model.entities.components.Stats;
 import Ascent.model.entities.interfaces.Combatant;
 import Ascent.model.game.Position;

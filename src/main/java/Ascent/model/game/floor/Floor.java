@@ -1,6 +1,7 @@
 package Ascent.model.game.floor;
 
 import Ascent.model.entities.*;
+import Ascent.model.entities.monster.Monster;
 import Ascent.model.game.Position;
 
 import java.util.Collection;

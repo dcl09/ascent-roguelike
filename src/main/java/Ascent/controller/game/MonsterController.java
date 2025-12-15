@@ -2,7 +2,7 @@ package Ascent.controller.game;
 
 import Ascent.Game;
 import Ascent.gui.ACTION;
-import Ascent.model.entities.Monster;
+import Ascent.model.entities.monster.Monster;
 import Ascent.model.game.Position;
 import Ascent.model.game.floor.Floor;
 

@@ -1,6 +1,8 @@
 package Ascent.model.entities.pools;
 
-import Ascent.model.entities.Monster;
+import Ascent.model.entities.monster.Monster;
+import Ascent.model.entities.monster.MonsterPool;
+import Ascent.model.entities.monster.MonsterPoolEmptyException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

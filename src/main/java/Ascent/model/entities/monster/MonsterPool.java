@@ -1,6 +1,5 @@
-package Ascent.model.entities.pools;
+package Ascent.model.entities.monster;
 
-import Ascent.model.entities.Monster;
 import java.util.ArrayDeque;
 import java.util.Deque;
 

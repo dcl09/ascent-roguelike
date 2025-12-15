@@ -1,4 +1,4 @@
-package Ascent.model.entities.pools;
+package Ascent.model.entities.monster;
 
 public class MonsterPoolEmptyException extends RuntimeException {
 
