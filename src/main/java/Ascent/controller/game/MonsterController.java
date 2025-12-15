@@ -14,12 +14,14 @@ import java.util.Map;
 
 public class MonsterController extends GameController {
     private static final long BASE_MOVEMENT_COOLDOWN = 600;
+    private final Map<Monster, Long> lastAttackTimes;
     private final Map<Monster, Long> lastMovementTimes;
     private final PathFinder pathFinder;
 
     public MonsterController(Floor floor) {
         super(floor);
         this.lastMovementTimes = new HashMap<>();
+        this.lastAttackTimes = new HashMap<>();
         this.pathFinder = new PathFinder(floor);
     }
 
@@ -35,29 +37,49 @@ public class MonsterController extends GameController {
     @Override
     public void step(Game game, ACTION action, long time) {
         Collection<Monster> monsters = new ArrayList<>(getModel().getMonsters());
+        Position playerPos = getModel().getPlayer().getPosition();
 
         for (Monster monster : monsters) {
             if (!monster.isActive() || monster.getStats().isDead()) {
                 lastMovementTimes.remove(monster);
+                lastAttackTimes.remove(monster);
                 continue;
             }
 
             long lastMove = lastMovementTimes.getOrDefault(monster, 0L);
-            long cooldown = getMovementCooldown(monster);
+            long movementCooldown = getMovementCooldown(monster);
 
-            if (time - lastMove >= cooldown) {
-                double distanceToPlayer = Math.abs(monster.getPosition().getX() - getModel().getPlayer().getPosition().getX()) + Math.abs(monster.getPosition().getY() - getModel().getPlayer().getPosition().getY());
-                if (distanceToPlayer <= monster.getMonsterType().getAggroRange()) {
-                    Position nextStep = PathFinder.findNextStep(monster.getPosition(), getModel().getPlayer().getPosition());
-                    if (nextStep != null) {
-                        moveMonster(monster.getPosition(), nextStep);
-                    }
-                    else moveMonster(monster.getPosition(), monster.getPosition().getRandomAdjacent());
-                }
-                else moveMonster(monster.getPosition(), monster.getPosition().getRandomAdjacent());
-
-                lastMovementTimes.put(monster, time);
+            if (time - lastMove < movementCooldown) {
+                continue;
             }
+
+            Position monsterPos = monster.getPosition();
+            double distanceToPlayer = Math.abs(monsterPos.getX() - playerPos.getX()) + Math.abs(monsterPos.getY() - playerPos.getY());
+
+            Position nextStep;
+            if (distanceToPlayer <= monster.getMonsterType().getAggroRange()) {
+                nextStep = PathFinder.findNextStep(monsterPos, playerPos);
+                if (nextStep == null) {
+                    nextStep = monsterPos.getRandomAdjacent();
+                }
+            } else {
+                nextStep = monsterPos.getRandomAdjacent();
+            }
+
+            if (nextStep.equals(playerPos)) {
+                long lastAttack = lastAttackTimes.getOrDefault(monster, 0L);
+                long attackCooldown = monster.getAttackCooldown();
+
+                if (time - lastAttack >= attackCooldown) {
+                    moveMonster(monsterPos, nextStep);
+                    lastAttackTimes.put(monster, time);
+                }
+
+            } else {
+                moveMonster(monsterPos, nextStep);
+            }
+
+            lastMovementTimes.put(monster, time);
         }
     }
 }
