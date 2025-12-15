@@ -2,8 +2,10 @@ package Ascent.view.game;
 
 import Ascent.gui.GUI;
 import Ascent.model.entities.Chest;
+import Ascent.model.entities.Door;
 import Ascent.model.entities.Entity;
 import Ascent.model.entities.monster.Monster;
+import Ascent.model.game.Position;
 import Ascent.model.game.floor.Floor;
 import Ascent.view.Viewer;
 
@@ -27,24 +29,40 @@ public class FloorViewer extends Viewer<Floor> {
         drawEntities(gui, getModel().getMonsters(), new MonsterViewer());
         drawEntity(gui, getModel().getPlayer(), new PlayerViewer());
 
-        int statsX = getModel().getWidth() + 2;
+        int statsX = getModel().getWidth() + 3;
 
         drawLevelCounter(gui, statsX, 2);
-        statsViewer.drawPlayerStats(gui, getModel().getPlayer(), statsX, 5);
+        inventoryViewer.draw(gui, getModel().getPlayer(), statsX, 4);
 
-        // Draw player full inventory
-        inventoryViewer.draw(gui, getModel().getPlayer(), statsX, 1);
-
-        // Draw monster stats below player inventory
         Monster lastMonster = getModel().getLastAttackedMonster();
-        statsViewer.drawMonsterStats(gui, lastMonster, statsX, 12);
         if (lastMonster != null) {
-            statsViewer.drawMonsterStats(gui, lastMonster, statsX, 22);
+            statsViewer.drawMonsterStats(gui, lastMonster, statsX, 26);
         }
-
         Chest interactingChest = getModel().getInteractingChest();
+        Position playerFacing = getModel().getPlayer().facing();
+
         if (interactingChest != null) {
-            chestInteractionViewer.draw(gui, interactingChest, statsX, 28);
+            gui.drawText(statsX, 32, "--- Chest ---", "#FFD700");
+            chestInteractionViewer.draw(gui, interactingChest, statsX, 33);
+        } else {
+            Chest facingChest = getModel().getChestAt(playerFacing);
+            Door facingDoor = getModel().getDoorAt(playerFacing);
+
+            if (facingChest != null) {
+                gui.drawText(statsX, 32, "--- Chest ---", "#FFD700");
+                if (facingChest.isOpened() && facingChest.getContainedItem() == null) {
+                    gui.drawText(statsX, 34, "Chest is empty", "#888888");
+                } else {
+                    gui.drawText(statsX, 34, "Press E to interact", "#FFFFFF");
+                }
+            } else if (facingDoor != null) {
+                gui.drawText(statsX, 32, "--- Door ---", "#FFD700");
+                if (facingDoor.isOpen()) {
+                    gui.drawText(statsX, 34, "Press E to close", "#FFFFFF");
+                } else {
+                    gui.drawText(statsX, 34, "Press E to open", "#FFFFFF");
+                }
+            }
         }
     }
 
@@ -58,6 +76,6 @@ public class FloorViewer extends Viewer<Floor> {
     }
 
     void drawLevelCounter(GUI gui, int x, int y) {
-        gui.drawText(x, y, "--- FLOOR " + getModel().getCurrLevel() +"---", "WHITE");
+        gui.drawText(x, y, "--- FLOOR " + getModel().getCurrLevel() + "---", "WHITE");
     }
 }

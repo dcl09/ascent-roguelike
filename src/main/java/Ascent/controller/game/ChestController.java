@@ -37,8 +37,8 @@ public class ChestController extends GameController {
 
         // Interaction Logic
         switch (action) {
-            case USE_POTION_1 -> applyItem(chest, player); // (1) Use/Equip
-            case USE_POTION_2 -> storeItem(chest, player); // (2) Store Potion
+            case USE_POTION_0 -> applyItem(chest, player); // (1) Use/Equip
+            case USE_POTION_1 -> storeItem(chest, player); // (2) Store Potion
             case MENU, INTERACT -> getModel().setInteractingChest(null); // (Esc/E) Leave
             default -> {
             }
@@ -51,7 +51,6 @@ public class ChestController extends GameController {
             return;
 
         if (item instanceof HealthRestore potion) {
-            // Fix: Apply immediate effect (skip inventory)
             potion.consume(player);
             chest.takeItem(); // Remove from chest
         } else {
