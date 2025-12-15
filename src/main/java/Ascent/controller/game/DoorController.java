@@ -11,10 +11,13 @@ public class DoorController extends GameController {
         super(floor);
     }
 
+    @Override
     public void step(Game game, ACTION action, long time) {
         Player player = getModel().getPlayer();
         Door door = getModel().getDoorAt(player.facing());
-        door.interact(player);
+
+        if (door != null) {
+            door.interact(player);
+        }
     }
 }
-
