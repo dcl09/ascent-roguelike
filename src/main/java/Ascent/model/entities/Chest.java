@@ -14,10 +14,11 @@ public class Chest extends Entity implements Interactable {
     private boolean opened;
 
     private final ItemFactory itemFactory;
-    private final Item containedItem;
+    private Item containedItem;
 
     public Chest(Position position, String color) {
         super(position, CLOSED_SYMBOL, color);
+        this.opened = false;
         this.opened = false;
         this.itemFactory = ItemFactory.getInstance();
         this.containedItem = itemFactory.createRandomItem();
@@ -25,6 +26,7 @@ public class Chest extends Entity implements Interactable {
 
     public Chest(Position position, String color, int itemId) {
         super(position, CLOSED_SYMBOL, color);
+        this.opened = false;
         this.opened = false;
         this.itemFactory = ItemFactory.getInstance();
 
@@ -45,12 +47,11 @@ public class Chest extends Entity implements Interactable {
 
     @Override
     public void interact(Interactor interactor) {
-        if (!canInteract() || !(interactor instanceof Player player)) {
+        if (!canInteract() || !(interactor instanceof Player)) {
             return;
         }
         opened = true;
         symbol = OPEN_SYMBOL;
-        containedItem.use(player);
     }
 
     public Item getContainedItem() {
@@ -59,5 +60,11 @@ public class Chest extends Entity implements Interactable {
 
     public boolean isOpened() {
         return opened;
+    }
+
+    public Item takeItem() {
+        Item item = containedItem;
+        containedItem = null;
+        return item;
     }
 }
