@@ -3,6 +3,7 @@ package Ascent.controller.game;
 import Ascent.Game;
 import Ascent.gui.ACTION;
 import Ascent.model.entities.monster.Monster;
+import Ascent.model.game.PathFinder;
 import Ascent.model.game.Position;
 import Ascent.model.game.floor.Floor;
 
@@ -14,10 +15,12 @@ import java.util.Map;
 public class MonsterController extends GameController {
     private static final long BASE_MOVEMENT_COOLDOWN = 600;
     private final Map<Monster, Long> lastMovementTimes;
+    private final PathFinder pathFinder;
 
     public MonsterController(Floor floor) {
         super(floor);
         this.lastMovementTimes = new HashMap<>();
+        this.pathFinder = new PathFinder(floor);
     }
 
     private long getMovementCooldown(Monster monster) {
@@ -43,7 +46,13 @@ public class MonsterController extends GameController {
             long cooldown = getMovementCooldown(monster);
 
             if (time - lastMove >= cooldown) {
-                moveMonster(monster.getPosition(), monster.getPosition().getRandomAdjacent());
+                double distanceToPlayer = Math.abs(monster.getPosition().getX() - getModel().getPlayer().getPosition().getX()) + Math.abs(monster.getPosition().getY() - getModel().getPlayer().getPosition().getY());
+                // if (distanceToPlayer <= monster.getAggroRange()) -> activate path finding...
+                Position nextStep = PathFinder.findNextStep(monster.getPosition(), getModel().getPlayer().getPosition());
+                if (nextStep != null) {
+                    moveMonster(monster.getPosition(), nextStep);
+                }
+                else moveMonster(monster.getPosition(), monster.getPosition().getRandomAdjacent());
                 lastMovementTimes.put(monster, time);
             }
         }
