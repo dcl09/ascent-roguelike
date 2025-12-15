@@ -23,10 +23,11 @@ public class MonsterPool {
     }
 
     public Monster acquire() {
-        if (pool.isEmpty()){
+        if (pool.isEmpty()) {
             throw new MonsterPoolEmptyException();
         }
         Monster m = pool.pop();
+        m.activate();
         return m;
     }
 
@@ -35,7 +36,8 @@ public class MonsterPool {
     }
 
     public void release(Monster monster) {
-        if (monster == null) return;
+        if (monster == null)
+            return;
         monster.deactivate();
         pool.push(monster);
     }
