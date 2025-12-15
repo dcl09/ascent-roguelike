@@ -1,34 +1,78 @@
 package Ascent.controller.game;
 
+import Ascent.Game;
 import Ascent.gui.ACTION;
 import Ascent.model.entities.Chest;
-import Ascent.Game;
 import Ascent.model.entities.Player;
-import Ascent.model.game.Position;
 import Ascent.model.game.floor.Floor;
+import Ascent.model.items.HealthRestore;
+import Ascent.model.items.Item;
 
 public class ChestController extends GameController {
-    // Todo: Import game & implement time
     public ChestController(Floor floor) {
         super(floor);
     }
 
+    @Override
     public void step(Game game, ACTION action, long time) {
         Player player = getModel().getPlayer();
-        Chest chest = getModel().getChestAt(player.facing());
-        chest.interact(player);
-        /*
-         * Position checkForChest = getModel().getPlayer().facing();
-         * if (getModel().isChest(checkForChest)) {
-         * for (Chest chest : getModel().getChests()) {
-         * if (chest.getPosition().equals(checkForChest)) {
-         * if (chest.canInteract()) {
-         * getModel().getPlayer().interactWith(chest);
-         * }
-         * break;
-         * }
-         * }
-         * }
-         */
+        Chest chest = getModel().getInteractingChest();
+
+        if (chest == null) {
+            // Open Chest Logic
+            if (action == ACTION.INTERACT) {
+                Chest targetChest = getModel().getChestAt(player.facing());
+
+                if (targetChest != null) {
+                    if (!targetChest.isOpened()) {
+                        targetChest.interact(player);
+                    }
+                    if (targetChest.getContainedItem() != null) {
+                        getModel().setInteractingChest(targetChest);
+                    }
+                }
+            }
+            return;
+        }
+
+        // Interaction Logic
+        switch (action) {
+            case USE_POTION_1 -> applyItem(chest, player); // (1) Use/Equip
+            case USE_POTION_2 -> storeItem(chest, player); // (2) Store Potion
+            case MENU, INTERACT -> getModel().setInteractingChest(null); // (Esc/E) Leave
+            default -> {
+            }
+        }
+    }
+
+    private void applyItem(Chest chest, Player player) {
+        Item item = chest.getContainedItem();
+        if (item == null)
+            return;
+
+        if (item instanceof HealthRestore potion) {
+            // Fix: Apply immediate effect (skip inventory)
+            potion.consume(player);
+            chest.takeItem(); // Remove from chest
+        } else {
+            // Weapon/Armour: Equip
+            chest.takeItem();
+            if (item instanceof Ascent.model.items.Weapon w)
+                player.equipWeapon(w);
+            else if (item instanceof Ascent.model.items.armour.Armour a)
+                player.equipArmour(a);
+        }
+        getModel().setInteractingChest(null);
+    }
+
+    private void storeItem(Chest chest, Player player) {
+        Item item = chest.getContainedItem();
+
+        // Only potions can be stored via '2'
+        if (item instanceof HealthRestore hr && player.hasInventorySpace()) {
+            player.addConsumable(hr);
+            chest.takeItem(); // Remove from chest
+            getModel().setInteractingChest(null);
+        }
     }
 }

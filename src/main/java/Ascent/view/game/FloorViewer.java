@@ -1,6 +1,7 @@
 package Ascent.view.game;
 
 import Ascent.gui.GUI;
+import Ascent.model.entities.Chest;
 import Ascent.model.entities.Entity;
 import Ascent.model.entities.monster.Monster;
 import Ascent.model.game.floor.Floor;
@@ -10,6 +11,8 @@ import java.util.Collection;
 
 public class FloorViewer extends Viewer<Floor> {
     private final StatsViewer statsViewer = new StatsViewer();
+    private final InventoryViewer inventoryViewer = new InventoryViewer();
+    private final ChestInteractionViewer chestInteractionViewer = new ChestInteractionViewer();
 
     public FloorViewer(Floor floor) {
         super(floor);
@@ -29,8 +32,20 @@ public class FloorViewer extends Viewer<Floor> {
         drawLevelCounter(gui, statsX, 2);
         statsViewer.drawPlayerStats(gui, getModel().getPlayer(), statsX, 5);
 
+        // Draw player full inventory
+        inventoryViewer.draw(gui, getModel().getPlayer(), statsX, 1);
+
+        // Draw monster stats below player inventory
         Monster lastMonster = getModel().getLastAttackedMonster();
         statsViewer.drawMonsterStats(gui, lastMonster, statsX, 12);
+        if (lastMonster != null) {
+            statsViewer.drawMonsterStats(gui, lastMonster, statsX, 22);
+        }
+
+        Chest interactingChest = getModel().getInteractingChest();
+        if (interactingChest != null) {
+            chestInteractionViewer.draw(gui, interactingChest, statsX, 28);
+        }
     }
 
     private <T extends Entity> void drawEntities(GUI gui, Collection<T> entities, EntityViewer<T> viewer) {
