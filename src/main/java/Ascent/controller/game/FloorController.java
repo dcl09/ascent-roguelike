@@ -4,6 +4,7 @@ import Ascent.Game;
 import Ascent.gui.ACTION;
 import Ascent.model.entities.Chest;
 import Ascent.model.entities.Player;
+import Ascent.model.items.armour.ArmourSlot;
 
 import Ascent.model.game.floor.Floor;
 import Ascent.model.menu.GameMenu;
@@ -49,7 +50,7 @@ public class FloorController extends GameController {
         // If chest is active
         Chest activeChest = getModel().getInteractingChest();
         if (activeChest != null) {
-            // We didn´t include the playercontroller.step here 
+            // We didn´t include the playercontroller.step here
             // because we want to block the player
             chestcontroller.step(game, action, time);
 
@@ -65,6 +66,7 @@ public class FloorController extends GameController {
         }
 
         handlePotionUsage(action);
+        handleUnequip(action);
         playercontroller.step(game, action, time);
 
         if (action == ACTION.INTERACT && getModel().getPlayer().canInteract()) {
@@ -86,16 +88,25 @@ public class FloorController extends GameController {
             case USE_POTION_2 -> 2;
             case USE_POTION_3 -> 3;
             case USE_POTION_4 -> 4;
-            case USE_POTION_5 -> 5;
-            case USE_POTION_6 -> 6;
-            case USE_POTION_7 -> 7;
-            case USE_POTION_8 -> 8;
-            case USE_POTION_9 -> 9;
             default -> -1;
         };
 
         if (potionIndex >= 0) {
             player.consumeItem(potionIndex);
+        }
+    }
+
+    private void handleUnequip(ACTION action) {
+        Player player = getModel().getPlayer();
+        switch (action) {
+            case UNEQUIP_WEAPON -> player.equipWeapon(null);
+            case UNEQUIP_HEAD -> player.unequipArmour(ArmourSlot.HEAD);
+            case UNEQUIP_CHEST -> player.unequipArmour(ArmourSlot.CHEST);
+            case UNEQUIP_ARMS -> player.unequipArmour(ArmourSlot.ARMS);
+            case UNEQUIP_LEGS -> player.unequipArmour(ArmourSlot.LEGS);
+            case UNEQUIP_FEET -> player.unequipArmour(ArmourSlot.FEET);
+            default -> {
+            }
         }
     }
 }
