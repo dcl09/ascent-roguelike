@@ -27,7 +27,6 @@ public class MonsterPool {
             throw new MonsterPoolEmptyException();
         }
         Monster m = pool.pop();
-        m.activate();
         return m;
     }
 
