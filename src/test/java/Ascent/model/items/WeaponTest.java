@@ -76,7 +76,7 @@ class WeaponTest {
 
             sword.onUnequip(player);
 
-            assertEquals(1, player.getStats().getSpeed());
+            assertEquals(5, player.getStats().getSpeed()); // base restored
         }
     }
 
