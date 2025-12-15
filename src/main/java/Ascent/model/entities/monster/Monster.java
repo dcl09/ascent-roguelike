@@ -7,25 +7,15 @@ import Ascent.model.game.Position;
 
 public class Monster extends MovableEntity implements Combatant {
     private final Stats stats;
+    private MonsterType monsterType;
     private boolean active;
 
     // Empty Constructor for pool
     public Monster() {
         super(new Position(0, 0), 'M', "RED");
-        this.stats = new Stats(90, 2, 2);
+        this.stats = new Stats(0, 0, 0);
         this.active = false;
-    }
-
-    public Monster(Position position){
-        super (position, 'M', "RED");
-        this.stats = new Stats(90, 2, 2);
-        this.active = true;
-    }
-
-    public Monster (Position position, char symbol, String color) {
-        super(position, symbol, color);
-        this.stats = new Stats(90, 2, 2);
-        this.active = true;
+        this.monsterType = null;
     }
 
     public void activate() {
@@ -40,17 +30,12 @@ public class Monster extends MovableEntity implements Combatant {
         return active;
     }
 
-    public void reset(Position position, char symbol, String color,
-                      int health, int damage, int speed) {
+    public void reset(MonsterType monsterType, Position position) {
         setPosition(position);
-        setSymbol(symbol);
-        setColor(color);
-        stats.reset(health, damage, speed);
+        setSymbol(monsterType.getSymbol());
+        setColor(monsterType.getColor());
+        stats.reset(monsterType.getBaseHealth(), monsterType.getBaseDamage(), monsterType.getBaseSpeed());
         this.active = true;
-    }
-
-    public void reset(Position position) {
-        reset(position, 'M',"Red", 90, 2 , 2);
     }
 
     @Override
