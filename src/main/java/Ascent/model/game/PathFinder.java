@@ -2,7 +2,6 @@ package Ascent.model.game;
 
 import Ascent.model.game.floor.Floor;
 
-import java.nio.file.Path;
 import java.util.*;
 
 public class PathFinder {
@@ -21,7 +20,8 @@ public class PathFinder {
     private static Position getFirstStepFromPath(Map<Position, Position> parentMap, Position current, Position start) {
         Position step = current;
 
-        if (parentMap.get(step) == null) return null;
+        if (parentMap.get(step) == null)
+            return null;
 
         while (!parentMap.get(step).equals(start)) {
             step = parentMap.get(step);
@@ -31,12 +31,13 @@ public class PathFinder {
     }
 
     public static Position findNextStep(Position start, Position target) {
-        if (start.equals(target)) return start;
+        if (start.equals(target))
+            return start;
 
         if (isAdjacent(start, target)) {
             return target;
         }
-        
+
         Deque<Position> positionQueue = new ArrayDeque<>();
         Set<Position> visited = new HashSet<>();
         Map<Position, Position> parentMap = new HashMap<>();
@@ -60,7 +61,8 @@ public class PathFinder {
                 }
 
                 else if (floor.isWalkable(neighbour)) {
-                    if (visited.contains(neighbour)) continue;
+                    if (visited.contains(neighbour))
+                        continue;
 
                     visited.add(neighbour);
                     parentMap.put(neighbour, current);
