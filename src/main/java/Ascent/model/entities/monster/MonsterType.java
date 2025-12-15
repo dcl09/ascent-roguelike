@@ -46,4 +46,15 @@ public enum MonsterType {
     public Stats createBaseStats() {
         return new Stats(baseHealth, baseDamage, baseSpeed);
     }
+
+    public static MonsterType getTypeFromChar(char c) {
+        return switch (c) {
+            case 'g' -> GOBLIN;
+            case 'O' -> ORC;
+            case 'R' -> DRAGON;
+            case 's' -> SKELETON;
+            case 'Z' -> ZOMBIE;
+            default -> null;
+        };
+    }
 }
