@@ -8,28 +8,44 @@ import Ascent.model.game.floor.Floor;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MonsterController extends GameController {
-    // Todo: Implement time and related checks & import game
-    private long lastMovement;
+    private static final long BASE_MOVEMENT_COOLDOWN = 600;
+    private final Map<Monster, Long> lastMovementTimes;
 
     public MonsterController(Floor floor) {
         super(floor);
+        this.lastMovementTimes = new HashMap<>();
+    }
+
+    private long getMovementCooldown(Monster monster) {
+        int speed = Math.max(1, monster.getMovementSpeed());
+        return BASE_MOVEMENT_COOLDOWN / speed;
     }
 
     public boolean moveMonster(Position initialPosition, Position finalPosition) {
         return getModel().moveMonster(initialPosition, finalPosition);
     }
 
+    @Override
     public void step(Game game, ACTION action, long time) {
-        // Implement check if enough time has elapsed since last movement
-        if (time - lastMovement > 500) {
-            Collection<Monster> monsters = new ArrayList<>(getModel().getMonsters());
-            for (Monster monster : monsters) {
-                // Implement check if monster is aware of player, else random movement
-                moveMonster(monster.getPosition(), monster.getPosition().getRandomAdjacent());
+        Collection<Monster> monsters = new ArrayList<>(getModel().getMonsters());
+
+        for (Monster monster : monsters) {
+            if (!monster.isActive() || monster.getStats().isDead()) {
+                lastMovementTimes.remove(monster);
+                continue;
             }
-            lastMovement = time;
+
+            long lastMove = lastMovementTimes.getOrDefault(monster, 0L);
+            long cooldown = getMovementCooldown(monster);
+
+            if (time - lastMove >= cooldown) {
+                moveMonster(monster.getPosition(), monster.getPosition().getRandomAdjacent());
+                lastMovementTimes.put(monster, time);
+            }
         }
     }
 }
