@@ -3,24 +3,26 @@ package Ascent.model.entities.monster;
 import Ascent.model.entities.components.Stats;
 
 public enum MonsterType {
-    GOBLIN('g', "GREEN", 30, 3, 3),
-    ORC('O', "#154734", 60, 8, 2),
-    DRAGON('R', "RED", 150, 20, 4),
-    SKELETON('s', "WHITE", 25, 5, 2),
-    ZOMBIE('Z', "#808080 ", 50, 6, 1);
+    GOBLIN('g', "GREEN", 30, 3, 3, 10),
+    ORC('O', "#154734", 60, 8, 2, 8),
+    DRAGON('R', "RED", 150, 20, 4, 20),
+    SKELETON('s', "WHITE", 25, 5, 2, 7),
+    ZOMBIE('Z', "#808080 ", 50, 6, 1, 5);
 
     private final char symbol;
     private final String color;
     private final int baseHealth;
     private final int baseDamage;
     private final int baseSpeed;
+    private final double aggroRange;
 
-    MonsterType(char symbol, String color, int baseHealth, int baseDamage, int baseSpeed) {
+    MonsterType(char symbol, String color, int baseHealth, int baseDamage, int baseSpeed, double aggroRange) {
         this.symbol = symbol;
         this.color = color;
         this.baseHealth = baseHealth;
         this.baseDamage = baseDamage;
         this.baseSpeed = baseSpeed;
+        this.aggroRange = aggroRange;
     }
 
     public char getSymbol() {
@@ -42,6 +44,8 @@ public enum MonsterType {
     public int getBaseSpeed() {
         return baseSpeed;
     }
+
+    public double getAggroRange() { return aggroRange; }
 
     public Stats createBaseStats() {
         return new Stats(baseHealth, baseDamage, baseSpeed);
