@@ -6,6 +6,6 @@ import java.io.IOException;
 
 public class GameMenuViewer extends MenuViewer<GameMenu> {
     public GameMenuViewer(GameMenu gameMenu) throws IOException {
-        super(gameMenu);
+        super(gameMenu, "ascii-title-text-art.txt");
     }
 }
