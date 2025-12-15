@@ -1,6 +1,7 @@
 package Ascent.model.entities.interfaces;
 
 import Ascent.model.entities.monster.Monster;
+import Ascent.model.entities.monster.MonsterType;
 import Ascent.model.entities.Player;
 import Ascent.model.game.Position;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +17,8 @@ class CombatantTest {
     @BeforeEach
     void setUp() {
         attacker = new Player(new Position(0, 0));
-        target = new Monster(new Position(1, 0));
+        target = new Monster();
+        target.reset(MonsterType.GOBLIN, new Position(1, 0));
     }
 
     // Basic damage application
