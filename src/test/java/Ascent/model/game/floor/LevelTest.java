@@ -2,6 +2,7 @@ package Ascent.model.game.floor;
 
 import Ascent.model.entities.*;
 import Ascent.model.entities.monster.Monster;
+import Ascent.model.entities.monster.MonsterType;
 import Ascent.model.game.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,12 @@ class LevelTest {
     @BeforeEach
     void setUp() {
         level = new Floor(20, 15);
+    }
+
+    private Monster createMonster(Position pos) {
+        Monster monster = new Monster();
+        monster.reset(MonsterType.GOBLIN, pos);
+        return monster;
     }
 
     @Test
@@ -54,7 +61,7 @@ class LevelTest {
     @Test
     void isMonster_WithMonsterPosition_ShouldReturnTrue() {
         List<Monster> monsters = new ArrayList<>();
-        monsters.add(new Monster(new Position(7, 7)));
+        monsters.add(createMonster(new Position(7, 7)));
         level.setMonsters(monsters);
 
         assertTrue(level.isMonster(new Position(7, 7)));
@@ -63,7 +70,7 @@ class LevelTest {
     @Test
     void isMonster_WithEmptyPosition_ShouldReturnFalse() {
         List<Monster> monsters = new ArrayList<>();
-        monsters.add(new Monster(new Position(7, 7)));
+        monsters.add(createMonster(new Position(7, 7)));
         level.setMonsters(monsters);
 
         assertFalse(level.isMonster(new Position(1, 1)));

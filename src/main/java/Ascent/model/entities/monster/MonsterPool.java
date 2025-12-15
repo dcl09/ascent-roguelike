@@ -23,7 +23,7 @@ public class MonsterPool {
     }
 
     public Monster acquire() {
-        if (pool.isEmpty()){
+        if (pool.isEmpty()) {
             throw new MonsterPoolEmptyException();
         }
         return pool.pop();
