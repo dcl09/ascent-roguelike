@@ -4,6 +4,7 @@ import Ascent.Game;
 import Ascent.gui.ACTION;
 import Ascent.model.entities.Chest;
 import Ascent.model.entities.Player;
+import Ascent.model.items.armour.ArmourSlot;
 
 import Ascent.model.game.floor.Floor;
 import Ascent.model.menu.GameMenu;
@@ -13,7 +14,6 @@ import Ascent.state.LosescreenState;
 
 import java.io.IOException;
 
-// Todo: set states, implement time & import game
 public class FloorController extends GameController {
 
     private final PlayerController playercontroller;
@@ -32,32 +32,43 @@ public class FloorController extends GameController {
     }
 
     public void step(Game game, ACTION action, long time) throws IOException {
-        if (action == ACTION.QUIT)
-            /* set Ascent.state to start menu */
+        if (action == ACTION.QUIT) {
             game.popState();
-        else if (action == ACTION.MENU)
+            return;
+        }
+
+        if (action == ACTION.MENU) {
             game.pushState(new GameMenuState(new GameMenu()));
-        else if (getModel().getPlayer().getStats().isDead()) {
+            return;
+        }
+
+        if (getModel().getPlayer().getStats().isDead()) {
             game.popState();
             game.pushState(new LosescreenState(new Losescreen()));
-        } else {
-            playercontroller.step(game, action, time);
-            if (action == ACTION.INTERACT && getModel().getPlayer().canInteract()) {
-                if (getModel().isDoor(getModel().getPlayer().facing())) {
-                    doorcontroller.step(game, action, time);
-                }
-
-                if (getModel().isChest(getModel().getPlayer().facing())) {
-                    chestcontroller.step(game, action, time);
-                }
-
-                if (getModel().isStairs(getModel().getPlayer().facing())) {
-                    stairscontroller.step(game, action, time);
-                }
-            }
-            monstercontroller.step(game, action, time);
-
+            return;
         }
+
+        Chest activeChest = getModel().getInteractingChest();
+        if (activeChest != null) {
+            chestcontroller.step(game, action, time);
+            monstercontroller.step(game, action, time);
+            return;
+        }
+
+        handlePotionUsage(action);
+        handleUnequip(action);
+        playercontroller.step(game, action, time);
+        if (action == ACTION.INTERACT && getModel().getPlayer().canInteract()) {
+            if (getModel().isDoor(getModel().getPlayer().facing())) {
+                doorcontroller.step(game, action, time);
+            } else if (getModel().isChest(getModel().getPlayer().facing())) {
+                chestcontroller.step(game, action, time);
+            } else if (getModel().isStairs(getModel().getPlayer().facing())) {
+                stairscontroller.step(game, action, time);
+            }
+        }
+
+        monstercontroller.step(game, action, time);
     }
 
     private void handlePotionUsage(ACTION action) {
@@ -68,16 +79,25 @@ public class FloorController extends GameController {
             case USE_POTION_2 -> 2;
             case USE_POTION_3 -> 3;
             case USE_POTION_4 -> 4;
-            case USE_POTION_5 -> 5;
-            case USE_POTION_6 -> 6;
-            case USE_POTION_7 -> 7;
-            case USE_POTION_8 -> 8;
-            case USE_POTION_9 -> 9;
             default -> -1;
         };
 
         if (potionIndex >= 0) {
             player.consumeItem(potionIndex);
+        }
+    }
+
+    private void handleUnequip(ACTION action) {
+        Player player = getModel().getPlayer();
+        switch (action) {
+            case UNEQUIP_WEAPON -> player.equipWeapon(null);
+            case UNEQUIP_HEAD -> player.unequipArmour(ArmourSlot.HEAD);
+            case UNEQUIP_CHEST -> player.unequipArmour(ArmourSlot.CHEST);
+            case UNEQUIP_ARMS -> player.unequipArmour(ArmourSlot.ARMS);
+            case UNEQUIP_LEGS -> player.unequipArmour(ArmourSlot.LEGS);
+            case UNEQUIP_FEET -> player.unequipArmour(ArmourSlot.FEET);
+            default -> {
+            }
         }
     }
 }

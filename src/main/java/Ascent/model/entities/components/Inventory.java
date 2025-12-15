@@ -41,6 +41,10 @@ public class Inventory {
         return equippedArmour.put(newArmour.getSlot(), newArmour);
     }
 
+    public Armour unequipArmour(ArmourSlot slot) {
+        return equippedArmour.remove(slot);
+    }
+
     public Armour getArmour(ArmourSlot slot) {
         return equippedArmour.get(slot);
     }

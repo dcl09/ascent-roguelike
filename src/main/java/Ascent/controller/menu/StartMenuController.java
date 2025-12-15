@@ -11,24 +11,25 @@ import Ascent.state.GameState;
 import java.io.IOException;
 
 public class StartMenuController extends Controller<StartMenu> {
-    public StartMenuController(StartMenu startMenu){ super(startMenu);}
+    public StartMenuController(StartMenu startMenu) {
+        super(startMenu);
+    }
 
     @Override
     public void step(Game game, ACTION action, long time) throws IOException {
-        switch (action){
-            case UP:
-                getModel().prevEntry();
-                break;
-            case DOWN:
-                getModel().nextEntry();
-                break;
-            case SELECT:
+        switch (action) {
+            case UP -> getModel().prevEntry();
+            case DOWN -> getModel().nextEntry();
+            case SELECT -> {
                 if (getModel().getCurrEntry().equals("EXIT"))
                     game.popState();
-                if (getModel().getCurrEntry().equals("START")){
+                if (getModel().getCurrEntry().equals("START")) {
                     FileLevelBuilder builder = new FileLevelBuilder("levels/level1.txt");
                     game.pushState(new GameState(builder.createFloor(new Player(builder.findPlayerSpawn()))));
                 }
+            }
+            default -> {
+            }
         }
     }
 }

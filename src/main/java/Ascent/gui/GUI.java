@@ -4,7 +4,7 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
+
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -44,14 +44,16 @@ public class GUI {
         if (key == null)
             return ACTION.NONE;
 
+        boolean shift = key.isShiftDown();
+
         return switch (key.getKeyType()) {
             case EOF -> ACTION.QUIT;
             case Escape -> ACTION.MENU;
             case Enter -> ACTION.SELECT;
-            case ArrowUp -> key.isShiftDown() ? ACTION.LOOK_UP : ACTION.UP;
-            case ArrowDown -> key.isShiftDown() ? ACTION.LOOK_DOWN : ACTION.DOWN;
-            case ArrowLeft -> key.isShiftDown() ? ACTION.LOOK_LEFT : ACTION.LEFT;
-            case ArrowRight -> key.isShiftDown() ? ACTION.LOOK_RIGHT : ACTION.RIGHT;
+            case ArrowUp -> shift ? ACTION.LOOK_UP : ACTION.UP;
+            case ArrowDown -> shift ? ACTION.LOOK_DOWN : ACTION.DOWN;
+            case ArrowLeft -> shift ? ACTION.LOOK_LEFT : ACTION.LEFT;
+            case ArrowRight -> shift ? ACTION.LOOK_RIGHT : ACTION.RIGHT;
             case Character -> processCharacter(key);
             default -> ACTION.NONE;
         };
@@ -67,16 +69,20 @@ public class GUI {
             case 'a' -> shift ? ACTION.LOOK_LEFT : ACTION.LEFT;
             case 's' -> shift ? ACTION.LOOK_DOWN : ACTION.DOWN;
             case 'd' -> shift ? ACTION.LOOK_RIGHT : ACTION.RIGHT;
-            case '0' -> ACTION.USE_POTION_0;
-            case '1' -> ACTION.USE_POTION_1;
-            case '2' -> ACTION.USE_POTION_2;
-            case '3' -> ACTION.USE_POTION_3;
-            case '4' -> ACTION.USE_POTION_4;
-            case '5' -> ACTION.USE_POTION_5;
-            case '6' -> ACTION.USE_POTION_6;
-            case '7' -> ACTION.USE_POTION_7;
-            case '8' -> ACTION.USE_POTION_8;
-            case '9' -> ACTION.USE_POTION_9;
+            // Shortcuts for PT QWERTY Layout (Shift + 1..6)
+            case '!' -> ACTION.UNEQUIP_WEAPON; // Shift + 1
+            case '"' -> ACTION.UNEQUIP_HEAD; // Shift + 2
+            case '£' -> ACTION.UNEQUIP_CHEST; // Shift + 3
+            case '$' -> ACTION.UNEQUIP_ARMS; // Shift + 4
+            case '%' -> ACTION.UNEQUIP_LEGS; // Shift + 5
+            case '&' -> ACTION.UNEQUIP_FEET; // Shift + 6
+
+            case '1' -> ACTION.USE_POTION_0;
+            case '2' -> ACTION.USE_POTION_1;
+            case '3' -> ACTION.USE_POTION_2;
+            case '4' -> ACTION.USE_POTION_3;
+            case '5' -> ACTION.USE_POTION_4;
+
             default -> ACTION.NONE;
         };
     }

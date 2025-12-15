@@ -8,6 +8,7 @@ import Ascent.model.entities.interfaces.Interactable;
 import Ascent.model.entities.interfaces.Interactor;
 import Ascent.model.game.Position;
 import Ascent.model.items.armour.Armour;
+import Ascent.model.items.armour.ArmourSlot;
 import Ascent.model.items.HealthRestore;
 import Ascent.model.items.Weapon;
 
@@ -88,6 +89,15 @@ public class Player extends MovableEntity implements Combatant, Interactor {
         }
         inventory.equipArmour(armour);
         armour.onEquip(this);
+        return oldArmour;
+    }
+
+    public Armour unequipArmour(ArmourSlot slot) {
+        Armour oldArmour = inventory.getArmour(slot);
+        if (oldArmour != null) {
+            oldArmour.onUnequip(this);
+            inventory.unequipArmour(slot);
+        }
         return oldArmour;
     }
 
