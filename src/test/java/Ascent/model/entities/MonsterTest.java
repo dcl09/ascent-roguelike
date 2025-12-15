@@ -1,6 +1,7 @@
 package Ascent.model.entities;
 
 import Ascent.model.entities.components.Stats;
+import Ascent.model.entities.monster.Monster;
 import Ascent.model.game.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;

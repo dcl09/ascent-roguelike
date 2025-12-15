@@ -1,8 +1,9 @@
 package Ascent.model.game.floor;
 
 import Ascent.model.entities.*;
-import Ascent.model.entities.pools.MonsterPool;
-import Ascent.model.entities.pools.MonsterPoolEmptyException;
+import Ascent.model.entities.monster.Monster;
+import Ascent.model.entities.monster.MonsterPool;
+import Ascent.model.entities.monster.MonsterPoolEmptyException;
 import Ascent.model.game.Position;
 
 import java.io.*;

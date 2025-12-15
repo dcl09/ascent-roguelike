@@ -1,7 +1,7 @@
 package Ascent.view.game;
 
 import Ascent.gui.GUI;
-import Ascent.model.entities.Monster;
+import Ascent.model.entities.monster.Monster;
 
 public class MonsterViewer implements EntityViewer<Monster> {
     @Override

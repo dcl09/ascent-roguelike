@@ -1,6 +1,8 @@
 package Ascent.model.game.floor;
 
 import Ascent.model.entities.*;
+import Ascent.model.entities.monster.Monster;
+
 import java.util.List;
 
 public abstract class FloorBuilder {

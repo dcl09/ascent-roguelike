@@ -1,7 +1,7 @@
 package Ascent.view.game;
 
 import Ascent.gui.GUI;
-import Ascent.model.entities.Monster;
+import Ascent.model.entities.monster.Monster;
 import Ascent.model.game.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

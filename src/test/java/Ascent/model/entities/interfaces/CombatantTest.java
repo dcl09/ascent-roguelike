@@ -1,6 +1,6 @@
 package Ascent.model.entities.interfaces;
 
-import Ascent.model.entities.Monster;
+import Ascent.model.entities.monster.Monster;
 import Ascent.model.entities.Player;
 import Ascent.model.game.Position;
 import org.junit.jupiter.api.BeforeEach;
