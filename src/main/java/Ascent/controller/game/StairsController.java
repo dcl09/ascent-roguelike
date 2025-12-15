@@ -19,9 +19,10 @@ public class StairsController extends GameController {
         Stairs stairs = getModel().getStairs();
         if (player.facing().equals(stairs.getPosition())) {
             game.popState();
-            FileLevelBuilder builder = new FileLevelBuilder("levels/testlevel.txt");
+            int newLevel = getModel().getCurrLevel() + 1;
+            FileLevelBuilder builder = new FileLevelBuilder("levels/level" + newLevel + ".txt");
             player.setPosition(builder.findPlayerSpawn());
-            game.pushState(new GameState(builder.createFloor(player, getModel().getCurrLevel() + 1)));
+            game.pushState(new GameState(builder.createFloor(player, newLevel)));
         }
     }
 }
