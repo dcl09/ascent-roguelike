@@ -57,11 +57,11 @@ public class ItemFactory {
                 return new HealthRestore(id, "Large Health Potion", 60);
 
             case SWORD:
-                return new Weapon(id, "Sword", -6,10);
+                return new Weapon(id, "Sword", -1, 8);
             case AXE:
-                return new Weapon(id, "Axe", -3, 12);
+                return new Weapon(id, "Axe", -2, 12);
             case KNIFE:
-                return new Weapon(id, "Knife", 0,6);
+                return new Weapon(id, "Knife", 0, 5);
 
             case HEAD_ARMOUR_BASIC:
                 return new Armour(id, "Basic Helmet", 0,3, ArmourSlot.HEAD);
