@@ -15,6 +15,7 @@ public class FloorController extends GameController {
     private final MonsterController monstercontroller;
     private final ChestController chestcontroller;
     private final DoorController doorcontroller;
+    private final StairsController stairscontroller;
 
     public FloorController(Floor floor) {
         super(floor);
@@ -22,6 +23,7 @@ public class FloorController extends GameController {
         this.monstercontroller = new MonsterController(floor);
         this.chestcontroller = new ChestController(floor);
         this.doorcontroller = new DoorController(floor);
+        this.stairscontroller = new StairsController(floor);
     }
 
     public void step(Game game, ACTION action, long time) throws IOException {
@@ -42,6 +44,10 @@ public class FloorController extends GameController {
 
                 if (getModel().isChest(getModel().getPlayer().facing())) {
                     chestcontroller.step(game, action, time);
+                }
+
+                if (getModel().isStairs(getModel().getPlayer().facing())) {
+                    stairscontroller.step(game, action, time);
                 }
             }
             monstercontroller.step(game, action, time);

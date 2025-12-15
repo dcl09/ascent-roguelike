@@ -13,6 +13,7 @@ import java.util.Map;
 public class Floor {
     private final int width;
     private final int height;
+    private final int currLevel;
 
     private Player player;
     private Stairs stairs;
@@ -22,9 +23,10 @@ public class Floor {
     private Map<Position, Door> doors;
     private Monster lastAttackedMonster;
 
-    public Floor(int width, int height) {
+    public Floor(int width, int height, int currLevel) {
         this.width = width;
         this.height = height;
+        this.currLevel = currLevel;
         this.monsters = new HashMap<>();
         this.chests = new HashMap<>();
         this.walls = new HashMap<>();
@@ -41,6 +43,10 @@ public class Floor {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public int getCurrLevel() {
+        return currLevel;
     }
 
     public void setPlayer(Player player) {
