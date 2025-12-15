@@ -16,7 +16,7 @@ class LevelTest {
 
     @BeforeEach
     void setUp() {
-        level = new Floor(20, 15);
+        level = new Floor(20, 15, 1);
     }
 
     private Monster createMonster(Position pos) {
