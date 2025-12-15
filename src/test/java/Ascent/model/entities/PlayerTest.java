@@ -46,7 +46,7 @@ class PlayerTest {
             Stats stats = player.getStats();
             assertEquals(100, stats.getMaxHealth());
             assertEquals(10, stats.getDamage());
-            assertEquals(1, stats.getSpeed());
+            assertEquals(5, stats.getSpeed());
         }
 
         @Test
@@ -74,7 +74,7 @@ class PlayerTest {
         void equipWeaponAppliesBonuses() {
             player.equipWeapon(sword);
             assertEquals(20, player.getStats().getDamage());
-            assertEquals(3, player.getStats().getSpeed());
+            assertEquals(7, player.getStats().getSpeed()); // 5 + 2
         }
 
         @Test
@@ -83,7 +83,7 @@ class PlayerTest {
             player.equipWeapon(knife);
 
             assertEquals(15, player.getStats().getDamage());
-            assertEquals(1, player.getStats().getSpeed());
+            assertEquals(5, player.getStats().getSpeed()); // 5 + 0
         }
 
         @Test
@@ -101,7 +101,7 @@ class PlayerTest {
             player.equipWeapon(null);
 
             assertEquals(10, player.getStats().getDamage());
-            assertEquals(1, player.getStats().getSpeed());
+            assertEquals(5, player.getStats().getSpeed()); // base restored
         }
     }
 
@@ -114,7 +114,7 @@ class PlayerTest {
             player.equipArmour(chestplate);
 
             assertEquals(10, player.getStats().getResistanceToDamage());
-            assertEquals(-1, player.getStats().getSpeed());
+            assertEquals(3, player.getStats().getSpeed()); // 5 - 2
         }
 
         @Test
