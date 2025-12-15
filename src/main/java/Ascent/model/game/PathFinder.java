@@ -5,10 +5,10 @@ import Ascent.model.game.floor.Floor;
 import java.util.*;
 
 public class PathFinder {
-    private static Floor floor;
+    private final Floor floor;
 
     public PathFinder(Floor floor) {
-        PathFinder.floor = floor;
+        this.floor = floor;
     }
 
     private static boolean isAdjacent(Position a, Position b) {
@@ -30,7 +30,7 @@ public class PathFinder {
         return step;
     }
 
-    public static Position findNextStep(Position start, Position target) {
+    public Position findNextStep(Position start, Position target) {
         if (start.equals(target))
             return start;
 
@@ -48,14 +48,14 @@ public class PathFinder {
         while (!positionQueue.isEmpty()) {
             Position current = positionQueue.remove();
 
-            // is this inefficient?
-            Set<Position> currAdjacentPositions = new HashSet<Position>();
-            currAdjacentPositions.add(current.getUp());
-            currAdjacentPositions.add(current.getDown());
-            currAdjacentPositions.add(current.getLeft());
-            currAdjacentPositions.add(current.getRight());
+            Position[] adjacentPositions = {
+                    current.getUp(),
+                    current.getDown(),
+                    current.getLeft(),
+                    current.getRight()
+            };
 
-            for (Position neighbour : currAdjacentPositions) {
+            for (Position neighbour : adjacentPositions) {
                 if (neighbour.equals(target)) {
                     return getFirstStepFromPath(parentMap, current, start);
                 }
