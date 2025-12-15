@@ -164,4 +164,8 @@ public class Floor {
     public Monster getLastAttackedMonster() {
         return lastAttackedMonster;
     }
+
+    public boolean isWalkable(Position position) {
+        return !(isDoor(position) || isChest(position) || isWall(position) || isMonster(position)); // todo: implement proper check for walkable open doors
+    }
 }
