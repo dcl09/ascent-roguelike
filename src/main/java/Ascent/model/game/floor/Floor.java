@@ -15,6 +15,7 @@ public class Floor {
     private final int height;
 
     private Player player;
+    private Stairs stairs;
     private Map<Position, Monster> monsters;
     private Map<Position, Chest> chests;
     private Map<Position, Wall> walls;
@@ -45,6 +46,10 @@ public class Floor {
     public void setPlayer(Player player) {
         this.player = player;
     }
+
+    public Stairs getStairs() { return stairs; }
+
+    public void setStairs(Stairs stairs) { this.stairs = stairs; }
 
     public Collection<Monster> getMonsters() {
         return monsters.values();
@@ -96,7 +101,8 @@ public class Floor {
             return false;
         } else if (chests.containsKey(finalPosition)
                 || walls.containsKey(finalPosition)
-                || (doors.containsKey(finalPosition) && !doors.get(finalPosition).isOpen())) {
+                || (doors.containsKey(finalPosition) && !doors.get(finalPosition).isOpen())
+                || stairs.getPosition().equals(finalPosition)){
             return false;
         }
 
@@ -149,6 +155,8 @@ public class Floor {
         return chests.containsKey(position);
     }
 
+    public boolean isStairs(Position position) { return stairs.getPosition().equals(position); }
+
     public Chest getChestAt(Position position) {
         return chests.get(position);
     }
@@ -166,6 +174,6 @@ public class Floor {
     }
 
     public boolean isWalkable(Position position) {
-        return !(isDoor(position) || isChest(position) || isWall(position) || isMonster(position)); // todo: implement proper check for walkable open doors
+        return !(isDoor(position) || isChest(position) || isWall(position) || isMonster(position) || isStairs(position));
     }
 }

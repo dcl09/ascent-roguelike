@@ -19,6 +19,7 @@ public class FloorViewer extends Viewer<Floor> {
     public void drawEntities(GUI gui) {
         drawEntities(gui, getModel().getWalls(), new WallViewer());
         drawEntities(gui, getModel().getDoors(), new DoorViewer());
+        drawEntity(gui, getModel().getStairs(), new StairsViewer());
         drawEntities(gui, getModel().getChests(), new ChestViewer());
         drawEntities(gui, getModel().getMonsters(), new MonsterViewer());
         drawEntity(gui, getModel().getPlayer(), new PlayerViewer());
