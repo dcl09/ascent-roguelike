@@ -10,12 +10,14 @@ import Ascent.state.GameState;
 
 import java.io.IOException;
 
-public abstract class EndscreenController <T extends Endscreen> extends Controller<T> {
-    public EndscreenController(T endscreen) { super(endscreen); }
+public abstract class EndscreenController<T extends Endscreen> extends Controller<T> {
+    public EndscreenController(T endscreen) {
+        super(endscreen);
+    }
 
     @Override
     public void step(Game game, ACTION action, long time) throws IOException {
-        switch (action){
+        switch (action) {
             case UP:
                 getModel().prevEntry();
                 break;
@@ -26,11 +28,12 @@ public abstract class EndscreenController <T extends Endscreen> extends Controll
                 if (getModel().getCurrEntry().equals("TO MAIN MENU")) {
                     game.popState();
                     game.popState();
-                }
-                if (getModel().getCurrEntry().equals("RESTART"))
+                } else if (getModel().getCurrEntry().equals("RESTART")) {
                     game.popState();
                     FileLevelBuilder builder = new FileLevelBuilder("levels/level1.txt");
                     game.pushState(new GameState(builder.createFloor(new Player(builder.findPlayerSpawn()))));
+                }
+                break;
         }
     }
 }

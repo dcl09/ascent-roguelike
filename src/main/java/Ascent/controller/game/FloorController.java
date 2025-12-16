@@ -3,8 +3,6 @@ package Ascent.controller.game;
 import Ascent.Game;
 import Ascent.gui.ACTION;
 import Ascent.model.entities.Chest;
-import Ascent.model.entities.Player;
-import Ascent.model.items.armour.ArmourSlot;
 
 import Ascent.model.game.floor.Floor;
 import Ascent.model.menu.GameMenu;
@@ -55,9 +53,8 @@ public class FloorController extends GameController {
             return;
         }
 
-        handlePotionUsage(action);
-        handleUnequip(action);
         playercontroller.step(game, action, time);
+
         if (action == ACTION.INTERACT && getModel().getPlayer().canInteract()) {
             if (getModel().isDoor(getModel().getPlayer().facing())) {
                 doorcontroller.step(game, action, time);
@@ -69,35 +66,5 @@ public class FloorController extends GameController {
         }
 
         monstercontroller.step(game, action, time);
-    }
-
-    private void handlePotionUsage(ACTION action) {
-        Player player = getModel().getPlayer();
-        int potionIndex = switch (action) {
-            case USE_POTION_0 -> 0;
-            case USE_POTION_1 -> 1;
-            case USE_POTION_2 -> 2;
-            case USE_POTION_3 -> 3;
-            case USE_POTION_4 -> 4;
-            default -> -1;
-        };
-
-        if (potionIndex >= 0) {
-            player.consumeItem(potionIndex);
-        }
-    }
-
-    private void handleUnequip(ACTION action) {
-        Player player = getModel().getPlayer();
-        switch (action) {
-            case UNEQUIP_WEAPON -> player.equipWeapon(null);
-            case UNEQUIP_HEAD -> player.unequipArmour(ArmourSlot.HEAD);
-            case UNEQUIP_CHEST -> player.unequipArmour(ArmourSlot.CHEST);
-            case UNEQUIP_ARMS -> player.unequipArmour(ArmourSlot.ARMS);
-            case UNEQUIP_LEGS -> player.unequipArmour(ArmourSlot.LEGS);
-            case UNEQUIP_FEET -> player.unequipArmour(ArmourSlot.FEET);
-            default -> {
-            }
-        }
     }
 }

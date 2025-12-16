@@ -23,6 +23,7 @@ public class Floor {
     private Map<Position, Door> doors;
     private Monster lastAttackedMonster;
     private Chest interactingChest;
+    private long lastPlayerAttackTime = 0;
 
     public Floor(int width, int height, int currLevel) {
         this.width = width;
@@ -54,9 +55,13 @@ public class Floor {
         this.player = player;
     }
 
-    public Stairs getStairs() { return stairs; }
+    public Stairs getStairs() {
+        return stairs;
+    }
 
-    public void setStairs(Stairs stairs) { this.stairs = stairs; }
+    public void setStairs(Stairs stairs) {
+        this.stairs = stairs;
+    }
 
     public Collection<Monster> getMonsters() {
         return monsters.values();
@@ -90,27 +95,27 @@ public class Floor {
         return true;
     }
 
-    public boolean movePlayer(Position finalPosition) {
-        // initial basic damage logic
+    public boolean movePlayer(Position finalPosition, long time) {
         if (monsters.containsKey(finalPosition)) {
             Monster currMonster = monsters.get(finalPosition);
 
-            // player deals damage to monster
-            player.attack(currMonster);
-            lastAttackedMonster = currMonster;
+            long attackCooldown = player.getAttackCooldown();
+            if (time - lastPlayerAttackTime >= attackCooldown) {
+                player.attack(currMonster);
+                lastAttackedMonster = currMonster;
+                lastPlayerAttackTime = time;
 
-            // if monster dies, remove it from the position and return the object to the
-            // pool
-            if (currMonster.getStats().isDead()) {
-                monsters.remove(finalPosition);
-                MonsterPool.getInstance().release(currMonster);
+                if (currMonster.getStats().isDead()) {
+                    monsters.remove(finalPosition);
+                    MonsterPool.getInstance().release(currMonster);
+                }
             }
 
             return false;
         } else if (chests.containsKey(finalPosition)
                 || walls.containsKey(finalPosition)
                 || (doors.containsKey(finalPosition) && !doors.get(finalPosition).isOpen())
-                || stairs.getPosition().equals(finalPosition)){
+                || stairs.getPosition().equals(finalPosition)) {
             return false;
         }
 
@@ -163,7 +168,9 @@ public class Floor {
         return chests.containsKey(position);
     }
 
-    public boolean isStairs(Position position) { return stairs.getPosition().equals(position); }
+    public boolean isStairs(Position position) {
+        return stairs.getPosition().equals(position);
+    }
 
     public Chest getChestAt(Position position) {
         return chests.get(position);
@@ -182,7 +189,8 @@ public class Floor {
     }
 
     public boolean isWalkable(Position position) {
-        return !(isDoor(position) || isChest(position) || isWall(position) || isMonster(position) || isStairs(position));
+        return !(isDoor(position) || isChest(position) || isWall(position) || isMonster(position)
+                || isStairs(position));
     }
 
     public Chest getInteractingChest() {
