@@ -4,7 +4,7 @@ import Ascent.model.game.floor.Floor;
 
 import java.util.*;
 
-public class PathFinder {
+public class PathFinder implements IPathFinder {
     private final Floor floor;
 
     public PathFinder(Floor floor) {
@@ -30,6 +30,7 @@ public class PathFinder {
         return step;
     }
 
+    @Override
     public Position findNextStep(Position start, Position target) {
         if (start.equals(target))
             return start;
