@@ -38,7 +38,6 @@ public class GUI {
         return screen;
     }
 
-    /* placeholder implementation */
     public ACTION processKey() throws IOException {
         KeyStroke key = screen.pollInput();
         if (key == null)
@@ -61,6 +60,7 @@ public class GUI {
 
     private ACTION processCharacter(KeyStroke key) {
         char c = key.getCharacter();
+        boolean alt = key.isAltDown();
         boolean shift = key.isShiftDown();
 
         return switch (Character.toLowerCase(c)) {
@@ -69,20 +69,12 @@ public class GUI {
             case 'a' -> shift ? ACTION.LOOK_LEFT : ACTION.LEFT;
             case 's' -> shift ? ACTION.LOOK_DOWN : ACTION.DOWN;
             case 'd' -> shift ? ACTION.LOOK_RIGHT : ACTION.RIGHT;
-            // Shortcuts for PT QWERTY Layout (Shift + 1..6)
-            case '!' -> ACTION.UNEQUIP_WEAPON; // Shift + 1
-            case '"' -> ACTION.UNEQUIP_HEAD; // Shift + 2
-            case '£' -> ACTION.UNEQUIP_CHEST; // Shift + 3
-            case '$' -> ACTION.UNEQUIP_ARMS; // Shift + 4
-            case '%' -> ACTION.UNEQUIP_LEGS; // Shift + 5
-            case '&' -> ACTION.UNEQUIP_FEET; // Shift + 6
-
-            case '1' -> ACTION.USE_POTION_0;
-            case '2' -> ACTION.USE_POTION_1;
-            case '3' -> ACTION.USE_POTION_2;
-            case '4' -> ACTION.USE_POTION_3;
-            case '5' -> ACTION.USE_POTION_4;
-
+            case '1' -> alt ? ACTION.UNEQUIP_WEAPON : ACTION.USE_POTION_0;
+            case '2' -> alt ? ACTION.UNEQUIP_HEAD : ACTION.USE_POTION_1;
+            case '3' -> alt ? ACTION.UNEQUIP_CHEST : ACTION.USE_POTION_2;
+            case '4' -> alt ? ACTION.UNEQUIP_ARMS : ACTION.USE_POTION_3;
+            case '5' -> alt ? ACTION.UNEQUIP_LEGS : ACTION.USE_POTION_4;
+            case '6' -> alt ? ACTION.UNEQUIP_FEET : ACTION.NONE;
             default -> ACTION.NONE;
         };
     }

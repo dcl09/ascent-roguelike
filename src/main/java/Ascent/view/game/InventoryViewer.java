@@ -57,7 +57,7 @@ public class InventoryViewer {
     }
 
     private void drawWeapon(GUI gui, Weapon weapon, int x, int y) {
-        String key = "[S+1] ";
+        String key = "[ALT+1] ";
         if (weapon != null) {
             String weaponText = String.format("%sWeapon: %s (+%d DMG)",
                     key, weapon.getName(), weapon.getBonusDamage());
@@ -79,11 +79,11 @@ public class InventoryViewer {
 
             String key;
             switch (slot) {
-                case HEAD -> key = "[S+2] ";
-                case CHEST -> key = "[S+3] ";
-                case ARMS -> key = "[S+4] ";
-                case LEGS -> key = "[S+5] ";
-                case FEET -> key = "[S+6] ";
+                case HEAD -> key = "[ALT+2] ";
+                case CHEST -> key = "[ALT+3] ";
+                case ARMS -> key = "[ALT+4] ";
+                case LEGS -> key = "[ALT+5] ";
+                case FEET -> key = "[ALT+6] ";
                 default -> key = "      ";
             }
 
