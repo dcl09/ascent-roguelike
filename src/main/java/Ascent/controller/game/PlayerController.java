@@ -10,7 +10,8 @@ import Ascent.model.items.armour.ArmourSlot;
 
 // todo: implement getter of specific monster infront of player, import game & implement time
 public class PlayerController extends GameController {
-    private static final long BASE_MOVEMENT_COOLDOWN = 300;
+    // Movement cooldown in milliseconds, divided by player speed stat
+    private static final long BASE_MOVEMENT_COOLDOWN_MS = 300;
     private long lastMovementTime = 0;
 
     public PlayerController(Floor floor) {
@@ -19,7 +20,7 @@ public class PlayerController extends GameController {
 
     private long getMovementCooldown() {
         int speed = Math.max(1, getModel().getPlayer().getMovementSpeed());
-        return BASE_MOVEMENT_COOLDOWN / speed;
+        return BASE_MOVEMENT_COOLDOWN_MS / speed;
     }
 
     public void movePlayer(Position position, long time) {

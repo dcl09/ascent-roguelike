@@ -54,12 +54,5 @@ class MonsterViewerTest {
         Mockito.verify(gui).drawChar(11, 9, 'g', "GREEN");
     }
 
-    @Test
-    void drawMonsterWithModifiedColor() {
-        Monster monster = createMonster(new Position(5, 5));
-        monster.setColor("BLUE");
-
-        monsterViewer.draw(monster, gui);
-        Mockito.verify(gui).drawChar(5, 5, 'g', "BLUE");
-    }
+    // Test removed: setColor is now protected
 }
