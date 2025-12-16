@@ -4,10 +4,10 @@ import Ascent.model.entities.components.Stats;
 
 public enum MonsterType {
     GOBLIN('g', "GREEN", 30, 3, 3, 10, 500),
-    ORC('O', "#154734", 60, 8, 2, 8, 900),
-    DRAGON('R', "RED", 150, 20, 4, 20, 1200),
-    SKELETON('s', "WHITE", 25, 5, 2, 7, 600),
-    ZOMBIE('Z', "#808080", 50, 6, 1, 5, 700);
+    ORC('O', "#154734", 55, 7, 2, 8, 850),
+    DRAGON('R', "RED", 120, 15, 4, 15, 1100),
+    SKELETON('s', "WHITE", 20, 4, 2, 7, 550),
+    ZOMBIE('Z', "#808080", 45, 5, 1, 5, 750);
 
     private final char symbol;
     private final String color;
@@ -17,7 +17,8 @@ public enum MonsterType {
     private final double aggroRange;
     private final long baseAttackCooldown;
 
-    MonsterType(char symbol, String color, int baseHealth, int baseDamage, int baseSpeed, double aggroRange, long baseAttackCooldown) {
+    MonsterType(char symbol, String color, int baseHealth, int baseDamage, int baseSpeed, double aggroRange,
+            long baseAttackCooldown) {
         this.symbol = symbol;
         this.color = color;
         this.baseHealth = baseHealth;
@@ -47,9 +48,13 @@ public enum MonsterType {
         return baseSpeed;
     }
 
-    public double getAggroRange() { return aggroRange; }
+    public double getAggroRange() {
+        return aggroRange;
+    }
 
-    public long getBaseAttackCooldown() { return baseAttackCooldown; }
+    public long getBaseAttackCooldown() {
+        return baseAttackCooldown;
+    }
 
     public Stats createBaseStats() {
         return new Stats(baseHealth, baseDamage, baseSpeed);
