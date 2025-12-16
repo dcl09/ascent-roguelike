@@ -168,7 +168,14 @@ public class Floor {
     }
 
     public boolean isWalkable(Position position) {
-        return !(isDoor(position) || isChest(position) || isWall(position) || isMonster(position)); // todo: implement proper check for walkable open doors
+        if (isWall(position) || isChest(position) || isMonster(position)) {
+            return false;
+        }
+        if (isDoor(position)) {
+            Door door = getDoorAt(position);
+            return door != null && door.isOpen();
+        }
+        return true;
     }
 
     public Chest getInteractingChest() {
