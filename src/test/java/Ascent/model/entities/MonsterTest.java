@@ -96,8 +96,8 @@ class MonsterTest {
             assertEquals(pos, monster.getPosition());
             assertEquals('s', monster.getSymbol());
             assertEquals("WHITE", monster.getColor());
-            assertEquals(25, monster.getStats().getMaxHealth());
-            assertEquals(5, monster.getStats().getDamage());
+            assertEquals(20, monster.getStats().getMaxHealth());
+            assertEquals(4, monster.getStats().getDamage());
             assertEquals(2, monster.getStats().getSpeed());
             assertTrue(monster.isActive());
         }
@@ -107,8 +107,8 @@ class MonsterTest {
             monster.reset(MonsterType.DRAGON, pos);
 
             assertEquals('R', monster.getSymbol());
-            assertEquals(150, monster.getStats().getMaxHealth());
-            assertEquals(20, monster.getStats().getDamage());
+            assertEquals(120, monster.getStats().getMaxHealth());
+            assertEquals(15, monster.getStats().getDamage());
             assertEquals(4, monster.getStats().getSpeed());
         }
     }

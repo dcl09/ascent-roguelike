@@ -17,27 +17,24 @@ public class Chest extends Entity implements Interactable {
     private Item containedItem;
 
     public Chest(Position position, String color) {
-        super(position, CLOSED_SYMBOL, color);
-        this.opened = false;
-        this.opened = false;
-        this.itemFactory = ItemFactory.getInstance();
-        this.containedItem = itemFactory.createRandomItem();
+        this(position, color, -1); // -1 indicates random item
     }
 
     public Chest(Position position, String color, int itemId) {
         super(position, CLOSED_SYMBOL, color);
         this.opened = false;
-        this.opened = false;
         this.itemFactory = ItemFactory.getInstance();
 
-        Item item;
-        try {
-            item = itemFactory.createItem(itemId);
-        } catch (InvalidItemIdException e) {
-            System.err.println("Aviso: " + e.getMessage() + ". Criando item aleatório.");
-            item = itemFactory.createRandomItem();
+        if (itemId == -1) {
+            this.containedItem = itemFactory.createRandomItem();
+        } else {
+            try {
+                this.containedItem = itemFactory.createItem(itemId);
+            } catch (InvalidItemIdException e) {
+                System.err.println("Aviso: " + e.getMessage() + ". Criando item aleatório.");
+                this.containedItem = itemFactory.createRandomItem();
+            }
         }
-        this.containedItem = item;
     }
 
     @Override
