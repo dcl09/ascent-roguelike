@@ -6,7 +6,7 @@ import java.util.Deque;
 public class MonsterPool {
     private static MonsterPool instance;
     private final Deque<Monster> pool;
-    private static final int SIZE = 30;
+    private static final int SIZE = 100;
 
     private MonsterPool() {
         pool = new ArrayDeque<>(SIZE);
