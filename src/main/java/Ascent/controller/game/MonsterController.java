@@ -3,6 +3,7 @@ package Ascent.controller.game;
 import Ascent.Game;
 import Ascent.gui.ACTION;
 import Ascent.model.entities.monster.Monster;
+import Ascent.model.game.IPathFinder;
 import Ascent.model.game.PathFinder;
 import Ascent.model.game.Position;
 import Ascent.model.game.floor.Floor;
@@ -16,7 +17,7 @@ public class MonsterController extends GameController {
     private static final long BASE_MOVEMENT_COOLDOWN = 550;
     private final Map<Monster, Long> lastAttackTimes;
     private final Map<Monster, Long> lastMovementTimes;
-    private final IPathFinder pathFinder; // Use interface for DIP
+    private final IPathFinder pathFinder;
 
     public MonsterController(Floor floor) {
         super(floor);

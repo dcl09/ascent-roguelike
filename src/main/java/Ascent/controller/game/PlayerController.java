@@ -8,9 +8,8 @@ import Ascent.model.game.Position;
 import Ascent.model.game.floor.Floor;
 import Ascent.model.items.armour.ArmourSlot;
 
-// todo: implement getter of specific monster infront of player, import game & implement time
 public class PlayerController extends GameController {
-    // Movement cooldown in milliseconds, divided by player speed stat
+
     private static final long BASE_MOVEMENT_COOLDOWN_MS = 300;
     private long lastMovementTime = 0;
 
