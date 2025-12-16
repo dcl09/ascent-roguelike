@@ -50,16 +50,12 @@ public class ChestController extends GameController {
         if (item == null)
             return;
 
-        if (item instanceof HealthRestore potion) {
-            potion.consume(player);
-            chest.takeItem(); // Remove from chest
-        } else {
-            // Weapon/Armour: Equip
+        // Use polymorphism - item.use() handles equipping or adding to inventory
+        Item returnedItem = item.use(player);
+
+        // If item was successfully used/equipped (returns null), remove from chest
+        if (returnedItem == null) {
             chest.takeItem();
-            if (item instanceof Ascent.model.items.Weapon w)
-                player.equipWeapon(w);
-            else if (item instanceof Ascent.model.items.armour.Armour a)
-                player.equipArmour(a);
         }
         getModel().setInteractingChest(null);
     }
