@@ -17,7 +17,7 @@ public class MonsterController extends GameController {
     private static final long BASE_MOVEMENT_COOLDOWN = 550;
     private final Map<Monster, Long> lastAttackTimes;
     private final Map<Monster, Long> lastMovementTimes;
-    private final IPathFinder pathFinder; // Use interface for DIP
+    private final IPathFinder pathFinder;
 
     public MonsterController(Floor floor) {
         super(floor);
