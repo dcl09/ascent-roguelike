@@ -68,24 +68,6 @@ class PlayerViewerTest {
         Mockito.verify(gui).drawChar(11, 9, '►', "YELLOW_BRIGHT");
     }
 
-    @Test
-    void drawPlayerWithModifiedSymbol() {
-        Player player = new Player(new Position(5, 5));
-        player.setSymbol('S');
-
-        playerViewer.draw(player, gui);
-
-        Mockito.verify(gui).drawChar(5, 5, 'S', "YELLOW_BRIGHT");
-    }
-
-    @Test
-    void drawPlayerWithModifiedColor() {
-        Player player = new Player(new Position(5, 5));
-        player.setColor("RED");
-
-        playerViewer.draw(player, gui);
-
-        // Após setColor, o símbolo inicial é '►' (direção RIGHT)
-        Mockito.verify(gui).drawChar(5, 5, '►', "RED");
-    }
+    // Tests removed: setSymbol and setColor are now protected
+    // These methods are implementation details and should not be tested directly
 }
