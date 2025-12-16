@@ -50,10 +50,8 @@ public class ChestController extends GameController {
         if (item == null)
             return;
 
-        // Use polymorphism - item.use() handles equipping or adding to inventory
         Item returnedItem = item.use(player);
 
-        // If item was successfully used/equipped (returns null), remove from chest
         if (returnedItem == null) {
             chest.takeItem();
         }
