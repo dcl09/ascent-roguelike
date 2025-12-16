@@ -26,11 +26,11 @@ public class Entity {
         return position;
     }
 
-    public void setSymbol(char symbol) {
+    protected void setSymbol(char symbol) {
         this.symbol = symbol;
     }
 
-    public void setColor(String color) {
+    protected void setColor(String color) {
         this.color = color;
     }
 }
