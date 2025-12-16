@@ -17,7 +17,7 @@ class MonsterPoolTest {
     void setUp() {
         pool = MonsterPool.getInstance();
 
-        while (pool.available() < 30) {
+        while (pool.available() < 100) {
             pool.release(new Monster());
         }
     }
