@@ -13,13 +13,14 @@ import Ascent.model.items.HealthRestore;
 import Ascent.model.items.Weapon;
 
 public class Player extends MovableEntity implements Combatant, Interactor {
+    private static final long BASE_ATTACK_COOLDOWN = 400;
     private final Stats stats;
     private final Inventory inventory;
     private LOOKING looking;
 
     public Player(Position position) {
         super(position, '►', "YELLOW_BRIGHT");
-        this.stats = new Stats(100, 10, 5);
+        this.stats = new Stats(100, 8, 5);
         this.inventory = new Inventory(10);
         this.looking = LOOKING.RIGHT;
     }
@@ -41,6 +42,10 @@ public class Player extends MovableEntity implements Combatant, Interactor {
     @Override
     public boolean canInteract() {
         return !stats.isDead();
+    }
+
+    public long getAttackCooldown() {
+        return BASE_ATTACK_COOLDOWN;
     }
 
     @Override
