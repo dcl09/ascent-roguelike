@@ -12,6 +12,7 @@ import java.util.List;
 public abstract class MenuViewer<T extends Menu> extends Viewer<T> {
 
     private final List<String> header;
+
     public MenuViewer(T menu, String filepath) throws IOException {
         super(menu);
         this.header = Files.readAllLines(Path.of("resources/" + filepath));
@@ -20,20 +21,21 @@ public abstract class MenuViewer<T extends Menu> extends Viewer<T> {
     @Override
     protected void drawEntities(GUI gui) {
         int y = 5;
+        int titleX = 42;
+        int menuX = 67;
 
         for (int i = 0; i < header.size(); i++) {
             String line = header.get(i);
-            int x = 5;
-            gui.drawText(x, y + i, line, "#FFFFFF");
+            gui.drawText(titleX, y + i, line, "#FFFFFF");
         }
 
-        drawEntries(gui, y+ header.size() + 3);
+        drawEntries(gui, y + header.size() + 3, menuX);
     }
 
-    private void drawEntries(GUI gui, int y) {
+    private void drawEntries(GUI gui, int y, int menuX) {
         for (int i = 0; i < getModel().getNumberEntries(); i++) {
             gui.drawText(
-                    5,
+                    menuX,
                     y + i * 2,
                     getModel().getEntry(i),
                     getModel().isSelected(i) ? "#a67c00" : "#FFFFFF");
