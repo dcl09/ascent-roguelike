@@ -22,8 +22,8 @@ public class PlayerController extends GameController {
         return BASE_MOVEMENT_COOLDOWN / speed;
     }
 
-    public void movePlayer(Position position) {
-        getModel().movePlayer(position);
+    public void movePlayer(Position position, long time) {
+        getModel().movePlayer(position, time);
     }
 
     @Override
@@ -64,19 +64,19 @@ public class PlayerController extends GameController {
         boolean moved = false;
         switch (action) {
             case UP -> {
-                movePlayer(player.moveToward(LOOKING.UP));
+                movePlayer(player.moveToward(LOOKING.UP), time);
                 moved = true;
             }
             case DOWN -> {
-                movePlayer(player.moveToward(LOOKING.DOWN));
+                movePlayer(player.moveToward(LOOKING.DOWN), time);
                 moved = true;
             }
             case LEFT -> {
-                movePlayer(player.moveToward(LOOKING.LEFT));
+                movePlayer(player.moveToward(LOOKING.LEFT), time);
                 moved = true;
             }
             case RIGHT -> {
-                movePlayer(player.moveToward(LOOKING.RIGHT));
+                movePlayer(player.moveToward(LOOKING.RIGHT), time);
                 moved = true;
             }
             default -> {
