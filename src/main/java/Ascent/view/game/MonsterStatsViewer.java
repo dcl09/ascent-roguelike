@@ -5,7 +5,7 @@ import Ascent.gui.GUI;
 public class MonsterStatsViewer extends StatsViewer {
     private static final String TITLE_COLOR = "#eb564b";
     private static final String MONSTER_COLOR = "#ffb5b5";
-    private static final String HEALTH_COLOR = "#5dde87";
+    private static final String HEALTH_COLOR = "#f05837";
 
     @Override
     protected int drawTitle(GUI gui, int x, int y) {
