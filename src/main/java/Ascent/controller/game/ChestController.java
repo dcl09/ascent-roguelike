@@ -19,7 +19,6 @@ public class ChestController extends GameController {
         Chest chest = getModel().getInteractingChest();
 
         if (chest == null) {
-            // Open Chest Logic
             if (action == ACTION.INTERACT) {
                 Chest targetChest = getModel().getChestAt(player.facing());
 
@@ -27,9 +26,7 @@ public class ChestController extends GameController {
                     if (!targetChest.isOpened()) {
                         targetChest.interact(player);
                     }
-                    if (targetChest.getContainedItem() != null) {
-                        getModel().setInteractingChest(targetChest);
-                    }
+                    getModel().setInteractingChest(targetChest);
                 }
             }
             return;
