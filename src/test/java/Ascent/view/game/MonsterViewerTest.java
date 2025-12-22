@@ -28,7 +28,7 @@ class MonsterViewerTest {
     void drawMonsterAtValidPosition() {
         Monster monster = createMonster(new Position(5, 8));
         monsterViewer.draw(monster, gui);
-        Mockito.verify(gui).drawChar(5, 8, 'g', "GREEN");
+        Mockito.verify(gui).drawChar(5, 8, 'g', "#5dde87");
     }
 
     @Test
@@ -37,7 +37,7 @@ class MonsterViewerTest {
         monster.moveDown();
 
         monsterViewer.draw(monster, gui);
-        Mockito.verify(gui).drawChar(5, 6, 'g', "GREEN");
+        Mockito.verify(gui).drawChar(5, 6, 'g', "#5dde87");
     }
 
     @Test
@@ -51,7 +51,7 @@ class MonsterViewerTest {
         monsterViewer.draw(monster, gui);
 
         // 10,10 -> 10,9 -> 10,8 -> 11,8 -> 11,9
-        Mockito.verify(gui).drawChar(11, 9, 'g', "GREEN");
+        Mockito.verify(gui).drawChar(11, 9, 'g', "#5dde87");
     }
 
     // Test removed: setColor is now protected

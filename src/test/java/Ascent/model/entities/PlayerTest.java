@@ -33,7 +33,7 @@ class PlayerTest {
 
         @Test
         void playerHasCorrectColor() {
-            assertEquals("YELLOW_BRIGHT", player.getColor());
+            assertEquals("#6476e8", player.getColor());
         }
 
         @Test
