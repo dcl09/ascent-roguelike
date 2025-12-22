@@ -3,21 +3,24 @@ package Ascent.view.game;
 import Ascent.gui.GUI;
 
 public class PlayerStatsViewer extends StatsViewer {
-    private static final String TITLE_COLOR = "#FFD700";
-    private static final String PLAYER_COLOR = "#4488FF";
+    private static final String PLAYER_COLOR = "#6476e8";
+    private static final String STATS_COLOR = "#86a7ed";
+    private static final String HEALTH_COLOR = "#3ca370";
 
     @Override
-    protected void drawTitle(GUI gui, int x, int y) {
-        gui.drawText(x, y, "=== PLAYER ===", TITLE_COLOR);
+    protected int drawTitle(GUI gui, int x, int y) {
+        gui.drawText(x, y, "*** PLAYER ***", PLAYER_COLOR);
+        gui.drawText(x, y + 2, "=== STATS ===", STATS_COLOR);
+        return 3;
     }
 
     @Override
     protected String getHealthBarColor() {
-        return PLAYER_COLOR;
+        return HEALTH_COLOR;
     }
 
     @Override
     protected String getStatsColor() {
-        return PLAYER_COLOR;
+        return STATS_COLOR;
     }
 }

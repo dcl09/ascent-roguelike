@@ -3,17 +3,19 @@ package Ascent.view.game;
 import Ascent.gui.GUI;
 
 public class MonsterStatsViewer extends StatsViewer {
-    private static final String TITLE_COLOR = "#FFD700";
-    private static final String MONSTER_COLOR = "#FF4444";
+    private static final String TITLE_COLOR = "#eb564b";
+    private static final String MONSTER_COLOR = "#ffb5b5";
+    private static final String HEALTH_COLOR = "#5dde87";
 
     @Override
-    protected void drawTitle(GUI gui, int x, int y) {
+    protected int drawTitle(GUI gui, int x, int y) {
         gui.drawText(x, y, "=== MONSTER ===", TITLE_COLOR);
+        return 1;
     }
 
     @Override
     protected String getHealthBarColor() {
-        return MONSTER_COLOR;
+        return HEALTH_COLOR;
     }
 
     @Override

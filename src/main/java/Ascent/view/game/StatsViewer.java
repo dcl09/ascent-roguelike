@@ -15,9 +15,9 @@ public abstract class StatsViewer {
         if (stats == null || stats.isDead())
             return;
 
-        drawTitle(gui, x, y);
-        healthBarViewer.draw(gui, stats, x, y + 2, getHealthBarColor());
-        drawStats(gui, stats, x, y + 3);
+        int linesInTitle = drawTitle(gui, x, y);
+        healthBarViewer.draw(gui, stats, x, y + linesInTitle + 1, getHealthBarColor());
+        drawStats(gui, stats, x, y + linesInTitle + 2);
     }
 
     protected void drawStats(GUI gui, Stats stats, int x, int y) {
@@ -26,7 +26,7 @@ public abstract class StatsViewer {
                 stats.getDamage(), stats.getSpeed(), stats.getResistanceToDamage()), color);
     }
 
-    protected abstract void drawTitle(GUI gui, int x, int y);
+    protected abstract int drawTitle(GUI gui, int x, int y);
 
     protected abstract String getHealthBarColor();
 
