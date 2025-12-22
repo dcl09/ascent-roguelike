@@ -48,7 +48,7 @@ public class ChestInteractionDialog implements InteractionDialog<Chest> {
         } else {
             gui.drawText(x, y + 5, "[1] EQUIP", OPTION_COLOR);
         }
-        gui.drawText(x, y + 6, "[E/ESC] LEAVE", OPTION_COLOR);
+        gui.drawText(x, y + 6, "[E] LEAVE", OPTION_COLOR);
     }
 
     private void drawItemDetails(GUI gui, Item item, int x, int y) {
