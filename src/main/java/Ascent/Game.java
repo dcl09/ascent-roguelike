@@ -13,7 +13,7 @@ public class Game {
     private Stack<State<?>> stateStack;
 
     public Game() throws IOException {
-        this.gui = new GUI(140, 45);
+        this.gui = new GUI(115, 45);
         this.stateStack = new Stack<>();
         // Player init moved to start() to depend on level spawn
     }
