@@ -20,9 +20,9 @@ public abstract class MenuViewer<T extends Menu> extends Viewer<T> {
 
     @Override
     protected void drawEntities(GUI gui) {
-        int y = 5;
-        int titleX = 42;
-        int menuX = 67;
+        int y = 13;
+        int titleX = 31;
+        int menuX = 50;
 
         for (int i = 0; i < header.size(); i++) {
             String line = header.get(i);
