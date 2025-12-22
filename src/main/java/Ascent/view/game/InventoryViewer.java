@@ -12,24 +12,25 @@ import java.util.List;
 import java.util.Map;
 
 public class InventoryViewer {
-    private static final String TITLE_COLOR = "#FFD700";
-    private static final String ITEM_COLOR = "#88FF88";
-    private static final String EMPTY_COLOR = "#666666";
+    private static final String TITLE_COLOR = "#f2a65e";
+    private static final String ITEM_COLOR = "#ffe478";
+    private static final String EMPTY_COLOR = "#606070";
 
     public void drawInventory(GUI gui, Player player, int x, int y) {
         if (player == null)
             return;
 
+        gui.drawText(x, y + 2, "=== INVENTORY ===", TITLE_COLOR);
         Inventory inventory = player.getInventory();
 
         // Weapon Section
-        drawWeapon(gui, inventory.getEquippedWeapon(), x, y);
+        drawWeapon(gui, inventory.getEquippedWeapon(), x, y + 4);
 
         // Armour Section
-        drawArmour(gui, inventory.getEquippedArmour(), x, y + 3);
+        drawArmour(gui, inventory.getEquippedArmour(), x, y + 6);
 
         // Potions Section
-        drawPotions(gui, inventory.getConsumables(), x, y + 11);
+        drawPotions(gui, inventory.getConsumables(), x, y + 14);
     }
 
     private void drawWeapon(GUI gui, Weapon weapon, int x, int y) {
