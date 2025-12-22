@@ -1,4 +1,4 @@
-package Ascent.view.game;
+package Ascent.view.game.interaction;
 
 import Ascent.gui.GUI;
 import Ascent.model.entities.Chest;
@@ -7,20 +7,34 @@ import Ascent.model.items.Item;
 import Ascent.model.items.Weapon;
 import Ascent.model.items.armour.Armour;
 
-public class ChestInteractionViewer {
-    private static final String TITLE_COLOR = "#FF8844"; // Orange
-    private static final String ITEM_COLOR = "#FFFFFF"; // White
-    private static final String OPTION_COLOR = "#88FFFF"; // Cyan
+public class ChestInteractionDialog implements InteractionDialog<Chest> {
+    private static final String TITLE_COLOR = "#FFD700";
+    private static final String ITEM_COLOR = "#FFFFFF";
+    private static final String OPTION_COLOR = "#88FFFF";
 
+    @Override
+    public String getTitle() {
+        return "--- Chest ---";
+    }
+
+    @Override
     public void draw(GUI gui, Chest chest, int x, int y) {
         if (chest == null)
             return;
 
-        gui.drawText(x, y, "CHEST CONTENTS:", "#FFFFFF");
+        if (chest.isOpened() && chest.getContainedItem() != null) {
+            drawOpenedChestWithItem(gui, chest, x, y);
+        } else if (chest.isOpened() && chest.getContainedItem() == null) {
+            gui.drawText(x, y, "Chest is empty", "#888888");
+        } else {
+            gui.drawText(x, y, "Press E to interact", "#FFFFFF");
+        }
+    }
+
+    private void drawOpenedChestWithItem(GUI gui, Chest chest, int x, int y) {
         Item item = chest.getContainedItem();
 
         gui.drawText(x, y, "=== CHEST OPENED ===", TITLE_COLOR);
-
         gui.drawText(x, y + 2, "Found: " + item.getName(), ITEM_COLOR);
         drawItemDetails(gui, item, x, y + 3);
 

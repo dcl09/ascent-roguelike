@@ -1,41 +1,34 @@
 package Ascent.view.game;
 
 import Ascent.gui.GUI;
-import Ascent.model.entities.monster.Monster;
-import Ascent.model.entities.Player;
 import Ascent.model.entities.components.Stats;
+import Ascent.view.game.components.HealthBarViewer;
 
-public class StatsViewer {
-    private static final String PLAYER_COLOR = "#4488FF"; // Blue
-    private static final String MONSTER_COLOR = "#FF4444"; // Red
+public abstract class StatsViewer {
+    protected final HealthBarViewer healthBarViewer;
 
-    public void drawStats(GUI gui, int x, int y, Stats stats, String color) {
-        gui.drawText(x, y + 1, "HP:  " + stats.getHealth() + "/" + stats.getMaxHealth(), color);
-        gui.drawText(x, y + 2, "DMG: " + stats.getDamage(), color);
-        gui.drawText(x, y + 3, "SPD: " + stats.getSpeed(), color);
-        gui.drawText(x, y + 4, "ARM: " + stats.getResistanceToDamage(), color);
+    public StatsViewer() {
+        this.healthBarViewer = new HealthBarViewer();
     }
 
-    public void drawPlayerStats(GUI gui, Player player, int x, int y) {
-        if (player == null)
+    public void draw(GUI gui, Stats stats, int x, int y) {
+        if (stats == null || stats.isDead())
             return;
-        Stats stats = player.getStats();
-        String color = PLAYER_COLOR;
 
-        gui.drawText(x, y, "--- PLAYER ---", color);
-        drawStats(gui, x, y, stats, color);
+        int linesInTitle = drawTitle(gui, x, y);
+        healthBarViewer.draw(gui, stats, x, y + linesInTitle + 1, getHealthBarColor());
+        drawStats(gui, stats, x, y + linesInTitle + 2);
     }
 
-    public void drawMonsterStats(GUI gui, Monster monster, int x, int y) {
-        if (monster == null || monster.getStats().isDead()) {
-            return;
-        }
-
-        Stats stats = monster.getStats();
-        String color = MONSTER_COLOR;
-
-        gui.drawText(x, y, "--- MONSTER ---", color);
-        drawStats(gui, x, y, stats, color);
+    protected void drawStats(GUI gui, Stats stats, int x, int y) {
+        String color = getStatsColor();
+        gui.drawText(x, y, String.format("DMG: %-4d  SPD: %-3d  ARM: %d",
+                stats.getDamage(), stats.getSpeed(), stats.getResistanceToDamage()), color);
     }
 
+    protected abstract int drawTitle(GUI gui, int x, int y);
+
+    protected abstract String getHealthBarColor();
+
+    protected abstract String getStatsColor();
 }

@@ -24,7 +24,7 @@ class WallTest {
 
     @Test
     void wallHasCorrectColor() {
-        assertEquals("WHITE", wall.getColor());
+        assertEquals("#606070", wall.getColor());
     }
 
     @Test

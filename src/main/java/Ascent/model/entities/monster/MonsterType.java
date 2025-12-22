@@ -3,11 +3,11 @@ package Ascent.model.entities.monster;
 import Ascent.model.entities.components.Stats;
 
 public enum MonsterType {
-    GOBLIN('g', "GREEN", 30, 3, 3, 10, 500),
-    ORC('O', "#154734", 55, 7, 2, 8, 850),
-    DRAGON('R', "RED", 120, 15, 4, 15, 1100),
-    SKELETON('s', "WHITE", 20, 4, 2, 7, 550),
-    ZOMBIE('Z', "#808080", 45, 5, 1, 5, 750);
+    GOBLIN('g', "#5dde87", 30, 3, 3, 10, 500),
+    ORC('O', "#3ca370", 55, 7, 2, 8, 850),
+    DRAGON('R', "#eb564b", 120, 15, 4, 15, 1100),
+    SKELETON('s', "#c2c2d1", 20, 4, 2, 7, 550),
+    ZOMBIE('Z', "#7e7e8f", 45, 5, 1, 5, 750);
 
     private final char symbol;
     private final String color;
