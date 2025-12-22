@@ -31,10 +31,7 @@ public class Game {
     }
 
     public void start() throws IOException {
-        // todo: implement time in this funct & implement menus
-
-        int FPS = 60; // 10 fps feels sluggish and unnecessary, it slows the game down for no reason
-                      // (computations are fast, for now)
+        int FPS = 30;
         int frameTime = 1000 / FPS;
 
         stateStack.push(new StartMenuState(new StartMenu()));
