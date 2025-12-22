@@ -31,7 +31,7 @@ public class Game {
     }
 
     public void start() throws IOException {
-        int FPS = 30;
+        int FPS = 60;
         int frameTime = 1000 / FPS;
 
         stateStack.push(new StartMenuState(new StartMenu()));
