@@ -50,10 +50,14 @@ public class ChestController extends GameController {
         if (item == null)
             return;
 
-        Item returnedItem = item.use(player);
-
-        if (returnedItem == null) {
+        if (item instanceof HealthRestore potion) {
+            potion.consumeNow(player);
             chest.takeItem();
+        } else {
+            Item returnedItem = item.use(player);
+            if (returnedItem == null) {
+                chest.takeItem();
+            }
         }
         getModel().setInteractingChest(null);
     }
