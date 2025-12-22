@@ -24,7 +24,7 @@ public class FloorViewer extends Viewer<Floor> {
         drawEntities(gui, getModel().getMonsters(), new MonsterViewer());
         drawEntity(gui, getModel().getPlayer(), new PlayerViewer());
 
-        int hudX = getModel().getWidth() + 18;
+        int hudX = getModel().getWidth() + 6;
         gameHUDViewer.draw(gui, getModel(), hudX);
     }
 
