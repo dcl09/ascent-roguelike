@@ -27,8 +27,12 @@ public class ChestInteractionDialog implements InteractionDialog<Chest> {
         } else if (chest.isOpened() && chest.getContainedItem() == null) {
             gui.drawText(x, y, "Chest is empty", "#888888");
         } else {
-            gui.drawText(x, y, "Press E to interact", "#FFFFFF");
+            drawPrompt(gui, x, y);
         }
+    }
+
+    public void drawPrompt(GUI gui, int x, int y) {
+        gui.drawText(x, y, "Press E to interact", "#FFFFFF");
     }
 
     private void drawOpenedChestWithItem(GUI gui, Chest chest, int x, int y) {

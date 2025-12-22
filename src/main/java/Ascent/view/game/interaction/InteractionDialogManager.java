@@ -32,7 +32,7 @@ public class InteractionDialogManager {
 
         if (facingChest != null) {
             gui.drawText(x, y, chestDialog.getTitle(), "#FFD700");
-            chestDialog.draw(gui, facingChest, x, y + 2);
+            chestDialog.drawPrompt(gui, x, y + 2);
             return;
         }
 
