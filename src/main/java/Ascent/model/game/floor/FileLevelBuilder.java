@@ -143,10 +143,10 @@ public class FileLevelBuilder extends FloorBuilder {
                 char c = grid[y][x];
 
                 if (c == CHEST) {
-                    chests.add(new Chest(new Position(x, y), "YELLOW"));
+                    chests.add(new Chest(new Position(x, y), "#f2a65e"));
                 } else if (Character.isDigit(c)) {
                     int itemId = Character.getNumericValue(c);
-                    chests.add(new Chest(new Position(x, y), "YELLOW", itemId));
+                    chests.add(new Chest(new Position(x, y), "#f2a65e", itemId));
                 }
             }
         }

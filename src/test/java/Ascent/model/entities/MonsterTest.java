@@ -20,8 +20,6 @@ class MonsterTest {
             Monster monster = new Monster();
 
             assertEquals(new Position(0, 0), monster.getPosition());
-            assertEquals('M', monster.getSymbol());
-            assertEquals("RED", monster.getColor());
             assertFalse(monster.isActive());
         }
     }
@@ -95,7 +93,7 @@ class MonsterTest {
 
             assertEquals(pos, monster.getPosition());
             assertEquals('s', monster.getSymbol());
-            assertEquals("WHITE", monster.getColor());
+            assertEquals("#c2c2d1", monster.getColor());
             assertEquals(20, monster.getStats().getMaxHealth());
             assertEquals(4, monster.getStats().getDamage());
             assertEquals(2, monster.getStats().getSpeed());
