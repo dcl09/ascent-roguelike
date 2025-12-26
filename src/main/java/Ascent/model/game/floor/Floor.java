@@ -86,6 +86,11 @@ public class Floor {
                 || (monsters.containsKey(finalPosition))) {
             return false;
         }
+
+        if (player.getPosition().equals(finalPosition)) {
+            monster.attack(player);
+            return false;
+        }
         monster.setPosition(finalPosition);
         monsters.put(finalPosition, monster);
         monsters.remove(initialPosition);
