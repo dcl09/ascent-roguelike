@@ -83,7 +83,7 @@ public class Floor {
         if (chests.containsKey(finalPosition)
                 || walls.containsKey(finalPosition)
                 || (doors.containsKey(finalPosition) && !doors.get(finalPosition).isOpen())
-                || (monsters.containsKey(finalPosition))){
+                || (monsters.containsKey(finalPosition))) {
             return false;
         }
         monster.setPosition(finalPosition);
@@ -186,13 +186,15 @@ public class Floor {
     }
 
     public boolean isWalkable(Position position) {
-        if (isWall(position) || isChest(position) || isMonster(position)) {
+        if (walls.containsKey(position) && !walls.get(position).isWalkable())
             return false;
-        }
-        if (isDoor(position)) {
-            Door door = getDoorAt(position);
-            return door != null && door.isOpen();
-        }
+        if (chests.containsKey(position) && !chests.get(position).isWalkable())
+            return false;
+        if (monsters.containsKey(position) && !monsters.get(position).isWalkable())
+            return false;
+        if (doors.containsKey(position) && !doors.get(position).isWalkable())
+            return false;
+
         return true;
     }
 
