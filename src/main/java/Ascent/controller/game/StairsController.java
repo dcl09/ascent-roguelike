@@ -6,9 +6,9 @@ import Ascent.model.entities.Player;
 import Ascent.model.entities.Stairs;
 import Ascent.model.game.floor.FileLevelBuilder;
 import Ascent.model.game.floor.Floor;
-import Ascent.model.menu.Winscreen;
+import Ascent.model.menu.Endscreen;
+import Ascent.state.EndscreenState;
 import Ascent.state.GameState;
-import Ascent.state.WinscreenState;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +29,7 @@ public class StairsController extends GameController {
                 player.setPosition(builder.findPlayerSpawn());
                 game.pushState(new GameState(builder.createFloor(player, newLevel)));
             }else
-                game.pushState(new WinscreenState(new Winscreen()));
+                game.pushState(new EndscreenState(new Endscreen(true)));
         }
     }
 }
