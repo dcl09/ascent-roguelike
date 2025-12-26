@@ -55,7 +55,8 @@ public class Monster extends MovableEntity implements Combatant {
     }
 
     public long getAttackCooldown() {
-        if (monsterType == null) return 1000; // a sane default, i guess
+        if (monsterType == null)
+            throw new IllegalStateException("Monster not initialized with a type.");
         return monsterType.getBaseAttackCooldown();
     }
 }

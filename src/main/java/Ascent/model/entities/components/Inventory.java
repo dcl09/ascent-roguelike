@@ -10,7 +10,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings("UnusedReturnValue")
 public class Inventory {
     private final Map<ArmourSlot, Armour> equippedArmour;
     private final List<HealthRestore> consumables;
@@ -23,7 +22,6 @@ public class Inventory {
         this.consumables = new ArrayList<>();
     }
 
-    @SuppressWarnings("UnusedReturnValue")
     public Weapon equipWeapon(Weapon newWeapon) {
         Weapon oldWeapon = this.equippedWeapon;
         this.equippedWeapon = newWeapon;
@@ -34,7 +32,6 @@ public class Inventory {
         return equippedWeapon;
     }
 
-    @SuppressWarnings("UnusedReturnValue")
     public Armour equipArmour(Armour newArmour) {
         if (newArmour == null)
             return null;
