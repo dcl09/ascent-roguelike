@@ -4,7 +4,7 @@ import Ascent.Game;
 import Ascent.controller.Controller;
 import Ascent.gui.ACTION;
 import Ascent.model.entities.Player;
-import Ascent.model.game.floor.FileLevelBuilder;
+import Ascent.model.game.floor.FileLevelFactory;
 import Ascent.model.menu.StartMenu;
 import Ascent.state.GameState;
 
@@ -24,8 +24,9 @@ public class StartMenuController extends Controller<StartMenu> {
                 if (getModel().getCurrEntry().equals("EXIT"))
                     game.popState();
                 if (getModel().getCurrEntry().equals("START")) {
-                    FileLevelBuilder builder = new FileLevelBuilder("levels/level1.txt");
-                    game.pushState(new GameState(builder.createFloor(new Player(builder.findPlayerSpawn()))));
+                    FileLevelFactory factory = new FileLevelFactory();
+                    Player player = new Player(new Ascent.model.game.Position(0, 0));
+                    game.pushState(new GameState(factory.createLevel(1, player)));
                 }
             }
             default -> {
