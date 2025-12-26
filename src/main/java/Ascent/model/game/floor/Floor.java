@@ -79,14 +79,11 @@ public class Floor {
             throw new IllegalArgumentException("Monster does not exist in the position " + initialPosition.toString());
         }
         Monster monster = monsters.get(initialPosition);
-        if (player.getPosition().equals(finalPosition)) {
-            // monster deals damage to player
-            monster.attack(player);
-            return false;
-        }
+
         if (chests.containsKey(finalPosition)
                 || walls.containsKey(finalPosition)
-                || (doors.containsKey(finalPosition) && !doors.get(finalPosition).isOpen())) {
+                || (doors.containsKey(finalPosition) && !doors.get(finalPosition).isOpen())
+                || (monsters.containsKey(finalPosition))){
             return false;
         }
         monster.setPosition(finalPosition);
