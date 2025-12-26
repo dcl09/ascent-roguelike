@@ -33,9 +33,14 @@ public class FileLevelBuilder extends FloorBuilder {
     private final int height;
     private final MonsterPool monsterPool;
 
+    private final List<Wall> cachedWalls = new ArrayList<>();
+    private final List<Monster> cachedMonsters = new ArrayList<>();
+    private final List<Chest> cachedChests = new ArrayList<>();
+    private final List<Door> cachedDoors = new ArrayList<>();
+    private Stairs cachedStairs;
+
     private static final char WALL = '#';
     private static final char PLAYER = '@';
-    private static final char MONSTER = 'M';
     private static final char CHEST = 'C';
     private static final char EMPTY = '.';
     private static final char DOOR = 'D';
@@ -51,6 +56,7 @@ public class FileLevelBuilder extends FloorBuilder {
         this.height = grid.length;
         this.width = grid[0].length;
         this.monsterPool = MonsterPool.getInstance();
+        parseEntities();
     }
 
     public FileLevelBuilder(String[] levelLines) {
@@ -59,6 +65,7 @@ public class FileLevelBuilder extends FloorBuilder {
         this.height = grid.length;
         this.width = grid[0].length;
         this.monsterPool = MonsterPool.getInstance();
+        parseEntities();
     }
 
     private char[][] parseGrid(List<String> lines) {
@@ -99,86 +106,59 @@ public class FileLevelBuilder extends FloorBuilder {
         return height;
     }
 
-    @Override
-    protected List<Wall> createWalls() {
-        List<Wall> walls = new ArrayList<>();
-
+    private void parseEntities() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                if (grid[y][x] == WALL) {
-                    walls.add(new Wall(new Position(x, y)));
-                }
-            }
-        }
+                char c = grid[y][x];
+                Position position = new Position(x, y);
 
-        return walls;
-    }
-
-    @Override
-    protected List<Monster> createMonsters() {
-        List<Monster> monsters = new ArrayList<>();
-
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if (MonsterType.getTypeFromChar(grid[y][x]) != null) {
+                if (c == WALL) {
+                    cachedWalls.add(new Wall(position));
+                } else if (c == DOOR) {
+                    cachedDoors.add(new Door(position));
+                } else if (c == STAIRS) {
+                    cachedStairs = new Stairs(position);
+                } else if (c == CHEST) {
+                    cachedChests.add(new Chest(position, "#f2a65e"));
+                } else if (Character.isDigit(c)) {
+                    int itemId = Character.getNumericValue(c);
+                    cachedChests.add(new Chest(position, "#f2a65e", itemId));
+                } else if (MonsterType.getTypeFromChar(c) != null) {
                     try {
                         Monster monster = monsterPool.acquire();
-                        monster.reset(MonsterType.getTypeFromChar(grid[y][x]), new Position(x, y));
-                        monsters.add(monster);
+                        monster.reset(MonsterType.getTypeFromChar(c), position);
+                        cachedMonsters.add(monster);
                     } catch (MonsterPoolEmptyException e) {
                         System.err.println("Monsters pool is empty at (" + x + "," + y + ")");
                     }
                 }
             }
         }
-        return monsters;
     }
 
     @Override
-    protected List<Chest> createChests() {
-        List<Chest> chests = new ArrayList<>();
-
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                char c = grid[y][x];
-
-                if (c == CHEST) {
-                    chests.add(new Chest(new Position(x, y), "#f2a65e"));
-                } else if (Character.isDigit(c)) {
-                    int itemId = Character.getNumericValue(c);
-                    chests.add(new Chest(new Position(x, y), "#f2a65e", itemId));
-                }
-            }
-        }
-
-        return chests;
+    protected List<Wall> getWalls() {
+        return cachedWalls;
     }
 
     @Override
-    protected List<Door> createDoors() {
-        List<Door> doors = new ArrayList<>();
-
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if (grid[y][x] == DOOR) {
-                    doors.add(new Door(new Position(x, y)));
-                }
-            }
-        }
-
-        return doors;
+    protected List<Monster> getMonsters() {
+        return cachedMonsters;
     }
 
     @Override
-    protected Stairs createStairs() {
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if (grid[y][x] == STAIRS) {
-                    return new Stairs(new Position(x, y));
-                }
-            }
-        }
-        return null;
+    protected List<Chest> getChests() {
+        return cachedChests;
+    }
+
+    @Override
+    protected List<Door> getDoors() {
+        return cachedDoors;
+    }
+
+    @Override
+    protected Stairs getStairs() {
+        return cachedStairs;
     }
 
     public Position findPlayerSpawn() {

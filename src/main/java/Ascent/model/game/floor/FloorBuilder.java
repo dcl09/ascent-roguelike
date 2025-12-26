@@ -10,11 +10,11 @@ public abstract class FloorBuilder {
         Floor floor = new Floor(getWidth(), getHeight(), 1);
 
         floor.setPlayer(player);
-        floor.setMonsters(createMonsters());
-        floor.setChests(createChests());
-        floor.setWalls(createWalls());
-        floor.setDoors(createDoors());
-        floor.setStairs(createStairs());
+        floor.setMonsters(getMonsters());
+        floor.setChests(getChests());
+        floor.setWalls(getWalls());
+        floor.setDoors(getDoors());
+        floor.setStairs(getStairs());
 
         return floor;
     }
@@ -23,11 +23,11 @@ public abstract class FloorBuilder {
         Floor floor = new Floor(getWidth(), getHeight(), currLevel);
 
         floor.setPlayer(player);
-        floor.setMonsters(createMonsters());
-        floor.setChests(createChests());
-        floor.setWalls(createWalls());
-        floor.setDoors(createDoors());
-        floor.setStairs(createStairs());
+        floor.setMonsters(getMonsters());
+        floor.setChests(getChests());
+        floor.setWalls(getWalls());
+        floor.setDoors(getDoors());
+        floor.setStairs(getStairs());
 
         return floor;
     }
@@ -36,13 +36,13 @@ public abstract class FloorBuilder {
 
     protected abstract int getHeight();
 
-    protected abstract List<Wall> createWalls();
+    protected abstract List<Wall> getWalls();
 
-    protected abstract List<Chest> createChests();
+    protected abstract List<Chest> getChests();
 
-    protected abstract List<Monster> createMonsters();
+    protected abstract List<Monster> getMonsters();
 
-    protected abstract List<Door> createDoors();
+    protected abstract List<Door> getDoors();
 
-    protected abstract Stairs createStairs();
+    protected abstract Stairs getStairs();
 }
