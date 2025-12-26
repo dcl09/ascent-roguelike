@@ -25,21 +25,21 @@ public class ChestInteractionDialog implements InteractionDialog<Chest> {
         if (chest.isOpened() && chest.getContainedItem() != null) {
             drawOpenedChestWithItem(gui, chest, x, y);
         } else if (chest.isOpened() && chest.getContainedItem() == null) {
-            gui.drawText(x, y, "Chest is empty", "#888888");
+            gui.drawText(x, y, chest.getInteractionMessage(), "#888888");
         } else {
-            drawPrompt(gui, x, y);
+            drawPrompt(gui, x, y, chest.getInteractionMessage());
         }
     }
 
-    public void drawPrompt(GUI gui, int x, int y) {
-        gui.drawText(x, y, "Press E to interact", "#FFFFFF");
+    public void drawPrompt(GUI gui, int x, int y, String message) {
+        gui.drawText(x, y, message, "#FFFFFF");
     }
 
     private void drawOpenedChestWithItem(GUI gui, Chest chest, int x, int y) {
         Item item = chest.getContainedItem();
 
         gui.drawText(x, y, "=== CHEST OPENED ===", TITLE_COLOR);
-        gui.drawText(x, y + 2, "Found: " + item.getName(), ITEM_COLOR);
+        gui.drawText(x, y + 2, chest.getInteractionMessage(), ITEM_COLOR);
         drawItemDetails(gui, item, x, y + 3);
 
         if (item instanceof HealthRestore) {

@@ -16,10 +16,6 @@ public class DoorInteractionDialog implements InteractionDialog<Door> {
         if (door == null)
             return;
 
-        if (door.isOpen()) {
-            gui.drawText(x, y, "Press E to close", TEXT_COLOR);
-        } else {
-            gui.drawText(x, y, "Press E to open", TEXT_COLOR);
-        }
+        gui.drawText(x, y, door.getInteractionMessage(), TEXT_COLOR);
     }
 }
