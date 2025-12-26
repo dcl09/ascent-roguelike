@@ -43,4 +43,14 @@ public class Door extends Entity implements Interactable {
             open();
         }
     }
+
+    @Override
+    public boolean isWalkable() {
+        return isOpen;
+    }
+
+    @Override
+    public String getInteractionMessage() {
+        return isOpen ? "Press E to close" : "Press E to open";
+    }
 }

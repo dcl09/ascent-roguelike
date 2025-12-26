@@ -33,4 +33,8 @@ public class Entity {
     protected void setColor(String color) {
         this.color = color;
     }
+
+    public boolean isWalkable() {
+        return false;
+    }
 }
