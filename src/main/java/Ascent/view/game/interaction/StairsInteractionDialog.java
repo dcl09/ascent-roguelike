@@ -16,6 +16,6 @@ public class StairsInteractionDialog implements InteractionDialog<Stairs> {
         if (stairs == null)
             return;
 
-        gui.drawText(x, y, "Press E to use stairs", TEXT_COLOR);
+        gui.drawText(x, y, stairs.getInteractionMessage(), TEXT_COLOR);
     }
 }
