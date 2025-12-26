@@ -5,10 +5,10 @@ import Ascent.gui.ACTION;
 import Ascent.model.entities.Chest;
 
 import Ascent.model.game.floor.Floor;
+import Ascent.model.menu.Endscreen;
 import Ascent.model.menu.GameMenu;
-import Ascent.model.menu.Losescreen;
+import Ascent.state.EndscreenState;
 import Ascent.state.GameMenuState;
-import Ascent.state.LosescreenState;
 
 import java.io.IOException;
 
@@ -42,7 +42,7 @@ public class FloorController extends GameController {
 
         if (getModel().getPlayer().getStats().isDead()) {
             game.popState();
-            game.pushState(new LosescreenState(new Losescreen()));
+            game.pushState(new EndscreenState(new Endscreen(false)));
             return;
         }
 

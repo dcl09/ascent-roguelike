@@ -10,8 +10,8 @@ import Ascent.state.GameState;
 
 import java.io.IOException;
 
-public abstract class EndscreenController<T extends Endscreen> extends Controller<T> {
-    public EndscreenController(T endscreen) {
+public class EndscreenController extends Controller<Endscreen> {
+    public EndscreenController(Endscreen endscreen) {
         super(endscreen);
     }
 
