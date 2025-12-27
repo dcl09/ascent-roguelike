@@ -31,7 +31,6 @@ public class Chest extends Entity implements Interactable {
             try {
                 this.containedItem = itemFactory.createItem(itemId);
             } catch (InvalidItemIdException e) {
-                System.err.println("Warning: " + e.getMessage() + ". Creating random item.");
                 this.containedItem = itemFactory.createRandomItem();
             }
         }
