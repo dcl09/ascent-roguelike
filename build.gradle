@@ -1,9 +1,10 @@
 plugins {
     id 'java'
     id 'application'
+    id 'info.solidsoft.pitest' version '1.15.0'
 }
 
-group = 'com.NunoMCoimbra.hero'
+group = 'com.ascent.game'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -21,8 +22,13 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    jvmArgs("-XX:+EnableDynamicAgentLoading", "-Xshare:off")
+}
+
+pitest {
+    junit5PluginVersion = '1.2.1'
 }
 
 application {
-    mainClass = 'Ascent.Game'
+    mainClass = 'ascent.Game'
 }
