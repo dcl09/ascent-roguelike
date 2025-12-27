@@ -254,15 +254,19 @@ class PlayerTest {
         @Test
         void playerChangesDirectionsAccordingly() {
             assertEquals(LOOKING.RIGHT, player.lookingDirection());
+            assertEquals(player.getSymbol(), LOOKING.RIGHT.getSymbol());
 
             player.setLookingDirection(LOOKING.LEFT);
             assertEquals(LOOKING.LEFT, player.lookingDirection());
+            assertEquals(player.getSymbol(), LOOKING.LEFT.getSymbol());
 
             player.setLookingDirection(LOOKING.UP);
             assertEquals(LOOKING.UP, player.lookingDirection());
+            assertEquals(player.getSymbol(), LOOKING.UP.getSymbol());
 
             player.setLookingDirection(LOOKING.DOWN);
             assertEquals(LOOKING.DOWN, player.lookingDirection());
+            assertEquals(player.getSymbol(), LOOKING.DOWN.getSymbol());
         }
 
 
