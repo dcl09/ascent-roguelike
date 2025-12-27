@@ -1,5 +1,6 @@
 package ascent.model.entities;
 
+import ascent.model.entities.components.LOOKING;
 import ascent.model.entities.components.Stats;
 import ascent.model.entities.interfaces.Interactable;
 import ascent.model.game.Position;
@@ -47,6 +48,19 @@ class PlayerTest {
             assertEquals(100, stats.getMaxHealth());
             assertEquals(8, stats.getDamage());
             assertEquals(7, stats.getSpeed());
+        }
+
+        // is the getMovementSpeed function useless?
+        // this test also seems useless
+        @Test
+        void playerHasDefaultMovementSpeed() {
+            assertEquals(player.getStats().getSpeed(), player.getMovementSpeed());
+        }
+
+
+        @Test
+        void playerHasDefaultAttackCooldown() {
+            assertEquals(400, player.getAttackCooldown());
         }
 
         @Test
@@ -134,6 +148,24 @@ class PlayerTest {
             assertNull(returned);
             assertEquals(0, player.getStats().getResistanceToDamage());
         }
+
+        @Test
+        void unequipArmourRemovesBonuses() {
+            Armour chestplate = new Armour(1, "Chestplate", -2, 10, ArmourSlot.CHEST);
+            player.equipArmour(chestplate);
+            assertEquals(10, player.getStats().getResistanceToDamage());
+            assertEquals(5, player.getStats().getSpeed()); // 7 - 2 = 5
+
+            assertNotNull(player.unequipArmour(ArmourSlot.CHEST));
+            assertNull(player.unequipArmour(ArmourSlot.CHEST));
+            assertEquals(0, player.getStats().getResistanceToDamage());
+            assertEquals(7, player.getStats().getSpeed());
+        }
+
+        @Test
+        void unequipNullArmourDoesNothing() {
+            assertNull(player.unequipArmour(ArmourSlot.CHEST));
+        }
     }
 
     @Nested
@@ -209,5 +241,30 @@ class PlayerTest {
 
             verify(mockTarget).interact(player);
         }
+    }
+
+    @Nested
+    class MovementTests {
+
+        @Test
+        void playerHasDefaultLookingDirection() {
+            assertEquals(LOOKING.RIGHT, player.lookingDirection());
+        }
+
+        @Test
+        void playerChangesDirectionsAccordingly() {
+            assertEquals(LOOKING.RIGHT, player.lookingDirection());
+
+            player.setLookingDirection(LOOKING.LEFT);
+            assertEquals(LOOKING.LEFT, player.lookingDirection());
+
+            player.setLookingDirection(LOOKING.UP);
+            assertEquals(LOOKING.UP, player.lookingDirection());
+
+            player.setLookingDirection(LOOKING.DOWN);
+            assertEquals(LOOKING.DOWN, player.lookingDirection());
+        }
+
+
     }
 }

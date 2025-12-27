@@ -31,4 +31,7 @@ class EntityTest {
         assertEquals("GREEN", entity.getColor());
     }
 
+    @Test
+    void constructorSetsWalkableToFalse() { assertFalse(entity.isWalkable()); }
+
 }
