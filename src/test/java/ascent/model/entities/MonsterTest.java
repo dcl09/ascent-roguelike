@@ -49,6 +49,7 @@ class MonsterTest {
         void getMovementSpeedReturnsStatsSpeed() {
             assertEquals(3, monster.getMovementSpeed());
         }
+
     }
 
     @Nested

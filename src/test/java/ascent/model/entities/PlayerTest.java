@@ -325,5 +325,26 @@ class PlayerTest {
             assertEquals(player.getPosition().getX(), player.moveToward(LOOKING.DOWN).getX());
             assertEquals(player.getSymbol(), LOOKING.DOWN.getSymbol());
         }
+
+        @Test
+        void playerHasCorrectLookingDelta() {
+            assertEquals(player.getSymbol(), LOOKING.RIGHT.getSymbol());
+            assertEquals(1, player.lookingDirection().getDeltaX());
+            assertEquals(0, player.lookingDirection().getDeltaY());
+
+            player.setLookingDirection(LOOKING.LEFT);
+            assertEquals(-1, player.lookingDirection().getDeltaX());
+            assertEquals(0, player.lookingDirection().getDeltaY());
+
+            player.setLookingDirection(LOOKING.UP);
+            assertEquals(player.getSymbol(), LOOKING.UP.getSymbol());
+            assertEquals(-1, player.lookingDirection().getDeltaY());
+            assertEquals(0, player.lookingDirection().getDeltaX());
+
+            player.setLookingDirection(LOOKING.DOWN);
+            assertEquals(player.getSymbol(), LOOKING.DOWN.getSymbol());
+            assertEquals(1, player.lookingDirection().getDeltaY());
+            assertEquals(0, player.lookingDirection().getDeltaX());
+        }
     }
 }

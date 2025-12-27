@@ -66,6 +66,15 @@ public class StatsTest {
         }
 
         @Test
+        void takeDamageUsesResistanceFirstWhenBothAreEqual() {
+            stats.addResistanceToDamage(15);
+            stats.takeDamage(15);
+
+            assertEquals(100, stats.getHealth());
+            assertEquals(0, stats.getResistanceToDamage());
+        }
+
+        @Test
         void takeDamageOverflowsFromResistance() {
             stats.addResistanceToDamage(10);
             stats.takeDamage(25);
