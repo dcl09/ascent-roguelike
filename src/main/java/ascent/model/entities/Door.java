@@ -20,16 +20,6 @@ public class Door extends Entity implements Interactable {
         return isOpen;
     }
 
-    public void close() {
-        this.isOpen = false;
-        this.symbol = CLOSED_SYMBOL;
-    }
-
-    public void open() {
-        this.isOpen = true;
-        this.symbol = OPEN_SYMBOL;
-    }
-
     @Override
     public boolean canInteract() {
         return true;
@@ -38,9 +28,11 @@ public class Door extends Entity implements Interactable {
     @Override
     public void interact(Interactor interactor) {
         if (isOpen) {
-            close();
+            this.isOpen = false;
+            this.symbol = CLOSED_SYMBOL;
         } else {
-            open();
+            this.isOpen = true;
+            this.symbol = OPEN_SYMBOL;
         }
     }
 
