@@ -45,7 +45,7 @@ class ArmourTest {
     void onEquipModifiesSpeed() {
         helmet.onEquip(player);
 
-        assertEquals(4, player.getStats().getSpeed()); // 5 - 1
+        assertEquals(6, player.getStats().getSpeed()); // 6 - 1
     }
 
     @Test
@@ -61,7 +61,7 @@ class ArmourTest {
         helmet.onEquip(player);
         helmet.onUnequip(player);
 
-        assertEquals(5, player.getStats().getSpeed()); // base restored
+        assertEquals(7, player.getStats().getSpeed()); // base restored
     }
 
     @Test
