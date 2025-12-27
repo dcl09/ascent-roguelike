@@ -90,17 +90,18 @@ class ChestTest {
     }
 
     @Test
-    void chestWithItemTakenDoesNotHaveItem(){
+    void chestWithItemTakenDoesNotHaveItem() {
         Chest chestWithSword = new Chest(new Position(5, 5), "YELLOW", 11);
         Interactor player = mock(Player.class);
         when(player.canInteract()).thenReturn(true);
         chestWithSword.interact(player);
-        chestWithSword.takeItem();
+        Item takenItem = chestWithSword.takeItem();
+        assertEquals("Sword", takenItem.getName());
         assertNull(chestWithSword.getContainedItem());
     }
 
     @Test
-    void chestClosedCanNotHaveItemTaken(){
+    void chestClosedCanNotHaveItemTaken() {
         Exception exception = assertThrows(TakeItemWhenChestClosedException.class, () -> {
             chest.takeItem();
         });
@@ -108,7 +109,7 @@ class ChestTest {
     }
 
     @Test
-    void chestOpenedWithoutItemHasMessageWithEmpty(){
+    void chestOpenedWithoutItemHasMessageWithEmpty() {
         Chest chestWithSword = new Chest(new Position(5, 5), "YELLOW", 11);
         Interactor player = mock(Player.class);
         when(player.canInteract()).thenReturn(true);
@@ -118,13 +119,13 @@ class ChestTest {
     }
 
     @Test
-    void chestClosedHasMessageWithInteract(){
+    void chestClosedHasMessageWithInteract() {
         Chest chestWithSword = new Chest(new Position(5, 5), "YELLOW", 11);
         assertEquals("Press E to interact", chestWithSword.getInteractionMessage());
     }
 
     @Test
-    void chestOpenedWithItemHasMessageWithFound(){
+    void chestOpenedWithItemHasMessageWithFound() {
         Chest chestWithSword = new Chest(new Position(5, 5), "YELLOW", 11);
         Interactor player = mock(Player.class);
         when(player.canInteract()).thenReturn(true);
