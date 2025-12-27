@@ -103,7 +103,6 @@ public class ItemFactory {
 
     public Item createRandomItem() {
         int category = random.nextInt(3);
-        int randomId;
         switch (category) {
             case 0:
                 return createRandomWeapon();
