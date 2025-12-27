@@ -27,6 +27,10 @@ test {
 
 pitest {
     junit5PluginVersion = '1.2.1'
+    targetClasses = ['ascent.*']
+    threads = 4
+    withHistory = true
+    outputFormats = ['XML', 'HTML']
 }
 
 application {
