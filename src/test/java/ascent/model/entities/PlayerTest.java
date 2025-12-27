@@ -252,7 +252,7 @@ class PlayerTest {
         }
 
         @Test
-        void playerChangesDirectionsAccordingly() {
+        void playerChangesDirection() {
             assertEquals(LOOKING.RIGHT, player.lookingDirection());
             assertEquals(player.getSymbol(), LOOKING.RIGHT.getSymbol());
 
@@ -269,6 +269,61 @@ class PlayerTest {
             assertEquals(player.getSymbol(), LOOKING.DOWN.getSymbol());
         }
 
+        // separate tests just in case?
 
+        @Test
+        void playerChangesDirectionSymbol() {
+            assertEquals(player.getSymbol(), LOOKING.RIGHT.getSymbol());
+
+            player.setLookingDirection(LOOKING.LEFT);
+            assertEquals(player.getSymbol(), LOOKING.LEFT.getSymbol());
+
+            player.setLookingDirection(LOOKING.UP);
+            assertEquals(player.getSymbol(), LOOKING.UP.getSymbol());
+
+            player.setLookingDirection(LOOKING.DOWN);
+            assertEquals(player.getSymbol(), LOOKING.DOWN.getSymbol());
+        }
+
+        @Test
+        void playerFacesCorrectDirection() {
+            // we start facing right at (5,5)
+            assertEquals(player.getPosition().getX()+1, player.facing().getX());
+            assertEquals(player.getPosition().getY(), player.facing().getY());
+
+            player.setLookingDirection(LOOKING.LEFT);
+            assertEquals(player.getPosition().getX()-1, player.facing().getX());
+            assertEquals(player.getPosition().getY(), player.facing().getY());
+
+            player.setLookingDirection(LOOKING.UP);
+            assertEquals(player.getPosition().getY()-1, player.facing().getY());
+            assertEquals(player.getPosition().getX(), player.facing().getX());
+
+            player.setLookingDirection(LOOKING.DOWN);
+            assertEquals(player.getPosition().getY()+1, player.facing().getY());
+            assertEquals(player.getPosition().getX(), player.facing().getX());
+        }
+
+        @Test
+        void playerMovesTowardCorrectDirection() {
+            // we start facing right at (5,5)
+            // is the second moveToward correctly placed?
+            assertEquals(player.getPosition().getX()-1, player.moveToward(LOOKING.LEFT).getX());
+            assertEquals(player.getPosition().getY(), player.moveToward(LOOKING.LEFT).getY());
+            assertEquals(player.getSymbol(), LOOKING.LEFT.getSymbol());
+
+            assertEquals(player.getPosition().getX()+1, player.moveToward(LOOKING.RIGHT).getX());
+            assertEquals(player.getPosition().getY(), player.moveToward(LOOKING.RIGHT).getY());
+            assertEquals(player.getSymbol(), LOOKING.RIGHT.getSymbol());
+
+            // player.setLookingDirection(LOOKING.UP);
+            assertEquals(player.getPosition().getY()-1, player.moveToward(LOOKING.UP).getY());
+            assertEquals(player.getPosition().getX(), player.moveToward(LOOKING.UP).getX());
+            assertEquals(player.getSymbol(), LOOKING.UP.getSymbol());
+
+            assertEquals(player.getPosition().getY()+1, player.moveToward(LOOKING.DOWN).getY());
+            assertEquals(player.getPosition().getX(), player.moveToward(LOOKING.DOWN).getX());
+            assertEquals(player.getSymbol(), LOOKING.DOWN.getSymbol());
+        }
     }
 }
