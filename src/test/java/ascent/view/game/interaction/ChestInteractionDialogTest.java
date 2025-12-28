@@ -20,7 +20,7 @@ public class ChestInteractionDialogTest {
     private Chest chest;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         dialog = new ChestInteractionDialog();
         gui = Mockito.mock(GUI.class);
         chest = Mockito.mock(Chest.class);
@@ -33,7 +33,7 @@ public class ChestInteractionDialogTest {
 
     @Test
     void drawWithNullChestDoesNothing(){
-        dialog.draw(gui,null, 1, 1);
+        dialog.draw(gui,null, 10, 10);
         verifyNoInteractions(gui);
     }
 
@@ -41,8 +41,8 @@ public class ChestInteractionDialogTest {
     void drawClosedChestDrawsOpenMessage(){
         when(chest.isOpened()).thenReturn(false);
         when(chest.getInteractionMessage()).thenReturn("closedchest");
-        dialog.draw(gui, chest, 1, 1);
-        verify(gui).drawText(eq(1), eq(1), eq("closedchest"), eq("#FFFFFF"));
+        dialog.draw(gui, chest, 10, 10);
+        verify(gui).drawText(eq(10), eq(10), eq("closedchest"), eq("#FFFFFF"));
         verify(gui, never()).drawText(anyInt(), anyInt(), contains("OPENED"), anyString());
     }
 
@@ -51,8 +51,8 @@ public class ChestInteractionDialogTest {
         when(chest.isOpened()).thenReturn(true);
         when(chest.getContainedItem()).thenReturn(null);
         when(chest.getInteractionMessage()).thenReturn("emptychest");
-        dialog.draw(gui, chest, 1, 1);
-        verify(gui).drawText(eq(1), eq(1), eq("emptychest"), eq("#888888"));
+        dialog.draw(gui, chest, 10, 10);
+        verify(gui).drawText(eq(10), eq(10), eq("emptychest"), eq("#888888"));
     }
 
     @Test
@@ -64,13 +64,13 @@ public class ChestInteractionDialogTest {
         when(chest.getContainedItem()).thenReturn(weapon);
         when(chest.getInteractionMessage()).thenReturn("openedchest");
 
-        dialog.draw(gui, chest, 1, 10);
+        dialog.draw(gui, chest, 10, 10);
 
-        verify(gui).drawText(eq(1), eq(10), eq("=== CHEST OPENED ==="), anyString());
-        verify(gui).drawText(eq(1), eq(12), eq("openedchest"), anyString());
-        verify(gui).drawText(eq(1), eq(13), contains("+10 DMG"), anyString());
-        verify(gui).drawText(eq(1), eq(15), eq("[1] EQUIP"), anyString());
-        verify(gui).drawText(eq(1), eq(16), eq("[E] LEAVE"), anyString());
+        verify(gui).drawText(eq(10), eq(10), eq("=== CHEST OPENED ==="), anyString());
+        verify(gui).drawText(eq(10), eq(12), eq("openedchest"), anyString());
+        verify(gui).drawText(eq(10), eq(13), contains("+10 DMG"), anyString());
+        verify(gui).drawText(eq(10), eq(15), eq("[1] EQUIP"), anyString());
+        verify(gui).drawText(eq(10), eq(16), eq("[E] LEAVE"), anyString());
     }
 
     @Test
@@ -82,9 +82,9 @@ public class ChestInteractionDialogTest {
         when(mockArmour.getChangeInSpeed()).thenReturn(-1);
         when(chest.getContainedItem()).thenReturn(mockArmour);
 
-        dialog.draw(gui, chest, 1, 10);
+        dialog.draw(gui, chest, 10, 10);
 
-        verify(gui).drawText(eq(1), eq(13), contains("CHEST: +5 ARM"), anyString());
+        verify(gui).drawText(eq(10), eq(13), contains("CHEST: +5 ARM"), anyString());
     }
 
     @Test
