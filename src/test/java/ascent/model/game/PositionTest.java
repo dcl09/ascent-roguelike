@@ -3,6 +3,8 @@ package ascent.model.game;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class PositionTest {
 
@@ -60,8 +62,7 @@ public class PositionTest {
     @Test
     void equalsReturnsFalseForNull() {
         Position position = new Position(5, 10);
-
-        assertNotEquals(null, position);
+        assertNotEquals(position, null);
     }
 
     @Test
@@ -69,7 +70,7 @@ public class PositionTest {
         Position position = new Position(5, 10);
         String notAPosition = "not a position";
 
-        assertNotEquals(notAPosition, position);
+        assertNotEquals(position, notAPosition);
     }
 
     @Test
@@ -94,5 +95,46 @@ public class PositionTest {
         int hash2 = position.hashCode();
 
         assertEquals(hash1, hash2);
+    }
+
+    @Test
+    void hashCodeMatchesObjectsHash() {
+        Position position = new Position(5, 10);
+        assertEquals(java.util.Objects.hash(5, 10), position.hashCode());
+    }
+
+    @Test
+    void toStringReturnsCorrectString() {
+        Position position = new Position(5, 10);
+        assertEquals("(5, 10)", position.toString());
+    }
+
+    @Test
+    void getRandomAdjacentReturnsAdjacentPosition() {
+        Position position = new Position(5, 10);
+        java.util.Random mockRandom = mock(java.util.Random.class);
+
+        when(mockRandom.nextInt(4)).thenReturn(0);
+        assertEquals(position.getUp(), position.getRandomAdjacent(mockRandom));
+
+        when(mockRandom.nextInt(4)).thenReturn(1);
+        assertEquals(position.getRight(), position.getRandomAdjacent(mockRandom));
+
+        when(mockRandom.nextInt(4)).thenReturn(2);
+        assertEquals(position.getDown(), position.getRandomAdjacent(mockRandom));
+
+        when(mockRandom.nextInt(4)).thenReturn(3);
+        assertEquals(position.getLeft(), position.getRandomAdjacent(mockRandom));
+    }
+
+    @Test
+    void getRandomAdjacentUsesDefaultRandom() {
+        Position position = new Position(5, 10);
+        Position adjacent = position.getRandomAdjacent();
+        assertNotNull(adjacent);
+
+        int dx = Math.abs(adjacent.getX() - position.getX());
+        int dy = Math.abs(adjacent.getY() - position.getY());
+        assertEquals(1, dx + dy);
     }
 }
