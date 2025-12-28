@@ -13,17 +13,20 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-// todo: add actual monsters to the legend (im lazy)
 /*
-    Legend:
- - '#' = Wall
- - '@' = Player spawn
- - 'M' = Monster
- - 'C' = Chest (random item)
- - '1'-'9' = Chest with specific item (1=Small Potion, 11=Sword, etc...)
- - '.' or ' ' = Empty space
- - 'D' = Door
- - '=' = Stairs
+    Level File Legend:
+    '#' = Wall
+    '@' = Player spawn
+    'g' = Goblin
+    'O' = Orc
+    'R' = Dragon
+    's' = Skeleton
+    'Z' = Zombie
+    'C' = Chest (random item)
+    '1'-'9' = Chest with specific item ID
+    '.' = Empty space
+    'D' = Door
+    '=' = Stairs
  */
 
 public class FileLevelBuilder extends FloorBuilder {
@@ -73,12 +76,10 @@ public class FileLevelBuilder extends FloorBuilder {
             throw new IllegalArgumentException("Empty level");
         }
 
-        int maxWidth = 0;
-        for (String line : lines) {
-            if (line.length() > maxWidth) {
-                maxWidth = line.length();
-            }
-        }
+        int maxWidth = lines.stream()
+                .mapToInt(String::length)
+                .max()
+                .orElse(0);
 
         char[][] result = new char[lines.size()][maxWidth];
 
@@ -128,8 +129,8 @@ public class FileLevelBuilder extends FloorBuilder {
                         Monster monster = monsterPool.acquire();
                         monster.reset(MonsterType.getTypeFromChar(c), position);
                         cachedMonsters.add(monster);
-                    } catch (MonsterPoolEmptyException e) {
-                        System.err.println("Monsters pool is empty at (" + x + "," + y + ")");
+                    } catch (MonsterPoolEmptyException ignored) {
+                        // Pool exhausted, skip this monster
                     }
                 }
             }
@@ -169,7 +170,6 @@ public class FileLevelBuilder extends FloorBuilder {
                 }
             }
         }
-        // Default: center of the map
         return new Position(width / 2, height / 2);
     }
 }
