@@ -17,10 +17,10 @@ public class Floor {
 
     private Player player;
     private Stairs stairs;
-    private Map<Position, Monster> monsters;
-    private Map<Position, Chest> chests;
-    private Map<Position, Wall> walls;
-    private Map<Position, Door> doors;
+    private final Map<Position, Monster> monsters;
+    private final Map<Position, Chest> chests;
+    private final Map<Position, Wall> walls;
+    private final Map<Position, Door> doors;
     private Monster lastAttackedMonster;
     private Chest interactingChest;
     private long lastPlayerAttackTime = 0;
