@@ -43,6 +43,15 @@ class HealthRestoreTest {
     }
 
     @Test
+    void consumeNowHealsPlayer() {
+        player.getStats().takeDamage(50);
+
+        potion.consumeNow(player);
+
+        assertEquals(80, player.getStats().getHealth());
+    }
+
+    @Test
     void consumeDoesNotExceedMaxHealth() {
         player.getStats().takeDamage(10);
 
