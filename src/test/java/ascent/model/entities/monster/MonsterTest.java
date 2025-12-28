@@ -1,8 +1,6 @@
-package ascent.model.entities;
+package ascent.model.entities.monster;
 
 import ascent.model.entities.components.Stats;
-import ascent.model.entities.monster.Monster;
-import ascent.model.entities.monster.MonsterType;
 import ascent.model.game.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -35,6 +33,7 @@ class MonsterTest {
             monster.reset(MonsterType.GOBLIN, new Position(0, 0));
         }
 
+
         @Test
         void monsterHasGoblinStats() {
             Stats stats = monster.getStats();
@@ -46,9 +45,27 @@ class MonsterTest {
         }
 
         @Test
+        void getMonsterTypeReturnsTheCorrectType() {
+            assertEquals(MonsterType.GOBLIN, monster.getMonsterType());
+        }
+
+        @Test
+        void monsterWithoutTypeDoesNotHaveAttackCooldown() {
+            Monster testmonster = new Monster();
+            Exception exception = assertThrows(IllegalStateException.class, testmonster::getAttackCooldown);
+            assertEquals("Monster not initialized with a type.", exception.getMessage());
+        }
+
+        @Test
         void getMovementSpeedReturnsStatsSpeed() {
             assertEquals(3, monster.getMovementSpeed());
         }
+
+        @Test
+        void getAttackCooldownReturnsAttackCooldown(){
+            assertEquals(500, monster.getAttackCooldown());
+        }
+
     }
 
     @Nested
