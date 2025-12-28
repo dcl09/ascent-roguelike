@@ -11,6 +11,10 @@ public abstract class Menu {
         entries = new ArrayList<>();
     }
 
+    public Menu(List<String> entries) {
+        this.entries = entries;
+    }
+
     public void nextEntry() {
         currEntry++;
         if  (currEntry > entries.size() - 1)
