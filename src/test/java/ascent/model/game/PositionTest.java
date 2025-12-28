@@ -2,6 +2,8 @@ package ascent.model.game;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PositionTest {
@@ -61,7 +63,8 @@ public class PositionTest {
     void equalsReturnsFalseForNull() {
         Position position = new Position(5, 10);
 
-        assertNotEquals(null, position);
+        // we have to the test explicitly like this for it to work!!! <- DO NOT CHANGE
+        assertFalse(position.equals(null));
     }
 
     @Test
@@ -69,7 +72,8 @@ public class PositionTest {
         Position position = new Position(5, 10);
         String notAPosition = "not a position";
 
-        assertNotEquals(notAPosition, position);
+        // we have to the test explicitly like this for it to work!!! <- DO NOT CHANGE
+        assertFalse(position.equals(notAPosition));
     }
 
     @Test
@@ -77,6 +81,12 @@ public class PositionTest {
         Position position = new Position(5, 10);
 
         assertEquals(position, position);
+    }
+
+    @Test
+    void hashCodeReturnsValidHash() {
+        Position position = new Position(5, 5);
+        assertEquals(Objects.hash(position.getX(), position.getY()),position.hashCode());
     }
 
     @Test
@@ -94,5 +104,26 @@ public class PositionTest {
         int hash2 = position.hashCode();
 
         assertEquals(hash1, hash2);
+    }
+
+    @Test
+    void toStringReturnsValidOutput() {
+        Position position = new Position(5, 10);
+        assertEquals("(" + position.getX() + ", " + position.getY() + ")", position.toString());
+    }
+
+    @Test
+    void getRandomAdjacentReturnsNonNullPosition() {
+        Position position = new Position(5, 10);
+        assertNotNull(position.getRandomAdjacent());
+    }
+
+    // pitest being annoying: episode 9999999999999999999
+    // yeah this test is basically useless but im leaving it here now for reference
+    @Test
+    void getRandomAdjacentReturnsValidPosition() {
+        Position position = new Position(5, 5);
+        Position adjacentPos = position.getRandomAdjacent();
+        assertTrue( (Math.abs(position.getX() - adjacentPos.getX()) == 1 && Math.abs(position.getY() - adjacentPos.getY()) == 1) || (Math.abs(position.getX() - adjacentPos.getX()) == 1 && Math.abs(position.getY() - adjacentPos.getY()) == 0) || (Math.abs(position.getX() - adjacentPos.getX()) == 0 && Math.abs(position.getY() - adjacentPos.getY()) == 1));
     }
 }
