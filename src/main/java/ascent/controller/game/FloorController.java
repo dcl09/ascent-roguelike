@@ -36,7 +36,7 @@ public class FloorController extends GameController {
         }
 
         if (action == ACTION.MENU) {
-            game.pushState(new GameMenuState(new GameMenu()));
+            game.pushState(new GameMenuState(new GameMenu(true)));
             return;
         }
 
