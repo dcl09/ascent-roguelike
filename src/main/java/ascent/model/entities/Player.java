@@ -107,7 +107,12 @@ public class Player extends MovableEntity implements Combatant, Interactor {
     }
 
     public boolean addConsumable(HealthRestore item) {
-        return inventory.addConsumable(item);
+        try {
+            inventory.addConsumable(item);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public HealthRestore removeConsumable(int index) {

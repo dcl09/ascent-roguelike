@@ -5,24 +5,34 @@ import ascent.model.items.Weapon;
 import ascent.model.items.armour.Armour;
 import ascent.model.items.armour.ArmourSlot;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class InventoryTest {
 
     private Inventory inventory;
+    private static final int MAX_CONSUMABLES = 3;
 
     @BeforeEach
     void setUp() {
-        inventory = new Inventory(3); // maxConsumables = 3
+        inventory = new Inventory(MAX_CONSUMABLES);
     }
 
     @Nested
     class WeaponTests {
+        private Weapon mockWeapon;
+
+        @BeforeEach
+        void setUpWeapon() {
+            mockWeapon = mock(Weapon.class);
+        }
 
         @Test
         void noWeaponEquippedInitially() {
@@ -31,47 +41,51 @@ class InventoryTest {
 
         @Test
         void equipWeaponSuccessfully() {
-            Weapon sword = new Weapon(1, "Sword", 0, 10);
-
-            inventory.equipWeapon(sword);
-
-            assertEquals(sword, inventory.getEquippedWeapon());
+            inventory.equipWeapon(mockWeapon);
+            assertEquals(mockWeapon, inventory.getEquippedWeapon());
         }
 
         @Test
         void equipWeaponReturnsOldWeapon() {
-            Weapon sword = new Weapon(1, "Sword", 0, 10);
-            Weapon axe = new Weapon(2, "Axe", -2, 15);
+            Weapon oldWeapon = mock(Weapon.class);
+            inventory.equipWeapon(oldWeapon);
 
-            inventory.equipWeapon(sword);
-            Weapon returned = inventory.equipWeapon(axe);
+            Weapon returned = inventory.equipWeapon(mockWeapon);
 
-            assertEquals(sword, returned);
-            assertEquals(axe, inventory.getEquippedWeapon());
+            assertEquals(oldWeapon, returned);
+            assertEquals(mockWeapon, inventory.getEquippedWeapon());
         }
 
         @Test
-        void equipWeaponReturnsNullWhenNoWeapon() {
-            Weapon sword = new Weapon(1, "Sword", 0, 10);
-
-            Weapon returned = inventory.equipWeapon(sword);
-
+        void equipWeaponReturnsNullWhenNoPreviousWeapon() {
+            Weapon returned = inventory.equipWeapon(mockWeapon);
             assertNull(returned);
         }
 
         @Test
         void equipWeaponAcceptsNull() {
-            Weapon sword = new Weapon(1, "Sword", 0, 10);
-            inventory.equipWeapon(sword);
+            inventory.equipWeapon(mockWeapon);
 
-            inventory.equipWeapon(null);
+            Weapon returned = inventory.equipWeapon(null);
 
+            assertEquals(mockWeapon, returned);
             assertNull(inventory.getEquippedWeapon());
         }
     }
 
     @Nested
     class ArmourTests {
+        private Armour mockHelmet;
+        private Armour mockChestplate;
+
+        @BeforeEach
+        void setUpArmour() {
+            mockHelmet = mock(Armour.class);
+            when(mockHelmet.getSlot()).thenReturn(ArmourSlot.HEAD);
+
+            mockChestplate = mock(Armour.class);
+            when(mockChestplate.getSlot()).thenReturn(ArmourSlot.CHEST);
+        }
 
         @Test
         void noArmourInSlotInitially() {
@@ -81,133 +95,148 @@ class InventoryTest {
 
         @Test
         void equipArmourInCorrectSlot() {
-            Armour helmet = new Armour(1, "Helmet", 0, 5, ArmourSlot.HEAD);
+            inventory.equipArmour(mockHelmet);
 
-            inventory.equipArmour(helmet);
-
-            assertEquals(helmet, inventory.getArmour(ArmourSlot.HEAD));
+            assertEquals(mockHelmet, inventory.getArmour(ArmourSlot.HEAD));
             assertNull(inventory.getArmour(ArmourSlot.CHEST));
         }
 
         @Test
         void equipArmourReturnsOldArmour() {
-            Armour helmet1 = new Armour(1, "Old Helmet", 0, 3, ArmourSlot.HEAD);
-            Armour helmet2 = new Armour(2, "New Helmet", 0, 8, ArmourSlot.HEAD);
+            Armour oldHelmet = mock(Armour.class);
+            when(oldHelmet.getSlot()).thenReturn(ArmourSlot.HEAD);
 
-            inventory.equipArmour(helmet1);
-            Armour returned = inventory.equipArmour(helmet2);
+            inventory.equipArmour(oldHelmet);
 
-            assertEquals(helmet1, returned);
-            assertEquals(helmet2, inventory.getArmour(ArmourSlot.HEAD));
+            Armour returned = inventory.equipArmour(mockHelmet);
+
+            assertEquals(oldHelmet, returned);
+            assertEquals(mockHelmet, inventory.getArmour(ArmourSlot.HEAD));
         }
 
         @Test
         void equipNullArmourReturnsNull() {
             Armour returned = inventory.equipArmour(null);
-
             assertNull(returned);
         }
 
         @Test
         void multipleArmourPiecesInDifferentSlots() {
-            Armour helmet = new Armour(1, "Helmet", 0, 5, ArmourSlot.HEAD);
-            Armour chestplate = new Armour(2, "Chestplate", -2, 10, ArmourSlot.CHEST);
+            inventory.equipArmour(mockHelmet);
+            inventory.equipArmour(mockChestplate);
 
-            inventory.equipArmour(helmet);
-            inventory.equipArmour(chestplate);
+            assertEquals(mockHelmet, inventory.getArmour(ArmourSlot.HEAD));
+            assertEquals(mockChestplate, inventory.getArmour(ArmourSlot.CHEST));
+        }
 
-            assertEquals(helmet, inventory.getArmour(ArmourSlot.HEAD));
-            assertEquals(chestplate, inventory.getArmour(ArmourSlot.CHEST));
+        @Test
+        void unequipArmourRemovesArmourInSpecifiedSlot() {
+            inventory.equipArmour(mockHelmet);
+
+            Armour returned = inventory.unequipArmour(ArmourSlot.HEAD);
+
+            assertEquals(mockHelmet, returned);
+            assertNull(inventory.getArmour(ArmourSlot.HEAD));
+        }
+
+        @Test
+        void unequipArmourReturnsNullIfSlotEmpty() {
+            Armour returned = inventory.unequipArmour(ArmourSlot.FEET);
+            assertNull(returned);
+        }
+
+        @Test
+        void getEquippedArmourReturnsDefensiveCopy() {
+            inventory.equipArmour(mockHelmet);
+            Map<ArmourSlot, Armour> armourMap = inventory.getEquippedArmour();
+
+            assertEquals(1, armourMap.size());
+            assertEquals(mockHelmet, armourMap.get(ArmourSlot.HEAD));
+
+            armourMap.clear();
+
+            assertEquals(mockHelmet, inventory.getArmour(ArmourSlot.HEAD));
         }
     }
 
     @Nested
     class ConsumableTests {
+        private HealthRestore mockPotion;
+
+        @BeforeEach
+        void setUpConsumable() {
+            mockPotion = mock(HealthRestore.class);
+        }
 
         @Test
         void noConsumablesInitially() {
             List<HealthRestore> consumables = inventory.getConsumables();
-
             assertTrue(consumables.isEmpty());
         }
 
         @Test
         void addConsumableSuccessfully() {
-            HealthRestore potion = new HealthRestore(1, "Potion", 25);
+            inventory.addConsumable(mockPotion);
 
-            boolean added = inventory.addConsumable(potion);
-
-            assertTrue(added);
             assertEquals(1, inventory.getConsumables().size());
+            assertEquals(mockPotion, inventory.getConsumables().get(0));
         }
 
         @Test
         void addConsumableRespectsLimit() {
-            for (int i = 0; i < 3; i++) {
-                inventory.addConsumable(new HealthRestore(i, "Potion" + i, 10));
+            for (int i = 0; i < MAX_CONSUMABLES; i++) {
+                inventory.addConsumable(mock(HealthRestore.class));
             }
 
-            HealthRestore extraPotion = new HealthRestore(99, "Extra", 50);
-            boolean added = inventory.addConsumable(extraPotion);
+            assertThrows(InventoryFullException.class, () -> inventory.addConsumable(mockPotion));
 
-            assertFalse(added);
-            assertEquals(3, inventory.getConsumables().size());
+            assertEquals(MAX_CONSUMABLES, inventory.getConsumables().size());
         }
 
         @Test
         void removeConsumableSuccessfully() {
-            HealthRestore potion1 = new HealthRestore(1, "Potion1", 10);
-            HealthRestore potion2 = new HealthRestore(2, "Potion2", 20);
-            inventory.addConsumable(potion1);
-            inventory.addConsumable(potion2);
+            inventory.addConsumable(mockPotion);
 
             HealthRestore removed = inventory.removeConsumable(0);
 
-            assertEquals(potion1, removed);
-            assertEquals(1, inventory.getConsumables().size());
+            assertEquals(mockPotion, removed);
+            assertTrue(inventory.getConsumables().isEmpty());
         }
 
         @Test
         void removeConsumableWithNegativeIndex() {
-            inventory.addConsumable(new HealthRestore(1, "Potion", 10));
-
+            inventory.addConsumable(mockPotion);
             HealthRestore removed = inventory.removeConsumable(-1);
-
             assertNull(removed);
         }
 
         @Test
         void removeConsumableWithIndexOutOfBounds() {
-            inventory.addConsumable(new HealthRestore(1, "Potion", 10));
-
-            HealthRestore removed = inventory.removeConsumable(5);
-
+            inventory.addConsumable(mockPotion);
+            HealthRestore removed = inventory.removeConsumable(1);
             assertNull(removed);
         }
 
         @Test
         void hasSpaceWhenNotFull() {
-            inventory.addConsumable(new HealthRestore(1, "Potion", 10));
-
+            inventory.addConsumable(mockPotion);
             assertTrue(inventory.hasSpaceForConsumable());
         }
 
         @Test
         void noSpaceWhenFull() {
-            for (int i = 0; i < 3; i++) {
-                inventory.addConsumable(new HealthRestore(i, "Potion", 10));
+            for (int i = 0; i < MAX_CONSUMABLES; i++) {
+                inventory.addConsumable(mock(HealthRestore.class));
             }
-
             assertFalse(inventory.hasSpaceForConsumable());
         }
 
         @Test
         void getConsumablesReturnsDefensiveCopy() {
-            HealthRestore potion = new HealthRestore(1, "Potion", 10);
-            inventory.addConsumable(potion);
+            inventory.addConsumable(mockPotion);
+            List<HealthRestore> listCopy = inventory.getConsumables();
 
-            List<HealthRestore> consumables = inventory.getConsumables();
-            consumables.clear();
+            listCopy.clear();
 
             assertEquals(1, inventory.getConsumables().size());
         }

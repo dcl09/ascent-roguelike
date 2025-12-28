@@ -46,11 +46,11 @@ public class Inventory {
         return equippedArmour.get(slot);
     }
 
-    public boolean addConsumable(HealthRestore item) {
-        if (consumables.size() >= maxConsumables) {
-            return false;
+    public void addConsumable(HealthRestore item) {
+        if (!hasSpaceForConsumable()) {
+            throw new InventoryFullException("Inventory is full");
         }
-        return consumables.add(item);
+        consumables.add(item);
     }
 
     public HealthRestore removeConsumable(int index) {
