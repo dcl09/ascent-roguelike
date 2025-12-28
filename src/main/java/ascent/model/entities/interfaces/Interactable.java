@@ -1,9 +1,7 @@
 package ascent.model.entities.interfaces;
 
 public interface Interactable {
-    default boolean canInteract() {
-        return true;
-    }
+    boolean canInteract();
 
     default void interact(Interactor interactor) {
     }
