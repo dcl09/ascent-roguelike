@@ -2,9 +2,9 @@ package ascent.model.game;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Objects;
-
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class PositionTest {
 
@@ -62,9 +62,7 @@ public class PositionTest {
     @Test
     void equalsReturnsFalseForNull() {
         Position position = new Position(5, 10);
-
-        // we have to the test explicitly like this for it to work!!! <- DO NOT CHANGE
-        assertFalse(position.equals(null));
+        assertNotEquals(position, null);
     }
 
     @Test
@@ -72,8 +70,7 @@ public class PositionTest {
         Position position = new Position(5, 10);
         String notAPosition = "not a position";
 
-        // we have to the test explicitly like this for it to work!!! <- DO NOT CHANGE
-        assertFalse(position.equals(notAPosition));
+        assertNotEquals(position, notAPosition);
     }
 
     @Test
@@ -81,12 +78,6 @@ public class PositionTest {
         Position position = new Position(5, 10);
 
         assertEquals(position, position);
-    }
-
-    @Test
-    void hashCodeReturnsValidHash() {
-        Position position = new Position(5, 5);
-        assertEquals(Objects.hash(position.getX(), position.getY()),position.hashCode());
     }
 
     @Test
@@ -107,23 +98,43 @@ public class PositionTest {
     }
 
     @Test
-    void toStringReturnsValidOutput() {
+    void hashCodeMatchesObjectsHash() {
         Position position = new Position(5, 10);
-        assertEquals("(" + position.getX() + ", " + position.getY() + ")", position.toString());
+        assertEquals(java.util.Objects.hash(5, 10), position.hashCode());
     }
 
     @Test
-    void getRandomAdjacentReturnsNonNullPosition() {
+    void toStringReturnsCorrectString() {
         Position position = new Position(5, 10);
-        assertNotNull(position.getRandomAdjacent());
+        assertEquals("(5, 10)", position.toString());
     }
 
-    // pitest being annoying: episode 9999999999999999999
-    // yeah this test is basically useless but im leaving it here now for reference
     @Test
-    void getRandomAdjacentReturnsValidPosition() {
-        Position position = new Position(5, 5);
-        Position adjacentPos = position.getRandomAdjacent();
-        assertTrue( (Math.abs(position.getX() - adjacentPos.getX()) == 1 && Math.abs(position.getY() - adjacentPos.getY()) == 1) || (Math.abs(position.getX() - adjacentPos.getX()) == 1 && Math.abs(position.getY() - adjacentPos.getY()) == 0) || (Math.abs(position.getX() - adjacentPos.getX()) == 0 && Math.abs(position.getY() - adjacentPos.getY()) == 1));
+    void getRandomAdjacentReturnsAdjacentPosition() {
+        Position position = new Position(5, 10);
+        java.util.Random mockRandom = mock(java.util.Random.class);
+
+        when(mockRandom.nextInt(4)).thenReturn(0);
+        assertEquals(position.getUp(), position.getRandomAdjacent(mockRandom));
+
+        when(mockRandom.nextInt(4)).thenReturn(1);
+        assertEquals(position.getRight(), position.getRandomAdjacent(mockRandom));
+
+        when(mockRandom.nextInt(4)).thenReturn(2);
+        assertEquals(position.getDown(), position.getRandomAdjacent(mockRandom));
+
+        when(mockRandom.nextInt(4)).thenReturn(3);
+        assertEquals(position.getLeft(), position.getRandomAdjacent(mockRandom));
+    }
+
+    @Test
+    void getRandomAdjacentUsesDefaultRandom() {
+        Position position = new Position(5, 10);
+        Position adjacent = position.getRandomAdjacent();
+        assertNotNull(adjacent);
+
+        int dx = Math.abs(adjacent.getX() - position.getX());
+        int dy = Math.abs(adjacent.getY() - position.getY());
+        assertEquals(1, dx + dy);
     }
 }

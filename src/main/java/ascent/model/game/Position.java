@@ -1,6 +1,7 @@
 package ascent.model.game;
 
 import java.util.Objects;
+import java.util.Random;
 
 public class Position {
     private final int x;
@@ -36,7 +37,11 @@ public class Position {
     }
 
     public Position getRandomAdjacent() {
-        int n = (int) (Math.random() * 4);
+        return getRandomAdjacent(new Random());
+    }
+
+    public Position getRandomAdjacent(Random rand) {
+        int n = rand.nextInt(4);
         return switch (n) {
             case 0 -> getUp();
             case 1 -> getRight();
