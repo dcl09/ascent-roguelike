@@ -7,7 +7,6 @@ import ascent.gui.GUI;
 import ascent.model.game.floor.Floor;
 import ascent.model.menu.Endscreen;
 import ascent.model.menu.GameMenu;
-import ascent.model.menu.StartMenu;
 import ascent.view.Viewer;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -29,7 +28,6 @@ public class StateTest {
             return Stream.of(
                     new EndscreenState(Mockito.mock(Endscreen.class)),
                     new GameMenuState(Mockito.mock(GameMenu.class)),
-                    new StartMenuState(Mockito.mock(StartMenu.class)),
                     new GameState(Mockito.mock(Floor.class))
             );
         }
