@@ -19,7 +19,6 @@ class ItemFactoryTest {
         factory = ItemFactory.getInstance();
     }
 
-    // Test singleton: getInstance should always return the same instance
     @Test
     void getInstanceReturnsSameInstance() {
         ItemFactory instance1 = ItemFactory.getInstance();
@@ -31,8 +30,6 @@ class ItemFactoryTest {
     @Nested
     class CreateItemTests {
 
-        // Potions (IDs 1-3)
-        // createItem(1) creates Small Health Potion
         @Test
         void createSmallPotion() {
             Item item = factory.createItem(1);
@@ -42,7 +39,6 @@ class ItemFactoryTest {
             assertEquals(15, ((HealthRestore) item).getRestoredHealth());
         }
 
-        // createItem(2) creates Medium Health Potion
         @Test
         void createMediumPotion() {
             Item item = factory.createItem(2);
@@ -52,7 +48,6 @@ class ItemFactoryTest {
             assertEquals(30, ((HealthRestore) item).getRestoredHealth());
         }
 
-        // createItem(3) creates Large Health Potion
         @Test
         void createLargePotion() {
             Item item = factory.createItem(3);
@@ -61,8 +56,6 @@ class ItemFactoryTest {
             assertEquals(60, ((HealthRestore) item).getRestoredHealth());
         }
 
-        // Weapons (IDs 11-13)
-        // createItem(11) creates Sword
         @Test
         void createSword() {
             Item item = factory.createItem(11);
@@ -71,7 +64,6 @@ class ItemFactoryTest {
             assertEquals("Sword", item.getName());
         }
 
-        // createItem(12) creates Axe
         @Test
         void createAxe() {
             Item item = factory.createItem(12);
@@ -80,7 +72,6 @@ class ItemFactoryTest {
             assertEquals("Axe", item.getName());
         }
 
-        // createItem(13) creates Knife
         @Test
         void createKnife() {
             Item item = factory.createItem(13);
@@ -89,17 +80,41 @@ class ItemFactoryTest {
             assertEquals("Knife", item.getName());
         }
 
-        // Armour (IDs 21-25)
-        // createItem(21) creates Basic Helmet
         @Test
         void createHelmet() {
             Item item = factory.createItem(21);
-
             assertInstanceOf(Armour.class, item);
             assertEquals("Basic Helmet", item.getName());
         }
 
-        // createItem with invalid ID throws InvalidItemIdException
+        @Test
+        void createChestplate() {
+            Item item = factory.createItem(22);
+            assertInstanceOf(Armour.class, item);
+            assertEquals("Basic Chestplate", item.getName());
+        }
+
+        @Test
+        void createLeggings() {
+            Item item = factory.createItem(23);
+            assertInstanceOf(Armour.class, item);
+            assertEquals("Basic Leggings", item.getName());
+        }
+
+        @Test
+        void createBoots() {
+            Item item = factory.createItem(24);
+            assertInstanceOf(Armour.class, item);
+            assertEquals("Basic Boots", item.getName());
+        }
+
+        @Test
+        void createBracers() {
+            Item item = factory.createItem(25);
+            assertInstanceOf(Armour.class, item);
+            assertEquals("Basic Bracers", item.getName());
+        }
+
         @Test
         void createItemWithInvalidIdThrowsException() {
             assertThrows(InvalidItemIdException.class, () -> factory.createItem(999));
@@ -109,8 +124,7 @@ class ItemFactoryTest {
         void invalidItemIdExceptionContainsCorrectId() {
             InvalidItemIdException exception = assertThrows(
                     InvalidItemIdException.class,
-                    () -> factory.createItem(999)
-            );
+                    () -> factory.createItem(999));
             assertEquals(999, exception.getInvalidId());
         }
     }
@@ -118,7 +132,6 @@ class ItemFactoryTest {
     @Nested
     class CreateRandomTests {
 
-        // createRandomWeapon should return a Weapon
         @Test
         void createRandomWeaponReturnsWeapon() {
             Weapon weapon = factory.createRandomWeapon();
@@ -127,7 +140,6 @@ class ItemFactoryTest {
             assertInstanceOf(Weapon.class, weapon);
         }
 
-        // createRandomArmour should return an Armour
         @Test
         void createRandomArmourReturnsArmour() {
             Armour armour = factory.createRandomArmour();
@@ -136,7 +148,6 @@ class ItemFactoryTest {
             assertInstanceOf(Armour.class, armour);
         }
 
-        // createRandomPotion should return a HealthRestore
         @Test
         void createRandomPotionReturnsPotion() {
             HealthRestore potion = factory.createRandomPotion();
@@ -145,7 +156,6 @@ class ItemFactoryTest {
             assertInstanceOf(HealthRestore.class, potion);
         }
 
-        // createRandomItem should never return null, test multiple times
         @Test
         void createRandomItemReturnsNonNull() {
             for (int i = 0; i < 20; i++) {
