@@ -1,8 +1,8 @@
 package ascent;
 
 import ascent.gui.GUI;
-import ascent.model.menu.StartMenu;
-import ascent.state.StartMenuState;
+import ascent.model.menu.GameMenu;
+import ascent.state.GameMenuState;
 import ascent.state.State;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class Game {
         int FPS = 60;
         int frameTime = 1000 / FPS;
 
-        stateStack.push(new StartMenuState(new StartMenu()));
+        stateStack.push(new GameMenuState(new GameMenu(false)));
 
         while (!stateStack.empty()) {
             long startTime = System.currentTimeMillis();
