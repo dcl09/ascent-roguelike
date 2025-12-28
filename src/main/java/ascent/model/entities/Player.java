@@ -35,11 +35,6 @@ public class Player extends MovableEntity implements Combatant, Interactor {
     }
 
     @Override
-    public int getMovementSpeed() {
-        return stats.getSpeed();
-    }
-
-    @Override
     public boolean canInteract() {
         return !stats.isDead();
     }
