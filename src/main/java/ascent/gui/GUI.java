@@ -16,6 +16,11 @@ public class GUI {
     private final Screen screen;
     private final TextGraphics graphics;
 
+    public GUI(Screen screen) {
+        this.screen = screen;
+        this.graphics = screen.newTextGraphics();
+    }
+
     public GUI(int width, int height) throws IOException {
         Terminal terminal = createTerminal(width, height);
         this.screen = createScreen(terminal);
@@ -24,18 +29,26 @@ public class GUI {
 
     public Terminal createTerminal(int width, int height) throws IOException {
         TerminalSize terminalSize = new TerminalSize(width, height);
-        DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
+        DefaultTerminalFactory terminalFactory = createTerminalFactory();
         terminalFactory.setInitialTerminalSize(terminalSize);
         return terminalFactory.createTerminal();
     }
 
+    protected DefaultTerminalFactory createTerminalFactory() {
+        return new DefaultTerminalFactory();
+    }
+
     public Screen createScreen(Terminal terminal) throws IOException {
         Screen screen;
-        screen = new TerminalScreen(terminal);
+        screen = createTerminalScreen(terminal);
         screen.setCursorPosition(null);
         screen.startScreen();
         screen.doResizeIfNecessary();
         return screen;
+    }
+
+    protected Screen createTerminalScreen(Terminal terminal) throws IOException {
+        return new TerminalScreen(terminal);
     }
 
     public ACTION processKey() throws IOException {
