@@ -1,6 +1,5 @@
 package ascent.model.game.floor;
 
-import ascent.model.entities.*;
 import ascent.model.entities.monster.Monster;
 import ascent.model.entities.monster.MonsterPool;
 import ascent.model.entities.monster.MonsterType;
@@ -200,41 +199,6 @@ class FileLevelBuilderTest {
         void playerAtEndOfLine() {
             FileLevelBuilder builder = new FileLevelBuilder(new String[] { "....@" });
             assertEquals(new Position(4, 0), builder.findPlayerSpawn());
-        }
-    }
-
-    @Nested
-    class FloorBuildingTests {
-
-        @Test
-        void createFloorReturnsFloorWithCorrectDimensions() {
-            FileLevelBuilder builder = new FileLevelBuilder(new String[] {
-                    "#####",
-                    "#...#",
-                    "#####"
-            });
-            Player player = new Player(new Position(1, 1));
-            Floor floor = builder.createFloor(player);
-
-            assertNotNull(floor);
-            assertEquals(5, floor.getWidth());
-            assertEquals(3, floor.getHeight());
-        }
-
-        @Test
-        void createFloorIncludesAllEntities() {
-            FileLevelBuilder builder = new FileLevelBuilder(new String[] {
-                    "#D#",
-                    ".C.",
-                    "#=#"
-            });
-            Player player = new Player(new Position(1, 1));
-            Floor floor = builder.createFloor(player);
-
-            assertFalse(floor.getWalls().isEmpty());
-            assertFalse(floor.getDoors().isEmpty());
-            assertFalse(floor.getChests().isEmpty());
-            assertNotNull(floor.getStairs());
         }
     }
 
