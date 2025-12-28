@@ -48,7 +48,7 @@ public class ChestController extends GameController {
             return;
 
         if (item instanceof HealthRestore potion) {
-            potion.consumeNow(player);
+            potion.consume(player);
         } else {
             item.use(player);
         }

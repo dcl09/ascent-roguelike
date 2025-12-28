@@ -2,7 +2,7 @@ package ascent.model.items;
 
 import ascent.model.entities.Player;
 
-public class HealthRestore extends Item{
+public class HealthRestore extends Item {
     protected final int restoredHealth;
 
     public HealthRestore(Integer id, String name, int restoredHealth) {
@@ -15,10 +15,6 @@ public class HealthRestore extends Item{
     }
 
     public void consume(Player player) {
-        player.getStats().heal(restoredHealth);
-    }
-
-    public void consumeNow(Player player) {
         player.getStats().heal(restoredHealth);
     }
 
