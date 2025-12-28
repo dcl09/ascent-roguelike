@@ -3,9 +3,12 @@ package ascent.model.menu;
 import java.util.Arrays;
 
 public class GameMenu extends Menu {
-    public GameMenu() {
+    public GameMenu(boolean isGameRunning) {
         super();
-        entries.addAll(Arrays.asList("RESUME"/* , "SETTINGS" */, "MAIN MENU"));
+        if (isGameRunning)
+            entries.addAll(Arrays.asList("RESUME"/* , "SETTINGS" */, "MAIN MENU"));
+        else
+            entries.addAll(Arrays.asList("START"/* , "SETTINGS" */, "EXIT"));
     }
 
 }

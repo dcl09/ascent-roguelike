@@ -7,16 +7,7 @@ import java.util.List;
 
 public abstract class FloorBuilder {
     public Floor createFloor(Player player) {
-        Floor floor = new Floor(getWidth(), getHeight(), 1);
-
-        floor.setPlayer(player);
-        floor.setMonsters(getMonsters());
-        floor.setChests(getChests());
-        floor.setWalls(getWalls());
-        floor.setDoors(getDoors());
-        floor.setStairs(getStairs());
-
-        return floor;
+        return createFloor(player, 1);
     }
 
     public Floor createFloor(Player player, int currLevel) {
