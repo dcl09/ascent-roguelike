@@ -15,7 +15,7 @@ public class Stats {
         this.resistanceToDamage = 0;
     }
 
-    //Method to help reset in Pools
+    // Method to help reset in Pools
 
     public void reset(int maxHealth, int damage, int speed) {
         this.maxHealth = maxHealth;
@@ -26,13 +26,9 @@ public class Stats {
     }
 
     public void takeDamage(int amount) {
-        if (resistanceToDamage >= amount){
-            resistanceToDamage -= amount;
-        }
-        else {
-            health = Math.max(0, health - amount + resistanceToDamage);
-            resistanceToDamage = 0;
-        }
+        int effectiveDamage = Math.max(0, amount - resistanceToDamage);
+        health = Math.max(0, health - effectiveDamage);
+        resistanceToDamage = Math.max(0, resistanceToDamage - amount);
     }
 
     public void heal(int amount) {
