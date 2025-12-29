@@ -3,80 +3,145 @@ package ascent.controller;
 import ascent.Game;
 import ascent.controller.game.PlayerController;
 import ascent.gui.ACTION;
-import ascent.gui.GUI;
-import ascent.model.entities.Chest;
-import ascent.model.entities.Door;
 import ascent.model.entities.Player;
-import ascent.model.entities.Wall;
-import ascent.model.entities.monster.Monster;
+import ascent.model.entities.components.LOOKING;
 import ascent.model.game.Position;
-import ascent.model.game.floor.FileLevelFactory;
 import ascent.model.game.floor.Floor;
-import ascent.model.menu.Endscreen;
-import ascent.model.menu.GameMenu;
-import ascent.state.EndscreenState;
-import ascent.state.GameMenuState;
-import ascent.state.GameState;
-import ascent.state.State;
-import ascent.view.Viewer;
+import ascent.model.items.armour.ArmourSlot;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.Mockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class PlayerControllerTest {
-    private PlayerController controller;
-    private Player player;
-    private FileLevelFactory fileLevelFactory;
-    private Floor floor;
+    @Mock Floor floor;
+    @Mock Player player;
+    @Mock Game game;
+
+    @InjectMocks
+    PlayerController controller;
 
     @BeforeEach
-    void setUp() throws IOException {
-        player = new Player(new Position(6,3));
-        fileLevelFactory = new FileLevelFactory();
-        floor = fileLevelFactory.createLevel(1, player);
-
-        floor.setPlayer(player);
-
-        floor.setWalls(List.of());
-        floor.setMonsters(List.of());
-
-        controller = new PlayerController(floor);
+    void setUp() {
+        when(floor.getPlayer()).thenReturn(player);
     }
 
-    // start position is (6,3) -> from level 1
-    @Test
-    void heroMovesToEmptyPosition() {
-        controller.movePlayer(new Position(5,4), 200);
-        assertEquals(new Position(5, 4), player.getPosition());
+    @ParameterizedTest
+    @MethodSource("movementDirections")
+    void playerMovementBlockedWhenCooldownActive(ACTION action, LOOKING looking) {
+        when(player.getMovementSpeed()).thenReturn(3);
+        when(player.moveToward(looking)).thenReturn(new Position(1, 1));
+
+        controller.step(game, action, 1000L);
+        controller.step(game, action, 1050L);
+
+        verify(floor, times(1)).movePlayer(new Position(1, 1), 1000L);
+        verify(floor, never()).movePlayer(any(), eq(1050L));
+    }
+
+    @ParameterizedTest
+    @MethodSource("movementDirections")
+    void playerMovementAllowedWhenCooldownInactive(ACTION action, LOOKING looking) {
+        when(player.getMovementSpeed()).thenReturn(3);
+        when(player.moveToward(looking)).thenReturn(new Position(1, 1));
+
+        controller.step(game, action, 1000L);
+        controller.step(game, action, 1100L);
+
+        verify(floor, times(1)).movePlayer(new Position(1, 1), 1000L);
+        verify(floor, times(1)).movePlayer(new Position(1, 1), 1100L);
+    }
+
+    @ParameterizedTest
+    @MethodSource("movementDirections")
+    void playerMovementBlockedOnEdgeOfCooldown(ACTION action, LOOKING looking) {
+        when(player.getMovementSpeed()).thenReturn(3);
+        when(player.moveToward(looking)).thenReturn(new Position(1, 1));
+
+        controller.step(game, action, 1000L);
+        controller.step(game, action, 1099L);
+
+        verify(floor, times(1)).movePlayer(new Position(1, 1), 1000L);
+        verify(floor, never()).movePlayer(any(), eq(1099L));
+    }
+
+    static Stream<Arguments> movementDirections() {
+        return Stream.of(
+                Arguments.of(ACTION.UP, LOOKING.UP),
+                Arguments.of(ACTION.DOWN, LOOKING.DOWN),
+                Arguments.of(ACTION.LEFT, LOOKING.LEFT),
+                Arguments.of(ACTION.RIGHT, LOOKING.RIGHT)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("lookDirections")
+    void playerLooksCorrectly(LOOKING looking, ACTION action) {
+        controller.step(game, action, 1000L);
+        verify(player, times(1)).setLookingDirection(looking);
+        verify(floor, never()).movePlayer(any(), anyLong());
+    }
+
+    static Stream<Arguments> lookDirections() {
+        return Stream.of(
+                Arguments.of(LOOKING.UP, ACTION.LOOK_UP),
+                Arguments.of(LOOKING.DOWN, ACTION.LOOK_DOWN),
+                Arguments.of(LOOKING.LEFT, ACTION.LOOK_LEFT),
+                Arguments.of(LOOKING.RIGHT, ACTION.LOOK_RIGHT)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("potionActions")
+    void usingPotionExecutesCorrectly(int potionIndex) {
+        ACTION action = ACTION.valueOf("USE_POTION_" + potionIndex);
+        controller.step(game, action, 1000L);
+        verify(player, times(1)).consumeItem(potionIndex);
+        verify(floor, never()).movePlayer(any(), anyLong());
+        verify(player, never()).getMovementSpeed();
+    }
+
+    static IntStream potionActions() {
+        return IntStream.range(0, 5);
+    }
+
+    @ParameterizedTest
+    @MethodSource("armourSlots")
+    void unequippingArmourExecutesCorrectly(ArmourSlot slot, ACTION action) {
+        controller.step(game, action, 1000L);
+        verify(player, times(1)).unequipArmour(slot);
+        verify(floor, never()).movePlayer(any(), anyLong());
+        verify(player, never()).getMovementSpeed();
+    }
+
+    static Stream<Arguments> armourSlots() {
+        return Stream.of(
+                Arguments.of(ArmourSlot.HEAD, ACTION.UNEQUIP_HEAD),
+                Arguments.of(ArmourSlot.CHEST, ACTION.UNEQUIP_CHEST),
+                Arguments.of(ArmourSlot.ARMS, ACTION.UNEQUIP_ARMS),
+                Arguments.of(ArmourSlot.LEGS, ACTION.UNEQUIP_LEGS),
+                Arguments.of(ArmourSlot.FEET, ACTION.UNEQUIP_FEET)
+        );
     }
 
     @Test
-    void heroDoesNotMoveThroughObstacles() {
-        // wall blocks
-        floor.setWalls(List.of(new Wall(new Position(5,3))));
-        controller.movePlayer(new Position(5,3), 200);
-        assertEquals(new Position(6, 3), player.getPosition());
-
-        // chest blocks
-        floor.setChests(List.of(new Chest(new Position(6,4), "YELLOW")));
-        controller.movePlayer(new Position(6,4), 200);
-        assertEquals(new Position(6, 3), player.getPosition());
-
-        // door at default state (closed) blocks
-        floor.setDoors(List.of(new Door(new Position(7,3))));
-        controller.movePlayer(new Position(7,3), 200);
-        assertEquals(new Position(6, 3), player.getPosition());
+    void unequippingWeaponExecutesCorrectly(ACTION action) {
+        controller.step(game, action, 1000L);
+        verify(player, times(1)).equipWeapon(null);
+        verify(floor, never()).movePlayer(any(), anyLong());
+        verify(player, never()).getMovementSpeed();
     }
 }
