@@ -54,14 +54,13 @@ public class InventoryViewer {
             Armour armour = armourMap.get(slot);
             String slotName = String.format("%-5s: ", slot.name());
 
-            String key;
+            String key = "      ";
             switch (slot) {
                 case HEAD -> key = "[ALT+2] ";
                 case CHEST -> key = "[ALT+3] ";
                 case ARMS -> key = "[ALT+4] ";
                 case LEGS -> key = "[ALT+5] ";
                 case FEET -> key = "[ALT+6] ";
-                default -> key = "      ";
             }
 
             if (armour != null) {
