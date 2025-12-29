@@ -8,7 +8,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 
 public class StairsInteractionDialogTest {
     @Test
-    public void testReturnWhenDoorIsNull() {
+    void testReturnWhenDoorIsNull() {
         GUI gui = mock(GUI.class);
         StairsInteractionDialog dialog = new StairsInteractionDialog();
         dialog.draw(gui, null, 10, 10);

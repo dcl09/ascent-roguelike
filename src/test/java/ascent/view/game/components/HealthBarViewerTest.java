@@ -13,7 +13,7 @@ public class HealthBarViewerTest {
     private Stats stats;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         viewer = new HealthBarViewer();
         gui = mock(GUI.class);
         stats = mock(Stats.class);
