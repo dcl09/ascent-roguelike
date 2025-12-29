@@ -1,7 +1,6 @@
-package ascent.controller;
+package ascent.controller.game;
 
 import ascent.Game;
-import ascent.controller.game.PlayerController;
 import ascent.gui.ACTION;
 import ascent.model.entities.Player;
 import ascent.model.entities.components.LOOKING;
@@ -27,9 +26,12 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PlayerControllerTest {
-    @Mock Floor floor;
-    @Mock Player player;
-    @Mock Game game;
+    @Mock
+    Floor floor;
+    @Mock
+    Player player;
+    @Mock
+    Game game;
 
     @InjectMocks
     PlayerController controller;
@@ -83,8 +85,7 @@ class PlayerControllerTest {
                 Arguments.of(ACTION.UP, LOOKING.UP),
                 Arguments.of(ACTION.DOWN, LOOKING.DOWN),
                 Arguments.of(ACTION.LEFT, LOOKING.LEFT),
-                Arguments.of(ACTION.RIGHT, LOOKING.RIGHT)
-        );
+                Arguments.of(ACTION.RIGHT, LOOKING.RIGHT));
     }
 
     @ParameterizedTest
@@ -100,8 +101,7 @@ class PlayerControllerTest {
                 Arguments.of(LOOKING.UP, ACTION.LOOK_UP),
                 Arguments.of(LOOKING.DOWN, ACTION.LOOK_DOWN),
                 Arguments.of(LOOKING.LEFT, ACTION.LOOK_LEFT),
-                Arguments.of(LOOKING.RIGHT, ACTION.LOOK_RIGHT)
-        );
+                Arguments.of(LOOKING.RIGHT, ACTION.LOOK_RIGHT));
     }
 
     @ParameterizedTest
@@ -133,13 +133,12 @@ class PlayerControllerTest {
                 Arguments.of(ArmourSlot.CHEST, ACTION.UNEQUIP_CHEST),
                 Arguments.of(ArmourSlot.ARMS, ACTION.UNEQUIP_ARMS),
                 Arguments.of(ArmourSlot.LEGS, ACTION.UNEQUIP_LEGS),
-                Arguments.of(ArmourSlot.FEET, ACTION.UNEQUIP_FEET)
-        );
+                Arguments.of(ArmourSlot.FEET, ACTION.UNEQUIP_FEET));
     }
 
     @Test
-    void unequippingWeaponExecutesCorrectly(ACTION action) {
-        controller.step(game, action, 1000L);
+    void unequippingWeaponExecutesCorrectly() {
+        controller.step(game, ACTION.UNEQUIP_WEAPON, 1000L);
         verify(player, times(1)).equipWeapon(null);
         verify(floor, never()).movePlayer(any(), anyLong());
         verify(player, never()).getMovementSpeed();
