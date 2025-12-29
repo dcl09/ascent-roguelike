@@ -23,6 +23,7 @@ class MonsterControllerTest {
     MonsterController monsterController;
     Player player;
     Position playerPos;
+    Position monsterPos;
     Stats stats;
 
     @BeforeEach
@@ -33,12 +34,13 @@ class MonsterControllerTest {
         pathFinder = mock(PathFinder.class);
         player = mock(Player.class);
         playerPos = mock(Position.class);
+        monsterPos = mock(Position.class);
         stats = mock(Stats.class);
 
         // return monster to floor
         when(floor.getMonsters()).thenReturn(List.of(monster));
         when(monster.getStats()).thenReturn(stats);
-        when(monster.getPosition()).thenReturn(mock(Position.class));
+        when(monster.getPosition()).thenReturn(monsterPos);
 
         // player stubs
         when(floor.getPlayer()).thenReturn(player);
@@ -64,5 +66,16 @@ class MonsterControllerTest {
         verify(floor, never()).moveMonster(any(Position.class), any(Position.class));
     }
 
+    // for reference: goblin has 10 MD aggro range
+    @Test
+    void monsterDoesNotAggroOutsideRange() {
+        when(monster.isActive()).thenReturn(true);
+        when(stats.isDead()).thenReturn(false);
 
+        when(player.getPosition()).thenReturn(new Position(1,1));
+        when(monster.getPosition()).thenReturn(new Position(11,11));
+
+        monsterController.step(game, ACTION.NONE, 1000L);
+        verify(monsterPos, times(1)).getRandomAdjacent();
+    }
 }
