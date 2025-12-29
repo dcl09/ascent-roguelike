@@ -67,8 +67,7 @@ class MonsterControllerTest {
         monsterController.step(game, ACTION.NONE, 1000L);
         verify(floor, never()).moveMonster(any(Position.class), any(Position.class));
     }
-
-    // for reference: goblin has 10 MD aggro range
+    
     @Test
     void monsterDoesNotAggroOutsideRange() {
         when(monster.isActive()).thenReturn(true);
@@ -101,6 +100,50 @@ class MonsterControllerTest {
 
         monsterController.step(game, ACTION.NONE, 1000L);
         verify(monsterPos, never()).getRandomAdjacent();
+    }
+
+    @Test
+    void monsterDoesNotMoveBeforeCooldownExpires() {
+        when(monster.isActive()).thenReturn(true);
+        when(stats.isDead()).thenReturn(false);
+        when(monster.getMovementSpeed()).thenReturn(1);
+        when(monster.getPosition()).thenReturn(monsterPos);
+        when(monsterPos.getX()).thenReturn(0);
+        when(monsterPos.getY()).thenReturn(1);
+        when(monsterPos.getRandomAdjacent()).thenReturn(new Position(0, 2));
+        MonsterType monsterType = mock(MonsterType.class);
+        when(monster.getMonsterType()).thenReturn(monsterType);
+        when(monsterType.getAggroRange()).thenReturn(0.0);
+
+
+
+        when(player.getPosition()).thenReturn(new Position(0, 0));
+
+        monsterController.step(game, ACTION.NONE, 600L);
+        monsterController.step(game, ACTION.NONE, 800L);
+
+        verify(floor, times(1)).moveMonster(any(), any());
+    }
+
+    @Test
+    void monsterMovesWhenCooldownExactlyExpires() {
+        when(monster.isActive()).thenReturn(true);
+        when(stats.isDead()).thenReturn(false);
+        when(monster.getMovementSpeed()).thenReturn(1);
+        when(monster.getPosition()).thenReturn(monsterPos);
+        when(monsterPos.getX()).thenReturn(0);
+        when(monsterPos.getY()).thenReturn(1);
+        when(monsterPos.getRandomAdjacent()).thenReturn(new Position(0, 2));
+        MonsterType monsterType = mock(MonsterType.class);
+        when(monster.getMonsterType()).thenReturn(monsterType);
+        when(monsterType.getAggroRange()).thenReturn(0.0);
+
+        when(player.getPosition()).thenReturn(new Position(0, 0));
+
+        monsterController.step(game, ACTION.NONE, 0L);
+        monsterController.step(game, ACTION.NONE, 550L);
+
+        verify(floor, times(2)).moveMonster(any(), any());
     }
 
 
