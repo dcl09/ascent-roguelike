@@ -12,14 +12,13 @@ public class Game {
     private final GUI gui;
     private Stack<State<?>> stateStack;
 
-    public Game() throws IOException {
-        this.gui = new GUI(115, 45);
+    public Game(GUI gui) {
+        this.gui = gui;
         this.stateStack = new Stack<>();
-        // Player init moved to start() to depend on level spawn
     }
 
     public static void main(String[] args) throws IOException {
-        new Game().start();
+        new Game(new GUI(115, 45)).start();
     }
 
     public void pushState(State<?> state) {
@@ -34,24 +33,34 @@ public class Game {
         int FPS = 60;
         int frameTime = 1000 / FPS;
 
-        stateStack.push(new GameMenuState(new GameMenu(false)));
+        if (stateStack.isEmpty()) {
+            pushState(new GameMenuState(new GameMenu(false)));
+        }
 
         while (!stateStack.empty()) {
-            long startTime = System.currentTimeMillis();
+            long startTime = getCurrentTime();
 
             State<?> currState = stateStack.peek();
             currState.step(this, gui, startTime);
 
-            long elapsedTime = System.currentTimeMillis() - startTime;
+            long elapsedTime = getCurrentTime() - startTime;
             long sleepTime = frameTime - elapsedTime;
 
             try {
                 if (sleepTime > 0)
-                    Thread.sleep(sleepTime);
+                    sleepExecution(sleepTime);
             } catch (InterruptedException e) {
                 // ignore the error
             }
         }
         gui.close();
+    }
+
+    protected void sleepExecution(long time) throws InterruptedException {
+        Thread.sleep(time);
+    }
+
+    protected long getCurrentTime() {
+        return System.currentTimeMillis();
     }
 }
