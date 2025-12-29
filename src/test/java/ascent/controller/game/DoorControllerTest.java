@@ -37,25 +37,24 @@ public class DoorControllerTest {
     void setUp() {
         controller = new DoorController(floor);
         when(floor.getPlayer()).thenReturn(player);
+        when(player.facing()).thenReturn(new Position(1, 1));
     }
 
     @Test
     void interactsWhenDoorNotNull() {
-        when(player.facing()).thenReturn(new Position(1, 1));
-        when(floor.getDoorAt(player.facing())).thenReturn(door);
+        when(floor.getDoorAt(new Position(1, 1))).thenReturn(door);
 
         controller.step(game, ACTION.INTERACT, 1000L);
 
-        verify(door).interact(any());
+        verify(door).interact(any(Player.class));
     }
 
     @Test
     void doesNothingWhenDoorIsNull() {
-        when(player.facing()).thenReturn(new Position(1, 1));
         when(floor.getDoorAt(new Position(1, 1))).thenReturn(null);
 
         controller.step(game, ACTION.INTERACT, 1000L);
 
-        verify(door, never()).interact(any());
+        verify(door, never()).interact(any(Player.class));
     }
 }
