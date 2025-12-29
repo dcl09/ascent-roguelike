@@ -59,7 +59,13 @@ public class FloorController extends GameController {
             if (getModel().isDoor(getModel().getPlayer().facing())) {
                 doorcontroller.step(game, action, time);
             } else if (getModel().isChest(getModel().getPlayer().facing())) {
-                chestcontroller.step(game, action, time);
+                Chest chest = getModel().getChestAt(getModel().getPlayer().facing());
+                if (chest != null) {
+                    if (!chest.isOpened()) {
+                        chest.interact(getModel().getPlayer());
+                    }
+                    getModel().setInteractingChest(chest);
+                }
             } else if (getModel().isStairs(getModel().getPlayer().facing())) {
                 stairscontroller.step(game, action, time);
             }
