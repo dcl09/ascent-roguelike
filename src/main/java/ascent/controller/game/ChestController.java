@@ -18,21 +18,8 @@ public class ChestController extends GameController {
         Player player = getModel().getPlayer();
         Chest chest = getModel().getInteractingChest();
 
-        if (chest == null) {
-            if (action == ACTION.INTERACT) {
-                Chest targetChest = getModel().getChestAt(player.facing());
+        if (chest == null) return;
 
-                if (targetChest != null) {
-                    if (!targetChest.isOpened()) {
-                        targetChest.interact(player);
-                    }
-                    getModel().setInteractingChest(targetChest);
-                }
-            }
-            return;
-        }
-
-        // Interaction Logic
         switch (action) {
             case USE_POTION_0 -> applyItem(chest, player);
             case USE_POTION_1 -> storeItem(chest, player);
