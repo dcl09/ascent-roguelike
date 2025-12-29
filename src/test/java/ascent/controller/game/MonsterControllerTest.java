@@ -5,6 +5,7 @@ import ascent.gui.ACTION;
 import ascent.model.entities.Player;
 import ascent.model.entities.components.Stats;
 import ascent.model.entities.monster.Monster;
+import ascent.model.entities.monster.MonsterType;
 import ascent.model.game.PathFinder;
 import ascent.model.game.Position;
 import ascent.model.game.floor.Floor;
@@ -41,6 +42,7 @@ class MonsterControllerTest {
         when(floor.getMonsters()).thenReturn(List.of(monster));
         when(monster.getStats()).thenReturn(stats);
         when(monster.getPosition()).thenReturn(monsterPos);
+        when(monster.getMonsterType()).thenReturn(MonsterType.GOBLIN);
 
         // player stubs
         when(floor.getPlayer()).thenReturn(player);
@@ -71,11 +73,35 @@ class MonsterControllerTest {
     void monsterDoesNotAggroOutsideRange() {
         when(monster.isActive()).thenReturn(true);
         when(stats.isDead()).thenReturn(false);
+        when(monster.getPosition()).thenReturn(monsterPos);
+        when(monsterPos.getX()).thenReturn(11);
+        when(monsterPos.getY()).thenReturn(11);
+        when(monsterPos.getRandomAdjacent()).thenReturn(mock(Position.class));
 
         when(player.getPosition()).thenReturn(new Position(1,1));
-        when(monster.getPosition()).thenReturn(new Position(11,11));
+
+        when(pathFinder.findNextStep(any(), any())).thenReturn(null);
 
         monsterController.step(game, ACTION.NONE, 1000L);
         verify(monsterPos, times(1)).getRandomAdjacent();
     }
+
+    @Test
+    void monsterAggroInsideRange() {
+        when(monster.isActive()).thenReturn(true);
+        when(stats.isDead()).thenReturn(false);
+        when(monster.getPosition()).thenReturn(monsterPos);
+        when(monsterPos.getX()).thenReturn(3);
+        when(monsterPos.getY()).thenReturn(3);
+        when(monsterPos.getRandomAdjacent()).thenReturn(mock(Position.class));
+
+        when(player.getPosition()).thenReturn(new Position(1,1));
+
+        when(pathFinder.findNextStep(any(), any())).thenReturn(new Position(1,2));
+
+        monsterController.step(game, ACTION.NONE, 1000L);
+        verify(monsterPos, never()).getRandomAdjacent();
+    }
+
+
 }
