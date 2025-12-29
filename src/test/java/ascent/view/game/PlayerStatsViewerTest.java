@@ -21,7 +21,7 @@ public class PlayerStatsViewerTest {
     }
 
     @Test
-    public void drawTitleDrawsCorrectly() {
+    void drawTitleDrawsCorrectly() {
         int result = viewer.drawTitle(gui, 5 , 5);
 
         assertEquals(3, result);
@@ -30,12 +30,12 @@ public class PlayerStatsViewerTest {
     }
 
     @Test
-    public void getHealthBarColorReturnsCorrectColor() {
+    void getHealthBarColorReturnsCorrectColor() {
         assertEquals("#3ca370", viewer.getHealthBarColor());
     }
 
     @Test
-    public void getStatsColorReturnsCorrectColor() {
+    void getStatsColorReturnsCorrectColor() {
         assertEquals("#86a7ed", viewer.getStatsColor());
     }
 }

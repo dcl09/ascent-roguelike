@@ -16,13 +16,13 @@ public class MonsterStatsViewerTest {
     private GUI gui;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         viewer = new MonsterStatsViewer();
         gui = mock(GUI.class);
     }
 
     @Test
-    public void drawTitleDrawsCorrectly() {
+    void drawTitleDrawsCorrectly() {
         int result = viewer.drawTitle(gui, 5, 5);
 
         assertEquals(1, result);
@@ -30,12 +30,12 @@ public class MonsterStatsViewerTest {
     }
 
     @Test
-    public void getHealthBarColorReturnsCorrectColor() {
+    void getHealthBarColorReturnsCorrectColor() {
         assertEquals("#f05837", viewer.getHealthBarColor());
     }
 
     @Test
-    public void getStatsColorReturnsCorrectColor() {
+    void getStatsColorReturnsCorrectColor() {
         assertEquals("#ffb5b5", viewer.getStatsColor());
     }
 }
