@@ -27,6 +27,14 @@ public class MonsterController extends GameController {
         this.pathFinder = new PathFinder(floor);
     }
 
+    // for unit testing
+    public MonsterController(Floor floor, PathFinder pathFinder) {
+        super(floor);
+        this.lastMovementTimes = new HashMap<>();
+        this.lastAttackTimes = new HashMap<>();
+        this.pathFinder = pathFinder;
+    }
+
     private long getMovementCooldown(Monster monster) {
         int speed = Math.max(1, monster.getMovementSpeed());
         return BASE_MOVEMENT_COOLDOWN / speed;
