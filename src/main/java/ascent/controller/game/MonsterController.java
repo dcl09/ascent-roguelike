@@ -19,6 +19,7 @@ public class MonsterController extends GameController {
     private final Map<Monster, Long> lastMovementTimes;
     private final IPathFinder pathFinder;
 
+
     public MonsterController(Floor floor) {
         super(floor);
         this.lastMovementTimes = new HashMap<>();

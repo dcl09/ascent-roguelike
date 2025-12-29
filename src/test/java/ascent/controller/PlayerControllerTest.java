@@ -3,7 +3,7 @@ package ascent.controller;
 import ascent.Game;
 import ascent.controller.game.PlayerController;
 import ascent.gui.ACTION;
-import ascent.model.entities.*;
+import ascent.model.entities.Player;
 import ascent.model.entities.components.LOOKING;
 import ascent.model.game.Position;
 import ascent.model.game.floor.Floor;
@@ -21,6 +21,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,38 +43,39 @@ class PlayerControllerTest {
     @MethodSource("movementDirections")
     void playerMovementBlockedWhenCooldownActive(ACTION action, LOOKING looking) {
         when(player.getMovementSpeed()).thenReturn(3);
-        when(player.moveToward(looking)).thenReturn(new Position(1,1));
+        when(player.moveToward(looking)).thenReturn(new Position(1, 1));
 
         controller.step(game, action, 1000L);
         controller.step(game, action, 1050L);
 
-        verify(floor, times(1)).movePlayer(new Position(1,1), 1000L);
+        verify(floor, times(1)).movePlayer(new Position(1, 1), 1000L);
+        verify(floor, never()).movePlayer(any(), eq(1050L));
     }
 
     @ParameterizedTest
     @MethodSource("movementDirections")
     void playerMovementAllowedWhenCooldownInactive(ACTION action, LOOKING looking) {
         when(player.getMovementSpeed()).thenReturn(3);
-        when(player.moveToward(looking)).thenReturn(new Position(1,1));
+        when(player.moveToward(looking)).thenReturn(new Position(1, 1));
 
         controller.step(game, action, 1000L);
-        controller.step(game, action, 1101L);
+        controller.step(game, action, 1100L);
 
-        verify(floor, times(1)).movePlayer(new Position(1,1), 1000L);
-        verify(floor, times(1)).movePlayer(new Position(1,1), 1101L);
+        verify(floor, times(1)).movePlayer(new Position(1, 1), 1000L);
+        verify(floor, times(1)).movePlayer(new Position(1, 1), 1100L);
     }
 
     @ParameterizedTest
     @MethodSource("movementDirections")
     void playerMovementBlockedOnEdgeOfCooldown(ACTION action, LOOKING looking) {
         when(player.getMovementSpeed()).thenReturn(3);
-        when(player.moveToward(looking)).thenReturn(new Position(1,1));
+        when(player.moveToward(looking)).thenReturn(new Position(1, 1));
 
         controller.step(game, action, 1000L);
-        controller.step(game, action, 1100L);
+        controller.step(game, action, 1099L);
 
-        verify(floor, times(1)).movePlayer(new Position(1,1), 1000L);
-        verify(floor, never()).movePlayer(new Position(1,1), 1101L);
+        verify(floor, times(1)).movePlayer(new Position(1, 1), 1000L);
+        verify(floor, never()).movePlayer(any(), eq(1099L));
     }
 
     static Stream<Arguments> movementDirections() {
@@ -89,6 +92,7 @@ class PlayerControllerTest {
     void playerLooksCorrectly(LOOKING looking, ACTION action) {
         controller.step(game, action, 1000L);
         verify(player, times(1)).setLookingDirection(looking);
+        verify(floor, never()).movePlayer(any(), anyLong());
     }
 
     static Stream<Arguments> lookDirections() {
@@ -106,6 +110,8 @@ class PlayerControllerTest {
         ACTION action = ACTION.valueOf("USE_POTION_" + potionIndex);
         controller.step(game, action, 1000L);
         verify(player, times(1)).consumeItem(potionIndex);
+        verify(floor, never()).movePlayer(any(), anyLong());
+        verify(player, never()).getMovementSpeed();
     }
 
     static IntStream potionActions() {
@@ -117,6 +123,8 @@ class PlayerControllerTest {
     void unequippingArmourExecutesCorrectly(ArmourSlot slot, ACTION action) {
         controller.step(game, action, 1000L);
         verify(player, times(1)).unequipArmour(slot);
+        verify(floor, never()).movePlayer(any(), anyLong());
+        verify(player, never()).getMovementSpeed();
     }
 
     static Stream<Arguments> armourSlots() {
@@ -130,9 +138,10 @@ class PlayerControllerTest {
     }
 
     @Test
-    void unequippingWeaponExecutesCorrectly() {
-        controller.step(game, ACTION.UNEQUIP_WEAPON, 1000L);
+    void unequippingWeaponExecutesCorrectly(ACTION action) {
+        controller.step(game, action, 1000L);
         verify(player, times(1)).equipWeapon(null);
+        verify(floor, never()).movePlayer(any(), anyLong());
+        verify(player, never()).getMovementSpeed();
     }
-
 }
