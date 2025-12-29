@@ -21,12 +21,16 @@ public class FloorController extends GameController {
     private final StairsController stairscontroller;
 
     public FloorController(Floor floor) {
+        this(floor, new PlayerController(floor), new MonsterController(floor), new ChestController(floor), new DoorController(floor), new StairsController(floor));
+    }
+
+    protected FloorController(Floor floor, PlayerController playercontroller, MonsterController monstercontroller, ChestController chestcontroller, DoorController doorcontroller, StairsController stairscontroller) {
         super(floor);
-        this.playercontroller = new PlayerController(floor);
-        this.monstercontroller = new MonsterController(floor);
-        this.chestcontroller = new ChestController(floor);
-        this.doorcontroller = new DoorController(floor);
-        this.stairscontroller = new StairsController(floor);
+        this.playercontroller = playercontroller;
+        this.monstercontroller = monstercontroller;
+        this.chestcontroller = chestcontroller;
+        this.doorcontroller = doorcontroller;
+        this.stairscontroller = stairscontroller;
     }
 
     public void step(Game game, ACTION action, long time) throws IOException {
