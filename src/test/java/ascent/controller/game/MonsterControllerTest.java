@@ -181,6 +181,26 @@ class MonsterControllerTest {
         verify(floor, times(1)).moveMonster(any(), any());
     }
 
+    @Test
+    void monsterMovementCooldownScalesWithSpeed() {
+        when(monster.isActive()).thenReturn(true);
+        when(stats.isDead()).thenReturn(false);
+        when(monster.getMovementSpeed()).thenReturn(2);
+        when(monster.getPosition()).thenReturn(monsterPos);
+        when(monsterPos.getX()).thenReturn(0);
+        when(monsterPos.getY()).thenReturn(1);
+        when(monsterPos.getRandomAdjacent()).thenReturn(new Position(0, 2));
+        MonsterType monsterType = mock(MonsterType.class);
+        when(monster.getMonsterType()).thenReturn(monsterType);
+        when(monsterType.getAggroRange()).thenReturn(0.0);
+
+        when(player.getPosition()).thenReturn(new Position(0, 0));
+
+        monsterController.step(game, ACTION.NONE, 300L);
+        monsterController.step(game, ACTION.NONE, 500L);
+
+        verify(floor, times(1)).moveMonster(any(), any());
+    }
 
     @Test
     void monsterDoesNotAttackBeforeAttackCooldownExpires() {
