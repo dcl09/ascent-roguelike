@@ -34,7 +34,7 @@ public class EndscreenViewerTest {
         EndscreenViewer viewer = new EndscreenViewer(new Endscreen(false));
         GUI gui = mock(GUI.class);
         viewer.drawEntities(gui);
-        List<String> header = Files.readAllLines(Path.of("resources/lose-text.txt"));
+        List<String> header = Files.readAllLines(Path.of("resources/losescreen-text.txt"));
         int y = 13;
         int titleX = 31;
         for (int i = 0; i < header.size(); i++) {
