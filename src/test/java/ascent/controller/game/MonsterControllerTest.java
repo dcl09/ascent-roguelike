@@ -19,15 +19,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 class MonsterControllerTest {
-    Game game;
-    Floor floor;
-    Monster monster;
-    PathFinder pathFinder;
-    MonsterController monsterController;
-    Player player;
-    Position playerPos;
-    Position monsterPos;
-    Stats stats;
+    private Game game;
+    private Floor floor;
+    private Monster monster;
+    private PathFinder pathFinder;
+    private MonsterController monsterController;
+    private Player player;
+    private Position playerPos;
+    private Position monsterPos;
+    private Stats stats;
 
     @BeforeEach
     void setUp() {
@@ -40,20 +40,41 @@ class MonsterControllerTest {
         monsterPos = mock(Position.class);
         stats = mock(Stats.class);
 
-        // return monster to floor
         when(floor.getMonsters()).thenReturn(List.of(monster));
+        when(floor.getPlayer()).thenReturn(player);
         when(monster.getStats()).thenReturn(stats);
         when(monster.getPosition()).thenReturn(monsterPos);
-        when(monster.getMonsterType()).thenReturn(MonsterType.GOBLIN);
-
-        // player stubs
-        when(floor.getPlayer()).thenReturn(player);
         when(player.getPosition()).thenReturn(playerPos);
+
+        configureMonsterState(true, false);
+        when(monster.getMovementSpeed()).thenReturn(1);
+        when(monster.getMonsterType()).thenReturn(MonsterType.GOBLIN);
 
         monsterController = new MonsterController(floor, pathFinder);
     }
 
-    // just to make PIT happy but kind of pointless...
+    private void configureMonsterState(boolean isActive, boolean isDead) {
+        when(monster.isActive()).thenReturn(isActive);
+        when(stats.isDead()).thenReturn(isDead);
+    }
+
+    private void configurePositions(int mx, int my, int px, int py) {
+        Position realMPos = spy(new Position(mx, my));
+        Position realPPos = spy(new Position(px, py));
+        
+        when(monster.getPosition()).thenReturn(realMPos);
+        when(player.getPosition()).thenReturn(realPPos);
+        
+        this.monsterPos = realMPos; 
+        this.playerPos = realPPos;
+    }
+
+    private void mockMonsterTypeWithAggro(double range) {
+        MonsterType type = mock(MonsterType.class);
+        when(type.getAggroRange()).thenReturn(range);
+        when(monster.getMonsterType()).thenReturn(type);
+    }
+
     @Test
     void moveMonsterReturnValueIsPropagated() {
         Position from = new Position(0, 0);
@@ -66,186 +87,188 @@ class MonsterControllerTest {
         assertFalse(monsterController.moveMonster(from, to));
     }
 
-
     @Test
     void inactiveMonstersDoNotMove() {
-        when(monster.isActive()).thenReturn(false);
-
+        configureMonsterState(false, false);
         monsterController.step(game, ACTION.NONE, 1000L);
         verify(floor, never()).moveMonster(any(), any());
     }
 
     @Test
     void deadMonstersDoNotMove() {
-        when(monster.isActive()).thenReturn(true);
-        when(stats.isDead()).thenReturn(true);
-
+        configureMonsterState(true, true);
         monsterController.step(game, ACTION.NONE, 1000L);
-        verify(floor, never()).moveMonster(any(Position.class), any(Position.class));
+        verify(floor, never()).moveMonster(any(), any());
     }
 
     @Test
-    void monsterDoesNotAggroOutsideRange() {
-        when(monster.isActive()).thenReturn(true);
-        when(stats.isDead()).thenReturn(false);
-        when(monster.getPosition()).thenReturn(monsterPos);
-        when(monsterPos.getX()).thenReturn(11);
-        when(monsterPos.getY()).thenReturn(11);
-        when(monsterPos.getRandomAdjacent()).thenReturn(mock(Position.class));
-
-        when(player.getPosition()).thenReturn(new Position(1,1));
-
-        when(pathFinder.findNextStep(any(), any())).thenReturn(null);
+    void monsterMovesRandomlyOutsideAggroRange() {
+        configurePositions(20, 20, 0, 0);
+        mockMonsterTypeWithAggro(5.0);
 
         monsterController.step(game, ACTION.NONE, 1000L);
-        verify(monsterPos, times(1)).getRandomAdjacent();
+
+        verify(monsterPos).getRandomAdjacent();
+        verify(pathFinder, never()).findNextStep(any(), any());
+        verify(floor).moveMonster(eq(monsterPos), any());
     }
 
     @Test
-    void monsterAggroInsideRange() {
-        when(monster.isActive()).thenReturn(true);
-        when(stats.isDead()).thenReturn(false);
-        when(monster.getPosition()).thenReturn(monsterPos);
-        when(monsterPos.getX()).thenReturn(3);
-        when(monsterPos.getY()).thenReturn(3);
-        when(monsterPos.getRandomAdjacent()).thenReturn(mock(Position.class));
-
-        when(player.getPosition()).thenReturn(new Position(1,1));
-
-        when(pathFinder.findNextStep(any(), any())).thenReturn(new Position(1,2));
-
-        monsterController.step(game, ACTION.NONE, 1000L);
-        verify(monsterPos, never()).getRandomAdjacent();
-    }
-
-    @Test
-    void monsterAggroAtExactAggroRangeBoundary() {
-        when(monster.isActive()).thenReturn(true);
-        when(stats.isDead()).thenReturn(false);
-        when(monster.getPosition()).thenReturn(monsterPos);
-        when(monsterPos.getX()).thenReturn(3);
-        when(monsterPos.getY()).thenReturn(3);
-        MonsterType monsterType = mock(MonsterType.class);
-        when(monster.getMonsterType()).thenReturn(monsterType);
-        when(monsterType.getAggroRange()).thenReturn(4.0);
-
-        when(player.getPosition()).thenReturn(new Position(1, 1));
-
-        when(pathFinder.findNextStep(any(), any())).thenReturn(new Position(2, 2));
+    void monsterFollowsPathInsideAggroRange() {
+        configurePositions(2, 2, 0, 0);
+        mockMonsterTypeWithAggro(5.0);
+        
+        Position nextStep = new Position(1, 1);
+        when(pathFinder.findNextStep(any(), any())).thenReturn(nextStep);
 
         monsterController.step(game, ACTION.NONE, 1000L);
 
         verify(pathFinder).findNextStep(any(), any());
+        verify(floor).moveMonster(monsterPos, nextStep);
+    }
+    
+    @Test
+    void monsterAggroAtExactBoundary() {
+        configurePositions(5, 5, 5, 10);
+        mockMonsterTypeWithAggro(5.0);
+        
+        Position nextStep = new Position(5, 9);
+        when(pathFinder.findNextStep(any(), any())).thenReturn(nextStep);
+
+        monsterController.step(game, ACTION.NONE, 1000L);
+
+        verify(pathFinder).findNextStep(any(), any());
+        verify(floor).moveMonster(monsterPos, nextStep);
     }
 
+    @Test
+    void monsterMovesRandomlyWhenPathFinderFailsInsideAggro() {
+        configurePositions(2, 2, 0, 0);
+        mockMonsterTypeWithAggro(5.0);
+        
+        when(pathFinder.findNextStep(any(), any())).thenReturn(null);
+        Position randomStep = new Position(3, 3);
+        doReturn(randomStep).when(monsterPos).getRandomAdjacent();
+
+        monsterController.step(game, ACTION.NONE, 1000L);
+
+        verify(monsterPos).getRandomAdjacent();
+        verify(floor).moveMonster(monsterPos, randomStep);
+    }
 
     @Test
-    void monsterDoesNotMoveBeforeCooldownExpires() {
-        when(monster.isActive()).thenReturn(true);
-        when(stats.isDead()).thenReturn(false);
-        when(monster.getMovementSpeed()).thenReturn(1);
-        when(monster.getPosition()).thenReturn(monsterPos);
-        when(monsterPos.getX()).thenReturn(0);
-        when(monsterPos.getY()).thenReturn(1);
-        when(monsterPos.getRandomAdjacent()).thenReturn(new Position(0, 2));
-        MonsterType monsterType = mock(MonsterType.class);
-        when(monster.getMonsterType()).thenReturn(monsterType);
-        when(monsterType.getAggroRange()).thenReturn(0.0);
-
-        when(player.getPosition()).thenReturn(new Position(0, 0));
-
-        monsterController.step(game, ACTION.NONE, 600L);
-        monsterController.step(game, ACTION.NONE, 800L);
-
+    void monsterRespectsCooldownBeforeMoving() {
+        configurePositions(0, 0, 10, 10);
+        mockMonsterTypeWithAggro(0.0);
+        
+        monsterController.step(game, ACTION.NONE, 549L);
+        verify(floor, never()).moveMonster(any(), any());
+        
+        monsterController.step(game, ACTION.NONE, 551L);
         verify(floor, times(1)).moveMonster(any(), any());
     }
 
     @Test
     void monsterMovesWhenCooldownExactlyExpires() {
-        when(monster.isActive()).thenReturn(true);
-        when(stats.isDead()).thenReturn(false);
-        when(monster.getMovementSpeed()).thenReturn(1);
-        when(monster.getPosition()).thenReturn(monsterPos);
-        when(monsterPos.getX()).thenReturn(0);
-        when(monsterPos.getY()).thenReturn(1);
-        when(monsterPos.getRandomAdjacent()).thenReturn(new Position(0, 2));
-        MonsterType monsterType = mock(MonsterType.class);
-        when(monster.getMonsterType()).thenReturn(monsterType);
-        when(monsterType.getAggroRange()).thenReturn(0.0);
-
-        when(player.getPosition()).thenReturn(new Position(0, 0));
-
-        monsterController.step(game, ACTION.NONE, 0L);
+        configurePositions(0, 0, 10, 10);
+        mockMonsterTypeWithAggro(0.0);
+        
         monsterController.step(game, ACTION.NONE, 550L);
+        verify(floor, times(1)).moveMonster(any(), any());
+    }
 
+    @Test
+    void monsterRespectsCooldownBetweenConsecutiveMoves() {
+        configurePositions(0, 0, 10, 10);
+        mockMonsterTypeWithAggro(0.0);
+        
+        monsterController.step(game, ACTION.NONE, 1000L);
+        verify(floor, times(1)).moveMonster(any(), any());
+        
+        monsterController.step(game, ACTION.NONE, 1200L);
+        
         verify(floor, times(1)).moveMonster(any(), any());
     }
 
     @Test
     void monsterMovementCooldownScalesWithSpeed() {
-        when(monster.isActive()).thenReturn(true);
-        when(stats.isDead()).thenReturn(false);
+        configurePositions(0, 0, 10, 10);
         when(monster.getMovementSpeed()).thenReturn(2);
-        when(monster.getPosition()).thenReturn(monsterPos);
-        when(monsterPos.getX()).thenReturn(0);
-        when(monsterPos.getY()).thenReturn(1);
-        when(monsterPos.getRandomAdjacent()).thenReturn(new Position(0, 2));
-        MonsterType monsterType = mock(MonsterType.class);
-        when(monster.getMonsterType()).thenReturn(monsterType);
-        when(monsterType.getAggroRange()).thenReturn(0.0);
+        mockMonsterTypeWithAggro(0.0);
 
-        when(player.getPosition()).thenReturn(new Position(0, 0));
-
-        monsterController.step(game, ACTION.NONE, 300L);
-        monsterController.step(game, ACTION.NONE, 500L);
-
+        monsterController.step(game, ACTION.NONE, 275L);
         verify(floor, times(1)).moveMonster(any(), any());
     }
 
     @Test
-    void monsterDoesNotAttackBeforeAttackCooldownExpires() {
-        when(monster.isActive()).thenReturn(true);
-        when(stats.isDead()).thenReturn(false);
-        when(monster.getMovementSpeed()).thenReturn(1);
-        when(monster.getAttackCooldown()).thenReturn(1000L);
-        when(monsterPos.getX()).thenReturn(5);
-        when(monsterPos.getY()).thenReturn(6);
-        MonsterType monsterType = mock(MonsterType.class);
-        when(monster.getMonsterType()).thenReturn(monsterType);
-        when(monsterType.getAggroRange()).thenReturn(10.0);
-
-        Position playerPosition = new Position(5, 5);
-        when(player.getPosition()).thenReturn(playerPosition);
-
-        when(pathFinder.findNextStep(monsterPos, playerPosition)).thenReturn(playerPosition);
-
-        monsterController.step(game, ACTION.NONE, 0L);
+    void monsterAttacksWhenAdjacentAndCooldownReady() {
+        configurePositions(5, 5, 5, 6);
+        mockMonsterTypeWithAggro(10.0);
+        
+        when(monster.getAttackCooldown()).thenReturn(500L);
+        when(pathFinder.findNextStep(any(), any())).thenReturn(playerPos);
+        
+        monsterController.step(game, ACTION.NONE, 600L); 
+        
+        verify(floor).moveMonster(monsterPos, playerPos);
+    }
+    
+    @Test
+    void monsterAttacksAtExactCooldownBoundary() {
+        configurePositions(5, 5, 5, 6);
+        mockMonsterTypeWithAggro(10.0);
+        when(monster.getMovementSpeed()).thenReturn(2); // Ensure move ready
+        
+        when(monster.getAttackCooldown()).thenReturn(500L);
+        when(pathFinder.findNextStep(any(), any())).thenReturn(playerPos);
+        
         monsterController.step(game, ACTION.NONE, 500L);
-
-        verify(floor, never()).moveMonster(monsterPos, playerPosition);
+        
+        verify(floor).moveMonster(monsterPos, playerPos);
     }
 
     @Test
-    void monsterAttacksWhenAttackCooldownExpires() {
-        when(monster.isActive()).thenReturn(true);
-        when(stats.isDead()).thenReturn(false);
-        when(monster.getMovementSpeed()).thenReturn(1);
-        when(monster.getAttackCooldown()).thenReturn(500L);
-        when(monsterPos.getX()).thenReturn(5);
-        when(monsterPos.getY()).thenReturn(6);
-        MonsterType monsterType = mock(MonsterType.class);
-        when(monster.getMonsterType()).thenReturn(monsterType);
-        when(monsterType.getAggroRange()).thenReturn(10.0);
-
-        Position playerPosition = new Position(5, 5);
-        when(player.getPosition()).thenReturn(playerPosition);
-
-        when(pathFinder.findNextStep(monsterPos, playerPosition)).thenReturn(playerPosition);
-
-        monsterController.step(game, ACTION.NONE, 0L);
+    void monsterDoesNotAttackIfCooldownNotReady() {
+        configurePositions(5, 5, 5, 6);
+        mockMonsterTypeWithAggro(10.0);
+        
+        when(monster.getAttackCooldown()).thenReturn(1000L);
+        when(pathFinder.findNextStep(any(), any())).thenReturn(playerPos);
+        
         monsterController.step(game, ACTION.NONE, 600L);
-
-        verify(floor, times(1)).moveMonster(monsterPos, playerPosition);
+        
+        verify(floor, never()).moveMonster(any(), any());
+    }
+    
+    @Test
+    void monsterDoesNotAttackBeforeCooldownExpiresWithHighSum() {
+        configurePositions(5, 5, 5, 6);
+        mockMonsterTypeWithAggro(10.0);
+        when(monster.getMovementSpeed()).thenReturn(2); // Ensure move ready
+        
+        when(monster.getAttackCooldown()).thenReturn(1000L);
+        when(pathFinder.findNextStep(any(), any())).thenReturn(playerPos);
+        
+        monsterController.step(game, ACTION.NONE, 1000L);
+        verify(floor, times(1)).moveMonster(monsterPos, playerPos);
+        
+        monsterController.step(game, ACTION.NONE, 1500L);
+        
+        verify(floor, times(1)).moveMonster(monsterPos, playerPos);
     }
 
+    @Test
+    void monsterMovesInsteadOfAttackingIfTargetIsNotPlayer() {
+        configurePositions(5, 5, 5, 7);
+        mockMonsterTypeWithAggro(10.0);
+        
+        when(monster.getAttackCooldown()).thenReturn(2000L);
+        
+        Position stepPos = new Position(5, 6);
+        when(pathFinder.findNextStep(any(), any())).thenReturn(stepPos);
+        
+        monsterController.step(game, ACTION.NONE, 1000L);
+        
+        verify(floor).moveMonster(monsterPos, stepPos);
+    }
 }
