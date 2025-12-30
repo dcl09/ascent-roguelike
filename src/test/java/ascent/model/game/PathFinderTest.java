@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -81,6 +82,43 @@ class PathFinderTest {
         when(floor.isWalkable(target)).thenReturn(true);
         assertEquals(p1, pathFinder.findNextStep(start,target));
     }
+
+    @Test
+    void ensureParentMapIsClearedUsingReflection() throws NoSuchFieldException, IllegalAccessException {
+        when(floor.isWalkable(any(Position.class))).thenReturn(true);
+
+        pathFinder.findNextStep(new Position(0, 0), new Position(0, 2));
+
+        java.lang.reflect.Field field = PathFinder.class.getDeclaredField("parentMap");
+        field.setAccessible(true);
+        Map<?, ?> map = (Map<?, ?>) field.get(pathFinder);
+        
+        assertTrue(map.containsKey(new Position(0, 1)));
+        
+        pathFinder.findNextStep(new Position(10, 0), new Position(10, 2));
+        
+        assertFalse(map.containsKey(new Position(0, 1)));
+    }
+
+    @Test
+    void ensureVisitedIsClearedUsingReflection() throws NoSuchFieldException, IllegalAccessException {
+        when(floor.isWalkable(any(Position.class))).thenReturn(true);
+        
+        pathFinder.findNextStep(new Position(0, 0), new Position(0, 2));
+
+        java.lang.reflect.Field field = PathFinder.class.getDeclaredField("visited");
+        field.setAccessible(true);
+        Set<?> visited = (Set<?>) field.get(pathFinder);
+        
+        assertFalse(visited.isEmpty());
+
+        pathFinder.findNextStep(new Position(10, 0), new Position(10, 2));
+
+        assertFalse(visited.contains(new Position(0, 0)));
+    }
+
+
+
 
     @Test
     void getFirstStepReturnsNullIfParentMapIsBroken() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {

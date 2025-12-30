@@ -25,14 +25,10 @@ public class Chest extends Entity implements Interactable {
         this.opened = false;
         this.itemFactory = ItemFactory.getInstance();
 
-        if (itemId == -1) {
+        try {
+            this.containedItem = itemFactory.createItem(itemId);
+        } catch (InvalidItemIdException e) {
             this.containedItem = itemFactory.createRandomItem();
-        } else {
-            try {
-                this.containedItem = itemFactory.createItem(itemId);
-            } catch (InvalidItemIdException e) {
-                this.containedItem = itemFactory.createRandomItem();
-            }
         }
     }
 
