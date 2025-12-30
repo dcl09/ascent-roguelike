@@ -6,9 +6,15 @@ import java.util.*;
 
 public class PathFinder implements IPathFinder {
     private final Floor floor;
+    private final Deque<Position> positionQueue;
+    private final Set<Position> visited;
+    private final Map<Position, Position> parentMap;
 
     public PathFinder(Floor floor) {
         this.floor = floor;
+        this.positionQueue = new ArrayDeque<>();
+        this.visited = new HashSet<>();
+        this.parentMap = new HashMap<>();
     }
 
     private static boolean isAdjacent(Position a, Position b) {
@@ -39,9 +45,9 @@ public class PathFinder implements IPathFinder {
             return target;
         }
 
-        Deque<Position> positionQueue = new ArrayDeque<>();
-        Set<Position> visited = new HashSet<>();
-        Map<Position, Position> parentMap = new HashMap<>();
+        positionQueue.clear();
+        visited.clear();
+        parentMap.clear();
 
         positionQueue.add(start);
         visited.add(start);
