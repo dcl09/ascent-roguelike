@@ -11,20 +11,25 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GUI {
     private final Screen screen;
     private final TextGraphics graphics;
+    private final Map<String, TextColor> colorCache;
 
     public GUI(Screen screen) {
         this.screen = screen;
         this.graphics = screen.newTextGraphics();
+        this.colorCache = new HashMap<>();
     }
 
     public GUI(int width, int height) throws IOException {
         Terminal terminal = createTerminal(width, height);
         this.screen = createScreen(terminal);
         this.graphics = screen.newTextGraphics();
+        this.colorCache = new HashMap<>();
     }
 
     public Terminal createTerminal(int width, int height) throws IOException {
@@ -93,13 +98,17 @@ public class GUI {
     }
 
     public void drawChar(int x, int y, char c, String color) {
-        graphics.setForegroundColor(TextColor.Factory.fromString(color));
+        graphics.setForegroundColor(getColor(color));
         graphics.putString(x, y, "" + c);
     }
 
     public void drawText(int x, int y, String text, String color) {
-        graphics.setForegroundColor(TextColor.Factory.fromString(color));
+        graphics.setForegroundColor(getColor(color));
         graphics.putString(x, y + 1, text);
+    }
+
+    private TextColor getColor(String color) {
+        return colorCache.computeIfAbsent(color, TextColor.Factory::fromString);
     }
 
     public void refresh() throws IOException {
