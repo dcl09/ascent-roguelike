@@ -277,3 +277,7 @@ Developed by a team of three for LDTS 2025/26 at FEUP.
 | Daniel        | [@dcl09](https://github.com/dcl09)               |
 | Nuno          | [@NunoMCoimbra](https://github.com/NunoMCoimbra) |
 | [Contributor] |                                                  |
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
