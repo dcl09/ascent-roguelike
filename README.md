@@ -42,8 +42,6 @@ Developed by a team of 3 for **LDTS 2025/26** (Software Design and Testing Labor
 gradlew.bat run      # Windows
 ```
 
-> A terminal width of at least ~100 columns is recommended for the HUD to render correctly.
-
 ---
 
 ## Controls
